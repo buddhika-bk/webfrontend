@@ -1,52 +1,80 @@
+/* Global Reset and Base Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  height: 100ph;
+  overflow-x: hidden;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+  color: #333;
+  background: #fff;
+}
+
+/* Root container - FIXED */
 #root {
-  max-width: 100%;
-  margin: 0 auto;
-  padding: 0; /* Remove padding */
-  text-align: left; /* Change from center to left for better text alignment */
+  width: 100%;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
 }
 
-/* Keep the rest of your app.css styles */
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+/* Main App Container */
+.App {
+  width: 100%;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/* DemoShop specific app styling */
+.App.demo-shop-app {
+  padding-top: 0 !important;
+  margin: 0 !important;
+  min-height: 100vh;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+/* Main content area */
+.main-content {
+  width: 100%;
+  min-height: calc(100vh - 80px); /* Subtract header height */
+  margin: 0;
+  padding: 0;
 }
 
-.card {
-  padding: 2em;
+/* DemoShop main content - full viewport */
+.demo-shop-main {
+  width: 100%;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
 }
 
-.read-the-docs {
-  color: #888;
+/* Remove body padding when DemoShop is active */
+body:has(.demo-shop-app) {
+  padding-top: 0 !important;
+}
+
+/* Hide main header when DemoShop is active */
+.demo-shop-app .main-header {
+  display: none !important;
 }
 
 /* ============================================= */
-/* MOBILE RESPONSIVE HEADER STYLES - ADDED BELOW */
+/* HEADER STYLES */
 /* ============================================= */
 
-/* Header Styles - Fixed header spacing fix */
 .main-header {
   background: #fff;
   box-shadow: 0 2px 10px rgba(0,0,0,0.1);
@@ -90,7 +118,6 @@
   color: #333;
   font-size: 18px;
   font-weight: 500;
-  padding-left: 0px;
   transition: color 0.3s;
 }
 
@@ -137,28 +164,7 @@
   background: #1d4ed8;
 }
 
-.primary-button.large {
-  padding: 1rem 3rem;
-  font-size: 1.1rem;
-}
-
-.secondary-button {
-  background: transparent;
-  color: #2563eb;
-  border: 2px solid #2563eb;
-  padding: 0.75rem 2rem;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 1rem;
-  transition: all 0.3s;
-}
-
-.secondary-button:hover {
-  background: #2563eb;
-  color: white;
-}
-
-/* Mobile Navigation Toggle Button */
+/* Mobile Navigation */
 .mobile-nav-toggle {
   display: none;
   background: none;
@@ -199,7 +205,6 @@
   bottom: -8px;
 }
 
-/* Mobile Navigation Menu */
 .mobile-nav {
   display: none;
   position: absolute;
@@ -231,10 +236,6 @@
   border-bottom: 1px solid #f0f0f0;
 }
 
-.mobile-nav li:last-child {
-  border-bottom: none;
-}
-
 .mobile-nav a {
   display: block;
   padding: 1rem 1.5rem;
@@ -263,7 +264,34 @@
   text-align: center;
 }
 
-/* Mobile Responsive Styles */
+/* ============================================= */
+/* BODY PADDING MANAGEMENT */
+/* ============================================= */
+
+/* Default body padding for pages WITH header */
+body {
+  padding-top: 80px; /* Match header height */
+}
+
+/* Remove padding when DemoShop is active */
+body:has(.demo-shop-app) {
+  padding-top: 0 !important;
+}
+
+/* Ensure sections have proper spacing */
+section {
+  scroll-margin-top: 100px;
+}
+
+/* Remove scroll margin for DemoShop */
+.demo-shop-container section {
+  scroll-margin-top: 0 !important;
+}
+
+/* ============================================= */
+/* RESPONSIVE DESIGN */
+/* ============================================= */
+
 @media (max-width: 968px) {
   .main-nav,
   .header-buttons {
@@ -278,7 +306,6 @@
     display: block;
   }
   
-  /* Active state for hamburger menu */
   .mobile-nav-toggle.active .hamburger {
     background: transparent;
   }
@@ -292,9 +319,16 @@
     transform: rotate(-45deg);
     bottom: 0;
   }
+
+  body {
+    padding-top: 70px;
+  }
+
+  section {
+    scroll-margin-top: 90px;
+  }
 }
 
-/* For very small screens */
 @media (max-width: 480px) {
   .header-content {
     padding: 0 15px;
@@ -313,37 +347,66 @@
   .mobile-nav-buttons {
     padding: 0.9rem 1.2rem;
   }
-  
-  .mobile-nav-buttons .login-btn,
-  .mobile-nav-buttons .primary-button {
-    padding: 0.8rem 1rem;
-    font-size: 0.9rem;
-  }
-}
 
-/* Add padding to body to account for fixed header */
-body {
-  padding-top: 80px; /* Match header height */
-}
-
-@media (max-width: 480px) {
   body {
-    padding-top: 70px; /* Match mobile header height */
+    padding-top: 70px;
   }
-}
 
-/* Smooth scrolling for anchor links */
-html {
-  scroll-behavior: smooth;
-}
-
-/* Ensure sections have proper spacing when navigated to */
-section {
-  scroll-margin-top: 100px; /* Account for fixed header */
-}
-
-@media (max-width: 480px) {
   section {
-    scroll-margin-top: 90px; /* Adjust for mobile header */
+    scroll-margin-top: 80px;
   }
+}
+
+/* ============================================= */
+/* DEMOSHOP FULL VIEWPORT FIXES */
+/* ============================================= */
+
+/* Ensure DemoShop takes full viewport */
+.demo-shop-container {
+  width: 100%;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
+/* Reset any constraints for DemoShop */
+.demo-shop-app * {
+  max-width: none !important;
+}
+
+/* Keep the rest of your existing styles */
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
 }
