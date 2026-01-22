@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './AddShopStyle.css';
+import api from './services/api';
 
 const AddShop = () => {
   const [formData, setFormData] = useState({
@@ -42,7 +43,9 @@ const AddShop = () => {
     setMessage('');
 
     try {
-      const response = await axios.post('http://173.214.164.88:3000/api/v1/shop', formData);
+      // const response = await axios.post('https://webpoint.lk/api/v1/shop/', formData);
+
+      const response = await api.post('/shop/', formData);
       
       setMessage('Shop registered successfully!');
       setFormData({

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './ShopListStyle.css';
+import api from './services/api';
 
 const ShopList = () => {
   const [shopList, setShopList] = useState([]);
@@ -13,7 +14,8 @@ const ShopList = () => {
   useEffect(() => {
     const fetchShops = async () => {
       try {
-        const response = await axios.get('http://173.214.164.88:3000/api/v1/shop/get');
+        // const response = await axios.get('https://webpoint.lk/api/v1/shop/get');
+        const response = await api.get('/shop/get');
         setShopList(response.data);
         setLoading(false);
       } catch (err) {
@@ -28,7 +30,8 @@ const ShopList = () => {
     if (!window.confirm('Are you sure you want to delete this shop?')) return;
     
     try {
-      await axios.delete(`http://localhost:3000/api/v1/shop/${id}`);
+      // await axios.delete(`https://webpoint.lk/api/v1/shop/${id}`);
+      await api.delete(`/shop/${id}`);
       setShopList(prev => prev.filter(shop => shop._id !== id));
     } catch (err) {
       setError(err.response?.data?.error || 'Failed to delete shop');

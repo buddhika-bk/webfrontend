@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './HomeStyle.css';
-import Demoshop from '../Demo/DemoShop';
 
 const Home = () => {
   const navigate = useNavigate();
@@ -14,14 +13,6 @@ const Home = () => {
 
   const closeMobileNav = () => {
     setIsMobileNavOpen(false);
-  };
-
-  //page navugate function
-  function YourComponent() {
-    const navigate = useNavigate();
-  }
-  const handleClick = () => {
-    navigate('/webservice');
   };
 
   // Smooth scroll function for anchor links
@@ -46,22 +37,26 @@ const Home = () => {
     {
       title: "Web Design",
       description: "Professional website design services tailored for your business needs.",
-      icon: "💻"
+      icon: "💻",
+      features: ["Responsive Design", "SEO Optimized", "Custom UI/UX", "CMS Integration"]
     },
     {
       title: "Mobile Applications",
       description: "Custom mobile apps for iOS and Android to reach your customers anywhere.",
-      icon: "📱"
+      icon: "📱",
+      features: ["iOS & Android", "Native Development", "App Store Deployment", "Maintenance"]
     },
     {
       title: "Software Development",
       description: "Custom software solutions to streamline your business operations.",
-      icon: "⚙️"
+      icon: "⚙️",
+      features: ["Custom Solutions", "System Integration", "API Development", "Maintenance"]
     },
     {
       title: "E-Commerce Solutions",
       description: "Complete online store setup with payment integration and inventory management.",
-      icon: "🛒"
+      icon: "🛒",
+      features: ["Payment Gateway", "Inventory Management", "Order Tracking", "Secure Checkout"]
     }
   ];
 
@@ -399,9 +394,13 @@ const Home = () => {
                   if (service.title === "Web Design" || service.title === "E-Commerce Solutions") {
                     navigate('/webservice');
                   }
+                  // Add Software Development navigation
+                  if (service.title === "Software Development") {
+                    navigate('/systems');
+                  }
                 }}
                 style={{
-                  cursor: (service.title === "Web Design" || service.title === "E-Commerce Solutions")
+                  cursor: (service.title === "Web Design" || service.title === "E-Commerce Solutions" || service.title === "Software Development")
                     ? 'pointer'
                     : 'default'
                 }}
@@ -415,7 +414,7 @@ const Home = () => {
                   <h3 className="service-title">{service.title}</h3>
                   <p className="service-description">{service.description}</p>
                   <div className="service-features">
-                    {service.features?.map((feature, idx) => (
+                    {service.features && service.features.map((feature, idx) => (
                       <span key={idx} className="feature-tag">✓ {feature}</span>
                     ))}
                   </div>
@@ -426,15 +425,19 @@ const Home = () => {
                       if (service.title === "Web Design" || service.title === "E-Commerce Solutions") {
                         navigate('/webservice');
                       }
+                      // Add Software Development button click
+                      if (service.title === "Software Development") {
+                        navigate('/systems');
+                      }
                     }}
                   >
                     <span className="cta-text">
-                      {service.title === "Web Design" || service.title === "E-Commerce Solutions"
+                      {service.title === "Web Design" || service.title === "E-Commerce Solutions" || service.title === "Software Development"
                         ? "Explore Service"
                         : "Coming Soon"}
                     </span>
                     <span className="cta-arrow">
-                      {service.title === "Web Design" || service.title === "E-Commerce Solutions" ? "→" : "🔒"}
+                      {service.title === "Web Design" || service.title === "E-Commerce Solutions" || service.title === "Software Development" ? "→" : "🔒"}
                     </span>
                     <div className="cta-hover-effect"></div>
                   </button>
@@ -442,7 +445,7 @@ const Home = () => {
                 <div className="card-hover-effect"></div>
 
                 {/* Add clickable indicator for specific services */}
-                {(service.title === "Web Design" || service.title === "E-Commerce Solutions") && (
+                {(service.title === "Web Design" || service.title === "E-Commerce Solutions" || service.title === "Software Development") && (
                   <div className="click-indicator">
                     <span>Click to explore →</span>
                   </div>
@@ -482,7 +485,7 @@ const Home = () => {
           <div className="bg-shape shape-3"></div>
         </div>
       </section>
-
+      
       {/* POS System Section */}
       <section className="pos-system-section" id="pos-system">
         <div className="section-background">

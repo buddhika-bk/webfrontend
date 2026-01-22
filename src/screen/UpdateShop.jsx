@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import './UpdateShopStyle.css';
+import api from './services/api';
 
 const UpdateShop = () => {
   const { id } = useParams();
@@ -23,7 +24,8 @@ const UpdateShop = () => {
   useEffect(() => {
     const fetchShop = async () => {
       try {
-        const response = await axios.get(`http://173.214.164.88:3000/api/v1/shop/${id}`);
+        // const response = await axios.get(`https://webpoint.lk/api/v1/shop/${id}`);
+        const response = await api.get(`/shop/${id}`);
         const shopData = response.data;
         
         setFormData({
@@ -65,7 +67,8 @@ const UpdateShop = () => {
     }
 
     try {
-      await axios.put(`http://173.214.164.88:3000/api/v1/shop/${id}`, formData);
+      // await axios.put(`https://webpoint.lk/api/v1/shop/${id}`, formData);
+      await api.put(`/shop/${id}`, formData);
       setMessage('Shop updated successfully!');
       setIsError(false);
       setTimeout(() => navigate('/shop-list'), 1500);

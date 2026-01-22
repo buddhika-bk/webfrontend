@@ -14,6 +14,7 @@ import DemoCard from './screen/Demo/DemoCard'; // Import DemoCard component
 import DemoSaloon from './screen/Demo/DemoSaloon';
 import DemoPhone from './screen/Demo/DemoPhone';
 import WebService from './screen/WebService';
+import Systems from './screen/Pages/Systems'; // Import Systems component
 
 import './App.css';
 
@@ -38,6 +39,7 @@ function App() {
           <Route path="/demophone" element={<DemoPhone />} /> {/* Add this line */}
           <Route path="/webservice" element={<WebService />} /> {/* Add this line */}
           <Route path="/demosaloon" element={<DemoSaloon />} /> {/* Add this line */}
+          <Route path="/systems" element={<Systems />} /> {/* Add this line */}
           <Route path="*" element={<div>404 Not Found</div>} />
         </Routes>
       </div>

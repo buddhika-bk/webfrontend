@@ -63,7 +63,7 @@ function Header() {
           <button className="login-btn">Login</button>
           <button 
             className="primary-button"
-            onClick={() => navigate('/add-shop')}
+            onClick={() => navigate('/systems')}
           >
             Get Started
           </button>
