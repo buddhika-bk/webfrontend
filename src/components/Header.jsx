@@ -14,29 +14,10 @@ function Header() {
     setIsMobileNavOpen(false);
   };
 
-  // Smooth scroll function for anchor links
-  const smoothScroll = (targetId) => {
-    const targetElement = document.querySelector(targetId);
-    if (targetElement) {
-      targetElement.scrollIntoView({ behavior: 'smooth' });
-      closeMobileNav();
-    }
-  };
-
-  // Handle anchor link clicks
-  const handleAnchorClick = (e, targetId) => {
-    e.preventDefault();
-    
-    // If we're not on home page, navigate to home first
-    if (window.location.pathname !== '/home') {
-      navigate('/home');
-      // Wait for navigation then scroll
-      setTimeout(() => {
-        smoothScroll(targetId);
-      }, 100);
-    } else {
-      smoothScroll(targetId);
-    }
+  // Navigation function for page navigation
+  const handleNavigation = (path) => {
+    navigate(path);
+    closeMobileNav();
   };
 
   return (
@@ -49,12 +30,10 @@ function Header() {
         {/* Desktop Navigation */}
         <nav className="main-nav">
           <ul>
-            <li><a href="#home" onClick={(e) => handleAnchorClick(e, '#home')}>Home</a></li>
-            <li><a href="#services" onClick={(e) => handleAnchorClick(e, '#services')}>Services</a></li>
-            <li><a href="#pos-system" onClick={(e) => handleAnchorClick(e, '#pos-system')}>POS System</a></li>
-            <li><a href="#packages" onClick={(e) => handleAnchorClick(e, '#packages')}>Packages</a></li>
-            <li><a href="#why-choose-us" onClick={(e) => handleAnchorClick(e, '#why-choose-us')}>Why Choose Us</a></li>
-            <li><a href="#contact" onClick={(e) => handleAnchorClick(e, '#contact')}>Contact</a></li>
+            <li><a onClick={() => handleNavigation('/home')}>Home</a></li>
+            <li><a onClick={() => handleNavigation('/service')}>Services</a></li>
+            <li><a onClick={() => handleNavigation('/about')}>About</a></li>
+            <li><a onClick={() => handleNavigation('/contact')}>Contact</a></li>
           </ul>
         </nav>
         
@@ -82,20 +61,15 @@ function Header() {
       {/* Mobile Navigation */}
       <nav className={`mobile-nav ${isMobileNavOpen ? 'active' : ''}`}>
         <ul>
-          <li><a href="#home" onClick={(e) => handleAnchorClick(e, '#home')}>Home</a></li>
-          <li><a href="#services" onClick={(e) => handleAnchorClick(e, '#services')}>Services</a></li>
-          <li><a href="#pos-system" onClick={(e) => handleAnchorClick(e, '#pos-system')}>POS System</a></li>
-          <li><a href="#packages" onClick={(e) => handleAnchorClick(e, '#packages')}>Packages</a></li>
-          <li><a href="#why-choose-us" onClick={(e) => handleAnchorClick(e, '#why-choose-us')}>Why Choose Us</a></li>
-          <li><a href="#contact" onClick={(e) => handleAnchorClick(e, '#contact')}>Contact</a></li>
+          <li><a onClick={() => handleNavigation('/home')}>Home</a></li>
+          <li><a onClick={() => handleNavigation('/service')}>Services</a></li>
+          <li><a onClick={() => handleNavigation('/about')}>About</a></li>
+          <li><a onClick={() => handleNavigation('/contact')}>Contact</a></li>
           <li className="mobile-nav-buttons">
             <button className="login-btn" onClick={closeMobileNav}>Login</button>
             <button 
               className="primary-button"
-              onClick={() => {
-                navigate('/add-shop');
-                closeMobileNav();
-              }}
+              onClick={() => handleNavigation('/systems')}
             >
               Get Started
             </button>

@@ -117,14 +117,14 @@ const Home = () => {
   return (
     <div className="home-container">
       {/* Updated Header with Modern Mobile Navigation */}
-      <header className="main-header">
+      {/* <header className="main-header">
         <div className="header-content">
           <div className="logo">
             <h1>WebPoint<span>.lk</span></h1>
           </div>
 
           {/* Desktop Navigation */}
-          <nav className="main-nav">
+          {/* <nav className="main-nav">
             <ul>
               <li><a href="#home" onClick={(e) => handleAnchorClick(e, '#home')}>Home</a></li>
               <li><a href="#services" onClick={(e) => handleAnchorClick(e, '#services')}>Services</a></li>
@@ -133,10 +133,10 @@ const Home = () => {
               <li><a href="#why-choose-us" onClick={(e) => handleAnchorClick(e, '#why-choose-us')}>Why Choose Us</a></li>
               <li><a href="#contact" onClick={(e) => handleAnchorClick(e, '#contact')}>Contact</a></li>
             </ul>
-          </nav>
+          </nav> */}
 
           {/* Desktop Buttons */}
-          <div className="header-buttons">
+          {/* <div className="header-buttons">
             <button className="login-btn">Login</button>
             <button
               className="primary-button"
@@ -144,10 +144,10 @@ const Home = () => {
             >
               Get Started
             </button>
-          </div>
+          </div> */}
 
           {/* Modern Mobile Navigation Toggle Button */}
-          <button
+          {/* <button
             className={`mobile-nav-toggle ${isMobileNavOpen ? 'active' : ''}`}
             aria-label="Toggle navigation"
             onClick={toggleMobileNav}
@@ -156,10 +156,10 @@ const Home = () => {
             <span className="hamburger-line line-2"></span>
             <span className="hamburger-line line-3"></span>
           </button>
-        </div>
+        </div> */}
 
         {/* Modern Mobile Navigation Menu */}
-        <div className={`mobile-nav-overlay ${isMobileNavOpen ? 'active' : ''}`} onClick={closeMobileNav}></div>
+        {/* <div className={`mobile-nav-overlay ${isMobileNavOpen ? 'active' : ''}`} onClick={closeMobileNav}></div>
         <nav className={`mobile-nav ${isMobileNavOpen ? 'active' : ''}`}>
           <div className="mobile-nav-header">
             <div className="mobile-logo">
@@ -252,8 +252,8 @@ const Home = () => {
               </div>
             </div>
           </div>
-        </nav>
-      </header>
+        </nav> */}
+      {/* </header> */} 
 
       {/* Hero Section */}
       <section className="hero-section" id="home">
@@ -314,8 +314,8 @@ const Home = () => {
             <div className="hero-clients">
               <p>Trusted by leading Sri Lankan brands:</p>
               <div className="client-logos" style={{ fontSize: '34px', color: '#d5d0d0ff', fontWeight: '600', fontFamily: 'Poppins, sans-serif' }}>
-                <span> pereralands.lk</span>
-                <span> mammothcons.lk</span>
+                {/* <span> pereralands.lk</span>
+                <span> mammothcons.lk</span> */}
 
               </div>
             </div>

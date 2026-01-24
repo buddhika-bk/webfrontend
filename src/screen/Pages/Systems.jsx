@@ -4,22 +4,22 @@ import styles from './Systems.module.css';
 
 // Import local POS system image
 import posSystemImg from '../../assets/pos.jpeg';
-import dashboardImg from '../../assets/dashboad.png';
-import analyticsImg from '../../assets/report.png';
+import dashboardImg from '../../assets/dashboad.jpeg';
+import analyticsImg from '../../assets/reportview.jpeg';
+import lmsSystemImg from '../../assets/lms.jpeg';
+import financeSystemImg from '../../assets/financial.jpeg';
+import mobileAppImg from '../../assets/mobile.jpeg';
 
 const Systems = () => {
   const [activeSystem, setActiveSystem] = useState('pos');
   const navigate = useNavigate();
 
   // Other images - using Unsplash URLs
-  const lmsSystemImg = 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80';
-  const financeSystemImg = 'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80';
-  const mobileAppImg = 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80';
   const integrationImg = 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1174&q=80';
 
   const systems = [
     {
-      id: 'pos',
+      id: 'POS',
       title: 'Point of Sale (POS) System',
       tagline: 'Streamline Your Retail Operations',
       description: 'A comprehensive POS system designed to optimize your retail business operations, from inventory management to customer relationship management.',
@@ -37,7 +37,7 @@ const Systems = () => {
       color: '#3b82f6'
     },
     {
-      id: 'lms',
+      id: 'LMS',
       title: 'Learning Management System (LMS)',
       tagline: 'Transform Education & Training',
       description: 'An intuitive LMS platform for educational institutions and corporate training, enabling seamless course management and student engagement.',
@@ -55,7 +55,7 @@ const Systems = () => {
       color: '#8b5cf6'
     },
     {
-      id: 'finance',
+      id: 'Finance',
       title: 'Personal Financial Tracker',
       tagline: 'Master Your Financial Journey',
       description: 'A powerful personal finance management tool that helps individuals track expenses, set budgets, and achieve financial goals.',
@@ -183,8 +183,8 @@ const Systems = () => {
             <div className={styles.statCard}>
               <div className={styles.statIcon}>🛡️</div>
               <div className={styles.statContent}>
-                <div className={styles.statNumber}>256-bit</div>
-                <div className={styles.statLabel}>Encryption</div>
+                <div className={styles.statNumber}>24-hours</div>
+                <div className={styles.statLabel}>Services</div>
               </div>
             </div>
           </div>
@@ -211,7 +211,7 @@ const Systems = () => {
                 <div className={`${styles.cardIcon} ${system.gradient}`}>
                   {system.icon}
                 </div>
-                <h3>{system.title.split(' ')[0]}</h3>
+                <h3>{system.id.split(' ')[0]}</h3>
                 <p>{system.tagline}</p>
               </div>
             ))}
