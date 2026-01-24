@@ -13,6 +13,7 @@ import Demobag from './screen/Demo/DemoBag'; // Import DemoBag component
 import DemoCard from './screen/Demo/DemoCard'; // Import DemoCard component
 import DemoSaloon from './screen/Demo/DemoSaloon';
 import DemoPhone from './screen/Demo/DemoPhone';
+import Contact from './screen/Pages/Contact';
 import About from './screen/Pages/About';
 import Service from './screen/Pages/Service';
 import WebService from './screen/WebService';
@@ -39,6 +40,7 @@ function App() {
           <Route path="/demobag" element={<Demobag />} /> {/* Add this line */}
           <Route path="/democard" element={<DemoCard />} /> {/* Add this line */}
           <Route path="/about" element={<About />} /> {/* Add this line */}
+          <Route path="/contact" element={<Contact />} />
           <Route path="/service" element={<Service />} /> {/* Add this line */}
           <Route path="/demophone" element={<DemoPhone />} /> {/* Add this line */}
           <Route path="/webservice" element={<WebService />} /> {/* Add this line */}

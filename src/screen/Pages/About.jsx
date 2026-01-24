@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './About.module.css';
+import logoImage from '../../assets/logo.jpeg';
+import storyImage from '../../assets/story.jpeg';
 
 const About = () => {
   const navigate = useNavigate();
@@ -11,7 +13,7 @@ const About = () => {
       id: 1,
       name: 'Buddhika Kaveeja',
       role: 'CEO & Lead Developer',
-      image: '',
+      image: '../../assets/person.jpeg',
       description: '6+ years in software development and business strategy',
       social: { linkedin: 'https://www.linkedin.com/in/buddhika-kaveeja-955166296/', twitter: '#' }
     },
@@ -19,7 +21,7 @@ const About = () => {
       id: 2,
       name: 'Ruchira Ransika',
       role: 'Marketing Director',
-      image: '',
+      image: '../../assets/person.jpeg',
       description: 'Expert marketing and digital branding',
       social: { linkedin: '#', twitter: '#' }
     },
@@ -27,7 +29,7 @@ const About = () => {
       id: 3,
       name: 'Nelinka Adikari',
       role: 'Project Manager',
-      image: '',
+      image: '../../assets/person.jpeg',
       description: 'Specialized in backend systems and cloud architecture',
       social: { linkedin: 'https://www.linkedin.com/in/nelinka-numaya-adikari-b59161296/', twitter: '#' }
     },
@@ -35,7 +37,7 @@ const About = () => {
       id: 4,
       name: 'Nadia Jayawardena',
       role: 'Digital Marketing Head',
-      image: '',
+      image: '../../assets/person.jpeg',
       description: 'Digital marketing strategist with 8+ years experience',
       social: { linkedin: '#', twitter: '#' }
     }
@@ -96,8 +98,8 @@ const About = () => {
       <div className={styles.backgroundAnimation}>
         <div className={styles.floatingElements}>
           {[...Array(8)].map((_, i) => (
-            <div 
-              key={i} 
+            <div
+              key={i}
               className={styles.floatingElement}
               style={{
                 animationDelay: `${i * 0.5}s`,
@@ -120,14 +122,14 @@ const About = () => {
           <div className={styles.heroBadge}>
             <span className={styles.badgeText}>🌟 Since 2020</span>
           </div>
-          
+
           <h1 className={styles.heroTitle}>
             About <span className={styles.titleHighlight}>WebPoint</span> Sri Lanka
           </h1>
-          
+
           <p className={styles.heroDescription}>
-            For <span className={styles.highlight}>6 years</span>, we've been transforming businesses through 
-            innovative digital solutions. Based in Colombo, we've helped <span className={styles.highlight}>500+ clients</span> 
+            For <span className={styles.highlight}>6 years</span>, we've been transforming businesses through
+            innovative digital solutions. Based in Colombo, we've helped <span className={styles.highlight}>500+ clients</span>
             achieve their digital goals with cutting-edge technology and creative expertise.
           </p>
 
@@ -163,13 +165,13 @@ const About = () => {
           </div>
 
           <div className={styles.heroActions}>
-            <button 
+            <button
               className={styles.primaryButton}
               onClick={() => navigate('/contact')}
             >
               Get In Touch
             </button>
-            <button 
+            <button
               className={styles.secondaryButton}
               onClick={() => navigate('/service')}
             >
@@ -180,7 +182,19 @@ const About = () => {
 
         <div className={styles.heroVisual}>
           <div className={styles.companyLogo}>
-            <div className={styles.logoMain}>WP</div>
+            <div className={styles.logoContainer}>
+              <img
+                src={logoImage} // Use imported image
+                alt="WebPoint Logo"
+                className={styles.logoImage}
+                onError={(e) => {
+                  e.target.onerror = null;
+                  e.target.src = "https://images.unsplash.com/photo-1614680376573-df3480f0c6ff?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80";
+                  e.target.alt = "WebPoint Logo Placeholder";
+                }}
+              />
+              <div className={styles.logoBorder}></div>
+            </div>
             <div className={styles.logoText}>
               <span className={styles.logoTitle}>WebPoint</span>
               <span className={styles.logoSubtitle}>Sri Lanka</span>
@@ -206,13 +220,13 @@ const About = () => {
           <div className={styles.storyText}>
             <h3>Building Digital Excellence Since 2020</h3>
             <p>
-              WebPoint was founded in 2020 with a vision to revolutionize the digital landscape 
-              in Sri Lanka. What started as a small team of passionate developers has grown into 
+              WebPoint was founded in 2020 with a vision to revolutionize the digital landscape
+              in Sri Lanka. What started as a small team of passionate developers has grown into
               a full-service digital agency with expertise across multiple domains.
             </p>
             <p>
-              Over the past 6 years, we've worked with businesses of all sizes - from local startups 
-              to international corporations. Our approach combines technical expertise with creative 
+              Over the past 6 years, we've worked with businesses of all sizes - from local startups
+              to international corporations. Our approach combines technical expertise with creative
               innovation to deliver solutions that drive real business growth.
             </p>
             <div className={styles.missionVision}>
@@ -228,10 +242,19 @@ const About = () => {
           </div>
           <div className={styles.storyImage}>
             <div className={styles.imageContainer}>
-              <div className={styles.imagePlaceholder}>
-                <div className={styles.imageContent}>
-                  <span className={styles.imageText}>Building Digital Futures Since 2020</span>
-                </div>
+              <img 
+                src={storyImage} // Use imported image
+                alt="WebPoint Story - Building Digital Futures Since 2020"
+                className={styles.storyImageContent}
+                onError={(e) => {
+                  e.target.onerror = null;
+                  e.target.src = "https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80";
+                  e.target.alt = "Team collaboration and digital innovation";
+                }}
+              />
+              <div className={styles.imageOverlay}></div>
+              <div className={styles.imageCaption}>
+                <span className={styles.captionText}></span>
               </div>
             </div>
           </div>
@@ -278,12 +301,12 @@ const About = () => {
 
         <div className={styles.servicesGrid}>
           {services.map((service) => (
-            <div 
-              key={service.id} 
+            <div
+              key={service.id}
               className={styles.serviceCard}
               style={{ '--service-color': service.color }}
             >
-              <div 
+              <div
                 className={styles.serviceIcon}
                 style={{ background: `${service.color}20`, color: service.color }}
               >
@@ -291,7 +314,7 @@ const About = () => {
               </div>
               <h3>{service.title}</h3>
               <p>{service.description}</p>
-              <button 
+              <button
                 className={styles.serviceButton}
                 onClick={() => navigate('/service')}
                 style={{ background: service.color }}
@@ -319,8 +342,8 @@ const About = () => {
           {teamMembers.map((member) => (
             <div key={member.id} className={styles.teamCard}>
               <div className={styles.memberImage}>
-                <img 
-                  src={member.image} 
+                <img
+                  src={member.image}
                   alt={member.name}
                   onError={(e) => {
                     e.target.onerror = null;
@@ -354,7 +377,7 @@ const About = () => {
             <p className={styles.contactDescription}>
               Ready to take your business to the next level? Contact us today for a free consultation.
             </p>
-            
+
             <div className={styles.contactInfo}>
               <div className={styles.contactItem}>
                 <div className={styles.contactIcon}>📞</div>
@@ -363,7 +386,7 @@ const About = () => {
                   <p>070-7312180</p>
                 </div>
               </div>
-              
+
               <div className={styles.contactItem}>
                 <div className={styles.contactIcon}>💬</div>
                 <div className={styles.contactDetails}>
@@ -371,7 +394,7 @@ const About = () => {
                   <p>072-1202070</p>
                 </div>
               </div>
-              
+
               <div className={styles.contactItem}>
                 <div className={styles.contactIcon}>✉️</div>
                 <div className={styles.contactDetails}>
@@ -379,7 +402,7 @@ const About = () => {
                   <p>info@webpoint.lk</p>
                 </div>
               </div>
-              
+
               <div className={styles.contactItem}>
                 <div className={styles.contactIcon}>📍</div>
                 <div className={styles.contactDetails}>
@@ -390,15 +413,15 @@ const About = () => {
             </div>
 
             <div className={styles.contactActions}>
-              <button 
+              <button
                 className={styles.contactButton}
                 onClick={() => navigate('/contact')}
               >
                 Contact Us Now
               </button>
-              <a 
-                href="https://wa.me/94721202070" 
-                target="_blank" 
+              <a
+                href="https://wa.me/94721202070"
+                target="_blank"
                 rel="noopener noreferrer"
                 className={styles.whatsappButton}
               >
@@ -406,7 +429,7 @@ const About = () => {
               </a>
             </div>
           </div>
-          
+
           <div className={styles.contactVisual}>
             <div className={styles.contactMap}>
               <div className={styles.mapPlaceholder}>

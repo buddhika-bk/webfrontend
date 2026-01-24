@@ -168,6 +168,17 @@
   position: relative;
 }
 
+.titleHighlight::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, #8b5cf6, #3b82f6, #10b981);
+  border-radius: 2px;
+}
+
 .heroDescription {
   font-size: 1.2rem;
   color: #a8b2d1;
@@ -306,20 +317,21 @@
   text-align: center;
 }
 
-.logoMain {
-  width: 200px;
-  height: 200px;
-  background: linear-gradient(135deg, #8b5cf6, #3b82f6, #10b981);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 5rem;
-  font-weight: 800;
-  color: white;
+.logoContainer {
+  position: relative;
+  width: 220px;
+  height: 220px;
   margin: 0 auto 2rem;
-  animation: logoFloat 6s ease-in-out infinite;
+}
+
+.logoImage {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
   box-shadow: 0 20px 60px rgba(139, 92, 246, 0.4);
+  animation: logoFloat 6s ease-in-out infinite;
+  border: 4px solid rgba(255, 255, 255, 0.1);
 }
 
 @keyframes logoFloat {
@@ -331,6 +343,29 @@
   }
   66% {
     transform: translateY(10px) rotate(-5deg);
+  }
+}
+
+.logoBorder {
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  right: -10px;
+  bottom: -10px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #8b5cf6, #3b82f6, #10b981);
+  z-index: -1;
+  animation: borderRotate 8s linear infinite;
+  filter: blur(15px);
+  opacity: 0.7;
+}
+
+@keyframes borderRotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
   }
 }
 
@@ -373,6 +408,72 @@
   50% {
     opacity: 0.8;
     transform: scale(1.1);
+  }
+}
+
+/* Responsive Design for Hero Section */
+@media (max-width: 1200px) {
+  .heroSection {
+    flex-direction: column;
+    text-align: center;
+    gap: 4rem;
+    min-height: auto;
+  }
+  
+  .heroVisual {
+    width: 100%;
+    max-width: 400px;
+    height: 400px;
+  }
+}
+
+@media (max-width: 768px) {
+  .heroTitle {
+    font-size: 2.8rem;
+  }
+  
+  .statsGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .heroActions {
+    flex-direction: column;
+  }
+  
+  .logoTitle {
+    font-size: 2rem;
+  }
+  
+  .logoSubtitle {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .heroSection {
+    padding: 100px 5% 60px;
+  }
+  
+  .heroTitle {
+    font-size: 2.2rem;
+  }
+  
+  .statNumber {
+    font-size: 1.8rem;
+  }
+  
+  .primaryButton, .secondaryButton {
+    padding: 0.9rem 2rem;
+    font-size: 0.95rem;
+  }
+  
+  .logoContainer {
+    width: 180px;
+    height: 180px;
+  }
+  
+  .logoTitle {
+    font-size: 1.8rem;
   }
 }
 
@@ -440,9 +541,13 @@
 }
 
 .storyText h3 {
-  font-size: 2rem;
+  font-size: 2.2rem;
   color: white;
   margin-bottom: 1.5rem;
+  background: linear-gradient(135deg, #ffffff, #a8b2d1);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .storyText p {
@@ -464,21 +569,38 @@
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 15px;
-  padding: 1.5rem;
+  padding: 1.8rem;
+  transition: all 0.3s ease;
+}
+
+.missionCard:hover, .visionCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
 .missionCard {
   border-left: 4px solid #8b5cf6;
 }
 
+.missionCard:hover {
+  border-color: #8b5cf6;
+  box-shadow: 0 10px 30px rgba(139, 92, 246, 0.2);
+}
+
 .visionCard {
   border-left: 4px solid #10b981;
 }
 
+.visionCard:hover {
+  border-color: #10b981;
+  box-shadow: 0 10px 30px rgba(16, 185, 129, 0.2);
+}
+
 .missionCard h4, .visionCard h4 {
   color: white;
-  font-size: 1.2rem;
+  font-size: 1.3rem;
   margin-bottom: 0.75rem;
+  font-weight: 600;
 }
 
 .missionCard p, .visionCard p {
@@ -498,30 +620,142 @@
 .imageContainer {
   position: relative;
   width: 100%;
-  max-width: 400px;
-}
-
-.imagePlaceholder {
-  width: 100%;
-  height: 400px;
-  background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(59, 130, 246, 0.1));
+  max-width: 450px;
   border-radius: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 2px dashed rgba(139, 92, 246, 0.3);
+  overflow: hidden;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+  transition: all 0.5s ease;
 }
 
-.imageContent {
-  text-align: center;
+.imageContainer:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 35px 70px rgba(139, 92, 246, 0.3);
+}
+
+.storyImageContent {
+  width: 100%;
+  height: 450px;
+  object-fit: cover;
+  display: block;
+  border-radius: 20px;
+  transition: transform 0.5s ease;
+}
+
+.imageContainer:hover .storyImageContent {
+  transform: scale(1.05);
+}
+
+.imageOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    transparent 60%,
+    rgba(15, 23, 42, 0.8) 100%
+  );
+  border-radius: 20px;
+  pointer-events: none;
+}
+
+.imageCaption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
   padding: 2rem;
+  text-align: center;
+  z-index: 2;
 }
 
-.imageText {
-  color: #8b5cf6;
-  font-size: 1.5rem;
+.captionText {
+  color: white;
+  font-size: 1.3rem;
   font-weight: 600;
   line-height: 1.4;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+  background: linear-gradient(135deg, #8b5cf6, #3b82f6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Responsive Design for Story Section */
+@media (max-width: 1200px) {
+  .storyContent {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+  
+  .storyImage {
+    order: -1;
+  }
+  
+  .imageContainer {
+    max-width: 500px;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .storyText h3 {
+    font-size: 1.8rem;
+  }
+  
+  .missionVision {
+    grid-template-columns: 1fr;
+    gap: 1.2rem;
+  }
+  
+  .imageContainer {
+    max-width: 400px;
+  }
+  
+  .storyImageContent {
+    height: 350px;
+  }
+  
+  .captionText {
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .storySection {
+    padding: 60px 5%;
+  }
+  
+  .storyText h3 {
+    font-size: 1.6rem;
+  }
+  
+  .storyText p {
+    font-size: 1rem;
+  }
+  
+  .missionCard, .visionCard {
+    padding: 1.4rem;
+  }
+  
+  .missionCard h4, .visionCard h4 {
+    font-size: 1.1rem;
+  }
+  
+  .imageContainer {
+    max-width: 100%;
+  }
+  
+  .storyImageContent {
+    height: 300px;
+  }
+  
+  .captionText {
+    font-size: 1rem;
+    padding: 0 1rem;
+  }
 }
 
 /* Timeline Section */
