@@ -901,7 +901,7 @@
 
 .particle:nth-child(2) {
   top: 60%;
-  right: 20%;
+  right: 50%;
   animation-delay: 1s;
 }
 
@@ -1010,7 +1010,7 @@
   }
   
   .ctaCard {
-    padding: 2rem;
+    padding: 4rem;
   }
   
   .systemDetails {

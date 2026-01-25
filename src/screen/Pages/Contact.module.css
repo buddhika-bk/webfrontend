@@ -1069,6 +1069,8 @@
   }
   
   .heroVisual {
+    margin-top: 150px;
+    margin-bottom: 150px;
     width: 100%;
     max-width: 400px;
   }

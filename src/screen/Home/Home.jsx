@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './HomeStyle.css';
 
+
 const Home = () => {
   const navigate = useNavigate();
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
@@ -468,7 +469,7 @@ const Home = () => {
                 </button>
                 <button
                   className="secondary-button"
-                  onClick={() => navigate('/webservice')}
+                  onClick={() => navigate('/service')}
                 >
                   <span>View All Services</span>
                   <span className="button-arrow">📊</span>
@@ -560,7 +561,7 @@ const Home = () => {
               </div>
 
               <div className="pos-actions">
-                <button className="primary-button">
+                <button className="primary-button" onClick={() => navigate('/systems')}>
                   <span>Learn More About POS</span>
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
@@ -951,7 +952,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Footer */}
+      {/* Footer
       <footer className="main-footer" id="contact">
         <div className="section-container">
           <div className="footer-content">
@@ -1003,7 +1004,7 @@ const Home = () => {
             </div>
           </div>
         </div>
-      </footer>
+      </footer> */}
     </div>
   );
 };

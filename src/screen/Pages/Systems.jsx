@@ -9,10 +9,24 @@ import analyticsImg from '../../assets/reportview.jpeg';
 import lmsSystemImg from '../../assets/lms.jpeg';
 import financeSystemImg from '../../assets/financial.jpeg';
 import mobileAppImg from '../../assets/mobile.jpeg';
-
+import POSDemoPDF from '../../assets/POSDemo.pdf';
 const Systems = () => {
   const [activeSystem, setActiveSystem] = useState('pos');
   const navigate = useNavigate();
+
+   const openDocumentation = () => {
+    window.open(POSDemoPDF, '_blank');
+  };
+
+  // Method 2.2: Download instead of open
+  const downloadDocumentation = () => {
+    const link = document.createElement('a');
+    link.href = POSDemoPDF;
+    link.download = 'POSDemo.pdf';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
 
   // Other images - using Unsplash URLs
   const integrationImg = 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1174&q=80';
@@ -155,13 +169,13 @@ const Systems = () => {
           <div className={styles.badge}>
             <span>🚀 Enterprise Systems</span>
           </div>
-          
+
           <h1 className={styles.heroTitle}>
             Powerful <span className={styles.titleGradient}>Systems</span> for Modern Businesses
           </h1>
-          
+
           <p className={styles.heroDescription}>
-            Discover our comprehensive suite of enterprise-grade systems designed to streamline operations, 
+            Discover our comprehensive suite of enterprise-grade systems designed to streamline operations,
             enhance productivity, and drive growth for businesses of all sizes.
           </p>
 
@@ -202,7 +216,7 @@ const Systems = () => {
         <div className={styles.heroVisual}>
           <div className={styles.systemCardsPreview}>
             {systems.map((system, index) => (
-              <div 
+              <div
                 key={system.id}
                 className={`${styles.previewCard} ${styles[`card${index + 1}`]}`}
                 style={{ '--system-color': system.color }}
@@ -258,9 +272,9 @@ const Systems = () => {
                   <p className={styles.systemTagline}>{currentSystem.tagline}</p>
                 </div>
               </div>
-              
+
               <p className={styles.systemDescription}>{currentSystem.description}</p>
-              
+
               <div className={styles.featuresGrid}>
                 {currentSystem.features.map((feature, index) => (
                   <div key={index} className={styles.featureItem}>
@@ -274,7 +288,10 @@ const Systems = () => {
                 <button className={styles.demoButton} onClick={() => navigate('/contact')}>
                   Request Live Demo
                 </button>
-                <button className={styles.docsButton} onClick={() => navigate(`/docs/${currentSystem.id}`)}>
+                <button
+                  className={styles.docsButton}
+                  onClick={openDocumentation} // or downloadDocumentation
+                >
                   View Documentation
                 </button>
               </div>
@@ -282,8 +299,8 @@ const Systems = () => {
 
             <div className={styles.systemVisual}>
               <div className={styles.imageContainer}>
-                <img 
-                  src={currentSystem.image} 
+                <img
+                  src={currentSystem.image}
                   alt={currentSystem.title}
                   className={styles.systemImage}
                   onError={(e) => {
@@ -329,8 +346,8 @@ const Systems = () => {
           {demoScreens.map((screen, index) => (
             <div key={index} className={styles.demoCard}>
               <div className={styles.demoImageContainer}>
-                <img 
-                  src={screen.image} 
+                <img
+                  src={screen.image}
                   alt={screen.title}
                   className={styles.demoImage}
                   onError={(e) => {

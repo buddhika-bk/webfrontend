@@ -1,0 +1,153 @@
+/* Footer Styles - Simple Line-by-Line */
+.footer {
+  background: #1e293b;
+  color: white;
+  padding: 30px 0;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Footer Sections */
+.footer-section {
+  padding: 20px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.footer-section:last-of-type {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.section-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 15px;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Links Line */
+.links-line {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  text-align: center;
+}
+
+.link {
+  color: #cbd5e1;
+  font-size: 15px;
+  padding: 5px 0;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.link:hover {
+  color: #3b82f6;
+}
+
+.separator {
+  color: #64748b;
+  font-size: 14px;
+  padding: 0 5px;
+  user-select: none;
+}
+
+/* Copyright Section */
+.copyright-section {
+  padding: 25px 0 10px;
+  text-align: center;
+}
+
+.copyright-section p {
+  color: #94a3b8;
+  font-size: 14px;
+  margin-bottom: 15px;
+}
+
+.contact-mini {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  color: #cbd5e1;
+  font-size: 14px;
+}
+
+.contact-mini span {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .footer {
+    padding: 20px 0;
+  }
+  
+  .footer-section {
+    padding: 15px 0;
+  }
+  
+  .links-line {
+    gap: 3px;
+  }
+  
+  .link {
+    font-size: 14px;
+    padding: 3px 0;
+  }
+  
+  .separator {
+    padding: 0 3px;
+    font-size: 12px;
+  }
+  
+  .contact-mini {
+    font-size: 13px;
+    gap: 5px;
+  }
+}
+
+@media (max-width: 480px) {
+  .footer-container {
+    padding: 0 15px;
+  }
+  
+  .section-title {
+    font-size: 14px;
+    margin-bottom: 12px;
+  }
+  
+  .links-line {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .separator {
+    display: none;
+  }
+  
+  .link {
+    font-size: 13px;
+  }
+  
+  .contact-mini {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .contact-mini .separator {
+    display: none;
+  }
+}

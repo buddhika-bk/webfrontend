@@ -1175,38 +1175,60 @@
   height: 400px;
   background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(59, 130, 246, 0.1));
   border-radius: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   border: 2px solid rgba(139, 92, 246, 0.3);
+  overflow: hidden;
+  position: relative;
 }
 
-.mapPlaceholder {
-  text-align: center;
-  padding: 2rem;
-}
-
-.mapContent {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem;
-}
-
-.mapPin {
-  font-size: 3rem;
-  animation: pinBounce 2s ease-in-out infinite;
-}
-
-@keyframes pinBounce {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
-}
-
-.mapText {
+/* Optional: Add a loading animation for the map */
+.contactMap::before {
+  content: 'Loading Map...';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   color: white;
-  font-size: 1.2rem;
-  font-weight: 500;
+  font-size: 1rem;
+  z-index: 0;
+  display: none; /* Hidden when iframe loads */
+}
+
+.contactMap iframe {
+  border-radius: 18px;
+  position: relative;
+  z-index: 1;
+  background: rgba(139, 92, 246, 0.1);
+}
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+  .contactCard {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    padding: 3rem;
+  }
+  
+  .contactMap {
+    height: 350px;
+  }
+}
+
+@media (max-width: 768px) {
+  .contactSection {
+    padding: 60px 20px;
+  }
+  
+  .contactCard {
+    padding: 2rem;
+  }
+  
+  .contactContent h2 {
+    font-size: 2rem;
+  }
+  
+  .contactMap {
+    height: 300px;
+  }
 }
 
 /* Responsive Design */

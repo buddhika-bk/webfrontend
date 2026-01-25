@@ -7,6 +7,7 @@ import Home from './screen/Home/Home';
 import UpdateShop from './screen/UpdateShop';
 import DemoShop from './screen/Demo/DemoShop'; // Uncomment this line
 import Header from './components/Header';
+import Footer from './components/Footer';
 import DemoDress from './screen/Demo/DemoDress'; // Import DemoDress component
 import DemoShoe from './screen/Demo/DemoShoe'; // Import DemoShoe component
 import Demobag from './screen/Demo/DemoBag'; // Import DemoBag component
@@ -48,6 +49,8 @@ function App() {
           <Route path="/systems" element={<Systems />} /> {/* Add this line */}
           <Route path="*" element={<div>404 Not Found</div>} />
         </Routes>
+
+        <Footer />
       </div>
     </Router>
   );

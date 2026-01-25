@@ -35,7 +35,7 @@ const About = () => {
     },
     {
       id: 4,
-      name: 'Nadia Jayawardena',
+      name: 'Chehan Gamage',
       role: 'Digital Marketing Head',
       image: '../../assets/person.jpeg',
       description: 'Digital marketing strategist with 8+ years experience',
@@ -62,13 +62,13 @@ const About = () => {
     {
       id: 'mobile',
       title: 'Mobile Applications',
-      description: 'iOS & Android app development',
+      description: 'iOS & Android app development and deployment',
       icon: '📱',
       color: '#ec4899'
     },
     {
       id: 'ecommerce',
-      title: 'E-commerce Solutions',
+      title: 'E-commerce Solution',
       description: 'Online stores and payment integrations',
       icon: '🛒',
       color: '#f59e0b'
@@ -89,7 +89,7 @@ const About = () => {
     { year: 2022, title: 'Team Expansion', description: 'Expanded to 15+ team members' },
     { year: 2023, title: 'International Clients', description: 'Started serving international clients' },
     { year: 2024, title: 'Award Recognition', description: 'Best Tech Startup Award 2024' },
-    { year: 2025, title: 'New Office', description: 'Opening soon new headquarters in Colombo' }
+    { year: 2025, title: 'New Office', description: 'Opening soon new headquarters in Gampaha' }
   ];
 
   return (
@@ -242,7 +242,7 @@ const About = () => {
           </div>
           <div className={styles.storyImage}>
             <div className={styles.imageContainer}>
-              <img 
+              <img
                 src={storyImage} // Use imported image
                 alt="WebPoint Story - Building Digital Futures Since 2020"
                 className={styles.storyImageContent}
@@ -432,12 +432,16 @@ const About = () => {
 
           <div className={styles.contactVisual}>
             <div className={styles.contactMap}>
-              <div className={styles.mapPlaceholder}>
-                <div className={styles.mapContent}>
-                  <span className={styles.mapPin}>📍</span>
-                  <span className={styles.mapText}>Gampaha, Sri Lanka</span>
-                </div>
-              </div>
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15825.006627732612!2d80.00440334515252!3d7.091541294807006!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ae2fbe433c1c2db%3A0x363c2a6f4d5e7778!2sGampaha%2C%20Sri%20Lanka!5e0!3m2!1sen!2s!4v1706181234567!5m2!1sen!2s"
+                width="100%"
+                height="100%"
+                style={{ border: 0, borderRadius: '18px' }}
+                allowFullScreen=""
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                title="Google Maps - Gampaha, Sri Lanka"
+              ></iframe>
             </div>
           </div>
         </div>
