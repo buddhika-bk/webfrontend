@@ -15,7 +15,7 @@ const ShopList = () => {
     const fetchShops = async () => {
       try {
         // const response = await axios.get('https://webpoint.lk/api/v1/shop/get');
-        const response = await api.get('/shop/get');
+        const response = await api.get('/get');
         setShopList(response.data);
         setLoading(false);
       } catch (err) {
@@ -31,7 +31,7 @@ const ShopList = () => {
     
     try {
       // await axios.delete(`https://webpoint.lk/api/v1/shop/${id}`);
-      await api.delete(`/shop/${id}`);
+      await api.delete(`/${id}`);
       setShopList(prev => prev.filter(shop => shop._id !== id));
     } catch (err) {
       setError(err.response?.data?.error || 'Failed to delete shop');

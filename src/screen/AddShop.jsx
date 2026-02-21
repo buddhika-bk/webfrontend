@@ -45,7 +45,7 @@ const AddShop = () => {
     try {
       // const response = await axios.post('https://webpoint.lk/api/v1/shop/', formData);
 
-      const response = await api.post('/shop/', formData);
+      const response = await api.post('/', formData);
       
       setMessage('Shop registered successfully!');
       setFormData({

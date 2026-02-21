@@ -1,0 +1,1272 @@
+/* ========================================
+   PREMIUM RESTAURANT MANAGEMENT SYSTEM
+   Deep Ocean Theme - Unique Design
+   ======================================== */
+
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Josefin+Sans:wght@300;400;500;600;700&display=swap');
+
+/* ========================================
+   CSS Variables - Deep Ocean Palette
+   ======================================== */
+:root {
+  /* Deep Ocean Colors */
+  --abyss-black: #0A1922;
+  --deep-sea: #0F2A3F;
+  --ocean-depths: #1A3B5A;
+  --tropical-water: #2C5F8A;
+  --caribbean-blue: #3B7BB0;
+  --coral-reef: #FF7F6B;
+  --sunset-glow: #FFB86B;
+  --pearl-white: #F0F7FF;
+  --seafoam: #A8E6CF;
+  
+  /* Gradients */
+  --gradient-deep: linear-gradient(145deg, #0A1922 0%, #1A3B5A 100%);
+  --gradient-ocean: linear-gradient(135deg, #1A3B5A 0%, #2C5F8A 100%);
+  --gradient-sunset: linear-gradient(135deg, #FF7F6B 0%, #FFB86B 100%);
+  
+  /* Shadows */
+  --shadow-sm: 0 4px 20px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 8px 30px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 15px 40px rgba(0, 0, 0, 0.5);
+  --shadow-glow: 0 0 30px rgba(59, 123, 176, 0.3);
+  
+  /* Spacing */
+  --space-xs: 6px;
+  --space-sm: 12px;
+  --space-md: 20px;
+  --space-lg: 32px;
+  --space-xl: 48px;
+  --space-xxl: 64px;
+  
+  /* Border Radius */
+  --radius-sm: 12px;
+  --radius-md: 20px;
+  --radius-lg: 32px;
+  --radius-xl: 40px;
+  --radius-full: 9999px;
+  
+  /* Transitions */
+  --transition-smooth: all 0.4s cubic-bezier(0.65, 0, 0.35, 1);
+  --transition-bounce: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+/* ========================================
+   Global Styles
+   ======================================== */
+.premium-restaurant-theme {
+  font-family: 'Josefin Sans', sans-serif;
+  color: var(--pearl-white);
+  min-height: 100vh;
+  background: var(--abyss-black);
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Hide default header and footer */
+.premium-restaurant-theme .main-header,
+.premium-restaurant-theme .main-footer,
+.premium-restaurant-theme header:not(.premium-header),
+.premium-restaurant-theme footer:not(.premium-footer) {
+  display: none !important;
+}
+
+/* ========================================
+   Premium Header - Unique Design
+   ======================================== */
+.premium-header {
+  background: rgba(10, 25, 34, 0.85);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(59, 123, 176, 0.2);
+  padding: var(--space-sm) var(--space-xl);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.premium-header-content {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.premium-logo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  position: relative;
+}
+
+.premium-logo-icon {
+  font-size: 2.2rem;
+  filter: drop-shadow(0 0 10px rgba(59, 123, 176, 0.5));
+  animation: gentleWave 4s ease-in-out infinite;
+}
+
+@keyframes gentleWave {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  25% { transform: translateY(-3px) rotate(3deg); }
+  75% { transform: translateY(3px) rotate(-3deg); }
+}
+
+.premium-logo-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.8rem;
+  font-weight: 600;
+  letter-spacing: 2px;
+  background: linear-gradient(135deg, var(--pearl-white), var(--caribbean-blue));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  position: relative;
+}
+
+.premium-logo-text::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--coral-reef), transparent);
+}
+
+.premium-nav {
+  display: flex;
+  gap: var(--space-lg);
+}
+
+.premium-nav-link {
+  color: var(--pearl-white);
+  text-decoration: none;
+  font-weight: 400;
+  letter-spacing: 1px;
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-full);
+  transition: var(--transition-smooth);
+  position: relative;
+  overflow: hidden;
+}
+
+.premium-nav-link::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 127, 107, 0.2), transparent);
+  transition: left 0.6s ease;
+}
+
+.premium-nav-link:hover {
+  color: var(--coral-reef);
+}
+
+.premium-nav-link:hover::before {
+  left: 100%;
+}
+
+.premium-nav-link.active {
+  background: rgba(255, 127, 107, 0.1);
+  color: var(--coral-reef);
+  border: 1px solid rgba(255, 127, 107, 0.3);
+}
+
+/* ========================================
+   Premium Footer - Unique Design
+   ======================================== */
+.premium-footer {
+  background: var(--abyss-black);
+  border-top: 1px solid rgba(59, 123, 176, 0.2);
+  padding: var(--space-xl) var(--space-xl) var(--space-xxl);
+  margin-top: auto;
+  position: relative;
+}
+
+.premium-footer::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--coral-reef), var(--caribbean-blue), transparent);
+}
+
+.premium-footer-content {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--space-xl);
+}
+
+.premium-footer-section h3 {
+  font-family: 'Cormorant Garamond', serif;
+  color: var(--coral-reef);
+  margin-bottom: var(--space-md);
+  font-size: 1.3rem;
+  letter-spacing: 1px;
+  position: relative;
+  display: inline-block;
+}
+
+.premium-footer-section h3::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 40px;
+  height: 2px;
+  background: var(--gradient-sunset);
+}
+
+.premium-footer-section p {
+  color: rgba(240, 247, 255, 0.6);
+  line-height: 1.8;
+  font-size: 0.95rem;
+}
+
+.premium-footer-social {
+  display: flex;
+  gap: var(--space-md);
+  margin-top: var(--space-md);
+}
+
+.premium-social-icon {
+  width: 44px;
+  height: 44px;
+  background: rgba(59, 123, 176, 0.1);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--pearl-white);
+  text-decoration: none;
+  transition: var(--transition-bounce);
+  border: 1px solid rgba(59, 123, 176, 0.3);
+  font-size: 1.2rem;
+}
+
+.premium-social-icon:hover {
+  background: var(--gradient-sunset);
+  transform: translateY(-5px) rotate(360deg);
+  border-color: transparent;
+}
+
+.premium-footer-bottom {
+  text-align: center;
+  margin-top: var(--space-xl);
+  padding-top: var(--space-xl);
+  border-top: 1px solid rgba(59, 123, 176, 0.2);
+  color: rgba(240, 247, 255, 0.4);
+  font-size: 0.9rem;
+  letter-spacing: 1px;
+}
+
+/* ========================================
+   Mobile Bottom Navigation - Modern Design
+   ======================================== */
+.premium-bottom-nav {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(10, 25, 34, 0.9);
+  backdrop-filter: blur(20px);
+  border-top: 1px solid rgba(255, 127, 107, 0.2);
+  padding: var(--space-sm) var(--space-md);
+  z-index: 1000;
+  box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.3);
+}
+
+.premium-bottom-nav-items {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.premium-bottom-nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  color: rgba(240, 247, 255, 0.5);
+  text-decoration: none;
+  font-size: 0.75rem;
+  padding: var(--space-sm);
+  border-radius: var(--radius-lg);
+  transition: var(--transition-smooth);
+  position: relative;
+}
+
+.premium-bottom-nav-item span:first-child {
+  font-size: 1.6rem;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+  transition: var(--transition-bounce);
+}
+
+.premium-bottom-nav-item.active {
+  color: var(--coral-reef);
+}
+
+.premium-bottom-nav-item.active span:first-child {
+  transform: translateY(-5px);
+  filter: drop-shadow(0 5px 10px rgba(255, 127, 107, 0.5));
+}
+
+.premium-bottom-nav-item.active::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 20%;
+  width: 60%;
+  height: 2px;
+  background: var(--gradient-sunset);
+  border-radius: var(--radius-full);
+}
+
+/* ========================================
+   Video Landing Page - Unique Design
+   ======================================== */
+.premium-landing {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.premium-video-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+  filter: brightness(0.7) saturate(1.2);
+}
+
+.premium-video-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at center, transparent 0%, rgba(10, 25, 34, 0.7) 100%);
+  z-index: 1;
+}
+
+.premium-landing-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  max-width: 1000px;
+  padding: var(--space-xxl);
+  animation: zoomIn 2s ease-out;
+}
+
+@keyframes zoomIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.premium-landing-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(3rem, 10vw, 6rem);
+  font-weight: 700;
+  margin-bottom: var(--space-md);
+  line-height: 1.1;
+}
+
+.premium-landing-title-line1 {
+  display: block;
+  color: var(--pearl-white);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  letter-spacing: 4px;
+}
+
+.premium-landing-title-line2 {
+  display: block;
+  background: linear-gradient(135deg, var(--coral-reef), var(--sunset-glow));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 1.2em;
+  text-shadow: 0 0 30px rgba(255, 127, 107, 0.5);
+}
+
+.premium-landing-subtitle {
+  font-size: clamp(1.1rem, 3vw, 1.6rem);
+  color: rgba(240, 247, 255, 0.9);
+  margin-bottom: var(--space-xl);
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+  letter-spacing: 2px;
+  animation: fadeInUp 1s ease-out 0.5s both;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.premium-landing-buttons {
+  display: flex;
+  gap: var(--space-md);
+  justify-content: center;
+  flex-wrap: wrap;
+  animation: fadeInUp 1s ease-out 1s both;
+}
+
+.premium-btn {
+  padding: var(--space-md) var(--space-xl);
+  border-radius: var(--radius-full);
+  font-weight: 500;
+  text-decoration: none;
+  transition: var(--transition-bounce);
+  position: relative;
+  overflow: hidden;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.premium-btn-primary {
+  background: var(--gradient-sunset);
+  color: var(--abyss-black);
+  box-shadow: 0 5px 20px rgba(255, 127, 107, 0.4);
+}
+
+.premium-btn-primary:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 10px 30px rgba(255, 127, 107, 0.6);
+}
+
+.premium-btn-secondary {
+  background: transparent;
+  color: var(--pearl-white);
+  border: 2px solid rgba(255, 127, 107, 0.5);
+  backdrop-filter: blur(5px);
+}
+
+.premium-btn-secondary:hover {
+  background: rgba(255, 127, 107, 0.1);
+  border-color: var(--coral-reef);
+  transform: translateY(-3px);
+}
+
+/* ========================================
+   Premium Cards - Unique Glass Morphism
+   ======================================== */
+.premium-card {
+  background: rgba(26, 59, 90, 0.2);
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(59, 123, 176, 0.2);
+  border-radius: var(--radius-lg);
+  padding: var(--space-xl);
+  transition: var(--transition-smooth);
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.premium-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(59, 123, 176, 0.1) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity var(--transition-smooth);
+  pointer-events: none;
+}
+
+.premium-card:hover {
+  transform: translateY(-8px);
+  border-color: rgba(255, 127, 107, 0.3);
+  box-shadow: var(--shadow-glow);
+}
+
+.premium-card:hover::before {
+  opacity: 1;
+}
+
+/* ========================================
+   Premium Forms - Unique Design
+   ======================================== */
+.premium-form-container {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.premium-form-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 3rem;
+  color: var(--pearl-white);
+  margin-bottom: var(--space-xs);
+  text-align: center;
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+.premium-form-title::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 2px;
+  background: var(--gradient-sunset);
+}
+
+.premium-form-subtitle {
+  text-align: center;
+  color: rgba(240, 247, 255, 0.7);
+  margin-bottom: var(--space-xl);
+  font-size: 1.1rem;
+  letter-spacing: 1px;
+}
+
+.premium-form-group {
+  margin-bottom: var(--space-lg);
+  position: relative;
+}
+
+.premium-label {
+  display: block;
+  color: var(--pearl-white);
+  margin-bottom: var(--space-xs);
+  font-weight: 400;
+  letter-spacing: 1px;
+  font-size: 0.95rem;
+  padding-left: var(--space-sm);
+}
+
+.premium-input {
+  width: 100%;
+  padding: var(--space-md) var(--space-lg);
+  background: rgba(26, 59, 90, 0.3);
+  border: 1px solid rgba(59, 123, 176, 0.3);
+  border-radius: var(--radius-full);
+  color: var(--pearl-white);
+  font-size: 1rem;
+  transition: var(--transition-smooth);
+  backdrop-filter: blur(5px);
+}
+
+.premium-input:focus {
+  outline: none;
+  border-color: var(--coral-reef);
+  background: rgba(26, 59, 90, 0.5);
+  box-shadow: 0 0 0 4px rgba(255, 127, 107, 0.1);
+}
+
+.premium-input::placeholder {
+  color: rgba(240, 247, 255, 0.3);
+  font-style: italic;
+}
+
+.premium-textarea {
+  border-radius: var(--radius-lg);
+  resize: vertical;
+  min-height: 120px;
+}
+
+/* ========================================
+   Premium Grid Layouts
+   ======================================== */
+.premium-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: var(--space-xl);
+  padding: var(--space-xl);
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* ========================================
+   Premium Restaurant Cards
+   ======================================== */
+.premium-restaurant-card {
+  background: rgba(26, 59, 90, 0.2);
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(59, 123, 176, 0.2);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: var(--transition-smooth);
+  position: relative;
+  box-shadow: var(--shadow-sm);
+}
+
+.premium-restaurant-card:hover {
+  transform: translateY(-10px);
+  border-color: rgba(255, 127, 107, 0.3);
+  box-shadow: var(--shadow-glow);
+}
+
+.premium-restaurant-image {
+  height: 240px;
+  position: relative;
+  overflow: hidden;
+}
+
+.premium-restaurant-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.8s ease;
+}
+
+.premium-restaurant-card:hover .premium-restaurant-image img {
+  transform: scale(1.15);
+}
+
+.premium-restaurant-badge {
+  position: absolute;
+  top: var(--space-md);
+  right: var(--space-md);
+  background: var(--gradient-sunset);
+  color: var(--abyss-black);
+  padding: var(--space-xs) var(--space-md);
+  border-radius: var(--radius-full);
+  font-weight: 600;
+  font-size: 0.8rem;
+  z-index: 1;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  letter-spacing: 1px;
+}
+
+.premium-restaurant-content {
+  padding: var(--space-xl);
+}
+
+.premium-restaurant-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.8rem;
+  color: var(--pearl-white);
+  margin-bottom: var(--space-sm);
+  position: relative;
+  display: inline-block;
+}
+
+.premium-restaurant-title::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 40px;
+  height: 2px;
+  background: var(--gradient-sunset);
+}
+
+.premium-restaurant-location {
+  color: var(--coral-reef);
+  margin-bottom: var(--space-md);
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  font-size: 0.95rem;
+  letter-spacing: 1px;
+}
+
+.premium-restaurant-details {
+  margin-bottom: var(--space-lg);
+}
+
+.premium-restaurant-detail {
+  color: rgba(240, 247, 255, 0.8);
+  margin: var(--space-sm) 0;
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  font-size: 0.95rem;
+}
+
+.premium-restaurant-actions {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-sm);
+  margin-top: var(--space-lg);
+}
+
+.premium-action-btn {
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-full);
+  border: none;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs);
+  text-decoration: none;
+  font-size: 0.9rem;
+  letter-spacing: 1px;
+}
+
+.premium-action-btn-primary {
+  background: var(--gradient-sunset);
+  color: var(--abyss-black);
+  box-shadow: 0 2px 10px rgba(255, 127, 107, 0.3);
+}
+
+.premium-action-btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 20px rgba(255, 127, 107, 0.5);
+}
+
+.premium-action-btn-secondary {
+  background: transparent;
+  border: 1px solid rgba(59, 123, 176, 0.5);
+  color: var(--pearl-white);
+}
+
+.premium-action-btn-secondary:hover {
+  background: rgba(59, 123, 176, 0.2);
+  border-color: var(--caribbean-blue);
+  transform: translateY(-2px);
+}
+
+.premium-action-btn-danger {
+  background: transparent;
+  border: 1px solid rgba(255, 127, 107, 0.5);
+  color: var(--coral-reef);
+}
+
+.premium-action-btn-danger:hover {
+  background: rgba(255, 127, 107, 0.1);
+  border-color: var(--coral-reef);
+  transform: translateY(-2px);
+}
+
+/* ========================================
+   Premium Menu Cards
+   ======================================== */
+.premium-menu-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: var(--space-xl);
+  padding: var(--space-xl);
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.premium-menu-item {
+  background: rgba(26, 59, 90, 0.2);
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(59, 123, 176, 0.2);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: var(--transition-smooth);
+  position: relative;
+}
+
+.premium-menu-item:hover {
+  transform: translateY(-8px) rotate(0.5deg);
+  border-color: rgba(255, 127, 107, 0.3);
+  box-shadow: var(--shadow-glow);
+}
+
+.premium-menu-image {
+  height: 220px;
+  position: relative;
+  overflow: hidden;
+}
+
+.premium-menu-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.8s ease;
+}
+
+.premium-menu-item:hover .premium-menu-image img {
+  transform: scale(1.15);
+}
+
+.premium-menu-discount {
+  position: absolute;
+  top: var(--space-md);
+  right: var(--space-md);
+  background: var(--gradient-sunset);
+  color: var(--abyss-black);
+  padding: var(--space-xs) var(--space-lg);
+  border-radius: var(--radius-full);
+  font-weight: 700;
+  font-size: 1rem;
+  z-index: 1;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+.premium-menu-content {
+  padding: var(--space-xl);
+}
+
+.premium-menu-restaurant {
+  color: var(--coral-reef);
+  font-size: 0.9rem;
+  margin-bottom: var(--space-sm);
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  letter-spacing: 1px;
+}
+
+.premium-menu-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.6rem;
+  color: var(--pearl-white);
+  margin-bottom: var(--space-sm);
+}
+
+.premium-menu-price {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-md);
+}
+
+.premium-price-original {
+  color: rgba(240, 247, 255, 0.4);
+  text-decoration: line-through;
+  font-size: 1rem;
+}
+
+.premium-price-current {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--coral-reef);
+  text-shadow: 0 0 20px rgba(255, 127, 107, 0.3);
+}
+
+.premium-menu-ingredients {
+  color: rgba(240, 247, 255, 0.7);
+  font-size: 0.95rem;
+  margin-bottom: var(--space-md);
+  line-height: 1.8;
+  font-style: italic;
+}
+
+.premium-menu-offer {
+  background: rgba(255, 127, 107, 0.1);
+  border: 1px solid var(--coral-reef);
+  border-radius: var(--radius-full);
+  padding: var(--space-sm) var(--space-lg);
+  color: var(--coral-reef);
+  font-size: 0.9rem;
+  margin-bottom: var(--space-md);
+  display: inline-block;
+  position: relative;
+  overflow: hidden;
+}
+
+/* ========================================
+   Premium Search
+   ======================================== */
+.premium-search-container {
+  max-width: 600px;
+  margin: 0 auto var(--space-xl);
+  position: relative;
+}
+
+.premium-search-input {
+  width: 100%;
+  padding: var(--space-lg) var(--space-xl);
+  padding-left: 70px;
+  background: rgba(26, 59, 90, 0.3);
+  border: 1px solid rgba(59, 123, 176, 0.3);
+  border-radius: var(--radius-full);
+  color: var(--pearl-white);
+  font-size: 1.1rem;
+  backdrop-filter: blur(10px);
+  transition: var(--transition-smooth);
+}
+
+.premium-search-input:focus {
+  outline: none;
+  border-color: var(--coral-reef);
+  box-shadow: 0 0 0 4px rgba(255, 127, 107, 0.1);
+  background: rgba(26, 59, 90, 0.5);
+}
+
+.premium-search-icon {
+  position: absolute;
+  left: var(--space-lg);
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--coral-reef);
+  font-size: 1.4rem;
+  filter: drop-shadow(0 0 10px rgba(255, 127, 107, 0.5));
+}
+
+/* ========================================
+   Premium Filter Dropdown
+   ======================================== */
+.premium-filter {
+  background: rgba(26, 59, 90, 0.3);
+  border: 1px solid rgba(59, 123, 176, 0.3);
+  border-radius: var(--radius-full);
+  color: var(--pearl-white);
+  padding: var(--space-md) var(--space-xl);
+  font-size: 1rem;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  backdrop-filter: blur(10px);
+  min-width: 200px;
+}
+
+.premium-filter:focus {
+  outline: none;
+  border-color: var(--coral-reef);
+  box-shadow: 0 0 0 4px rgba(255, 127, 107, 0.1);
+}
+
+.premium-filter option {
+  background: var(--deep-sea);
+  color: var(--pearl-white);
+}
+
+/* ========================================
+   Premium Stats Cards
+   ======================================== */
+.premium-stats {
+  display: flex;
+  gap: var(--space-md);
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: var(--space-xl);
+}
+
+.premium-stat-card {
+  background: rgba(26, 59, 90, 0.2);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(59, 123, 176, 0.3);
+  border-radius: var(--radius-full);
+  padding: var(--space-md) var(--space-xl);
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  transition: var(--transition-smooth);
+}
+
+.premium-stat-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--coral-reef);
+  box-shadow: var(--shadow-glow);
+}
+
+.premium-stat-icon {
+  font-size: 2rem;
+  filter: drop-shadow(0 0 10px rgba(255, 127, 107, 0.5));
+}
+
+.premium-stat-number {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--pearl-white);
+  line-height: 1;
+}
+
+.premium-stat-label {
+  color: rgba(240, 247, 255, 0.7);
+  font-size: 0.9rem;
+  letter-spacing: 1px;
+}
+
+/* ========================================
+   Premium Modal
+   ======================================== */
+.premium-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(10, 25, 34, 0.9);
+  backdrop-filter: blur(15px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  padding: var(--space-md);
+}
+
+.premium-modal {
+  background: rgba(26, 59, 90, 0.3);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 127, 107, 0.3);
+  border-radius: var(--radius-xl);
+  padding: var(--space-xl);
+  max-width: 600px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  animation: modalSlideUp 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  box-shadow: var(--shadow-lg);
+}
+
+@keyframes modalSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(100px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.premium-modal-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.2rem;
+  color: var(--pearl-white);
+  margin-bottom: var(--space-xl);
+  text-align: center;
+  position: relative;
+}
+
+.premium-modal-title::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 2px;
+  background: var(--gradient-sunset);
+}
+
+/* ========================================
+   Premium Empty State
+   ======================================== */
+.premium-empty-state {
+  text-align: center;
+  padding: var(--space-xxl);
+  background: rgba(26, 59, 90, 0.2);
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(59, 123, 176, 0.2);
+  border-radius: var(--radius-xl);
+  margin: var(--space-xl) auto;
+  max-width: 600px;
+  animation: fadeIn 0.6s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.premium-empty-icon {
+  font-size: 6rem;
+  margin-bottom: var(--space-xl);
+  filter: drop-shadow(0 0 30px rgba(255, 127, 107, 0.5));
+  animation: float 4s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-15px) rotate(5deg); }
+}
+
+.premium-empty-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.2rem;
+  color: var(--pearl-white);
+  margin-bottom: var(--space-md);
+}
+
+.premium-empty-text {
+  color: rgba(240, 247, 255, 0.7);
+  margin-bottom: var(--space-xl);
+  font-size: 1.1rem;
+}
+
+/* ========================================
+   Premium Loading
+   ======================================== */
+.premium-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+}
+
+.premium-loading-spinner {
+  width: 70px;
+  height: 70px;
+  border: 3px solid rgba(255, 127, 107, 0.1);
+  border-top: 3px solid var(--coral-reef);
+  border-right: 3px solid var(--coral-reef);
+  border-radius: 50%;
+  animation: spin 1s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite;
+  box-shadow: 0 0 30px rgba(255, 127, 107, 0.3);
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* ========================================
+   Responsive Design
+   ======================================== */
+@media (max-width: 1024px) {
+  .premium-grid,
+  .premium-menu-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-lg);
+  }
+}
+
+@media (max-width: 768px) {
+  /* Show bottom navigation on mobile */
+  .premium-bottom-nav {
+    display: block;
+  }
+  
+  /* Hide desktop navigation on mobile */
+  .premium-nav {
+    display: none;
+  }
+  
+  .premium-grid,
+  .premium-menu-grid {
+    grid-template-columns: 1fr;
+    padding: var(--space-md);
+    gap: var(--space-md);
+    margin-bottom: 80px;
+  }
+  
+  .premium-header {
+    padding: var(--space-sm) var(--space-md);
+  }
+  
+  .premium-logo-text {
+    font-size: 1.4rem;
+  }
+  
+  .premium-logo-icon {
+    font-size: 1.8rem;
+  }
+  
+  .premium-footer {
+    padding-bottom: 100px;
+  }
+  
+  .premium-footer-content {
+    grid-template-columns: 1fr;
+    text-align: center;
+    gap: var(--space-lg);
+  }
+  
+  .premium-footer-section h3::after {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  
+  .premium-footer-social {
+    justify-content: center;
+  }
+  
+  .premium-landing-content {
+    padding: var(--space-xl);
+  }
+  
+  .premium-landing-buttons {
+    flex-direction: column;
+  }
+  
+  .premium-btn {
+    width: 100%;
+  }
+  
+  .premium-restaurant-actions {
+    grid-template-columns: 1fr;
+  }
+  
+  .premium-action-btn {
+    width: 100%;
+  }
+  
+  .premium-modal {
+    padding: var(--space-lg);
+    margin: var(--space-sm);
+  }
+  
+  .premium-stats {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .premium-stat-card {
+    width: 100%;
+    max-width: 300px;
+  }
+}
+
+@media (max-width: 480px) {
+  .premium-logo-text {
+    font-size: 1.2rem;
+  }
+  
+  .premium-logo-icon {
+    font-size: 1.5rem;
+  }
+  
+  .premium-restaurant-content,
+  .premium-menu-content {
+    padding: var(--space-lg);
+  }
+  
+  .premium-restaurant-title {
+    font-size: 1.5rem;
+  }
+  
+  .premium-menu-title {
+    font-size: 1.4rem;
+  }
+  
+  .premium-empty-icon {
+    font-size: 4rem;
+  }
+  
+  .premium-empty-title {
+    font-size: 1.8rem;
+  }
+  
+  .premium-form-title {
+    font-size: 2.2rem;
+  }
+}

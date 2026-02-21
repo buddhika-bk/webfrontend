@@ -42,7 +42,7 @@ function Header() {
           <button className="login-btn">Login</button>
           <button 
             className="primary-button"
-            onClick={() => navigate('/systems')}
+            onClick={() => navigate('/premium')}
           >
             Get Started
           </button>
@@ -69,7 +69,7 @@ function Header() {
             <button className="login-btn" onClick={closeMobileNav}>Login</button>
             <button 
               className="primary-button"
-              onClick={() => handleNavigation('/systems')}
+              onClick={() => handleNavigation('/premium')}
             >
               Get Started
             </button>
