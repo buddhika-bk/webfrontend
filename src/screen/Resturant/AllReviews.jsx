@@ -67,7 +67,7 @@ const AllReviews = () => {
         <div className="premium-header-content">
           <div className="premium-logo">
             <span className="premium-logo-icon">🌊</span>
-            <span className="premium-logo-text">OCEANIC BITES</span>
+            <span className="premium-logo-text">Resturant</span>
           </div>
         </div>
       </header>

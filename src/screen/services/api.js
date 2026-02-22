@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // UPDATE THIS LINE - Use your live domain
 const api = axios.create({
-  baseURL: 'https://webpoint.lk/api/v1',  // ✅ Changed from localhost:3000
+  baseURL: 'http://localhost:3000/api/v1',  // ✅ Changed from localhost:3000
   headers: {
     'Content-Type': 'application/json',
   },

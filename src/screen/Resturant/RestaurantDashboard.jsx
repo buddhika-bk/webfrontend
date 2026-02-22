@@ -8,7 +8,7 @@ import {
   clearAuth,
   isAuthenticated 
 } from '../services/api';
-import './RestaurantPremium.css';
+import styles from './RestaurantDashboard.module.css';
 
 const RestaurantDashboard = () => {
   const navigate = useNavigate();
@@ -16,9 +16,11 @@ const RestaurantDashboard = () => {
   const [menuItems, setMenuItems] = useState([]);
   const [reviews, setReviews] = useState([]);
   const [restaurant, setRestaurant] = useState(null);
+  
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   
   // Edit states
   const [editingItem, setEditingItem] = useState(null);
@@ -35,23 +37,20 @@ const RestaurantDashboard = () => {
   const [stats, setStats] = useState({
     totalItems: 0,
     totalReviews: 0,
-    averageRating: 0
+    averageRating: 0,
+    totalOrders: 124,
+    revenue: 5280,
+    growth: '+12.5%'
   });
 
   useEffect(() => {
-    // Check authentication
     if (!isAuthenticated()) {
-      console.log('Not authenticated, redirecting to login');
       navigate('/restaurant/login');
       return;
     }
 
-    // Get current restaurant
     const currentRestaurant = getCurrentRestaurant();
-    console.log('Current restaurant from storage:', currentRestaurant);
-    
     if (!currentRestaurant) {
-      console.log('No restaurant data found');
       clearAuth();
       navigate('/restaurant/login');
       return;
@@ -67,42 +66,34 @@ const RestaurantDashboard = () => {
       setError('');
       
       const restaurantId = getRestaurantId();
-      console.log('Fetching data for restaurantId:', restaurantId);
       
       if (!restaurantId) {
         throw new Error('No restaurant ID found');
       }
 
-      // Fetch menu items
-      console.log('Fetching menu items...');
       const menuResponse = await menuAPI.getByRestaurant(restaurantId);
-      console.log('Menu response:', menuResponse.data);
       const menuData = menuResponse.data || [];
       setMenuItems(menuData);
 
-      // Fetch reviews
-      console.log('Fetching reviews...');
       const reviewsResponse = await reviewAPI.getByRestaurant(restaurantId);
-      console.log('Reviews response:', reviewsResponse.data);
       const reviewsData = reviewsResponse.data || [];
       setReviews(reviewsData);
 
-      // Calculate stats
       const avgRating = reviewsData.length > 0 
         ? (reviewsData.reduce((sum, r) => sum + (r.rating || 0), 0) / reviewsData.length).toFixed(1)
         : 0;
 
-      setStats({
+      setStats(prev => ({
+        ...prev,
         totalItems: menuData.length,
         totalReviews: reviewsData.length,
         averageRating: avgRating
-      });
+      }));
 
     } catch (err) {
       console.error('Error fetching data:', err);
       setError(err.response?.data?.error || err.message || 'Failed to fetch data');
       
-      // If unauthorized, redirect to login
       if (err.response?.status === 401) {
         clearAuth();
         navigate('/restaurant/login');
@@ -117,7 +108,6 @@ const RestaurantDashboard = () => {
     navigate('/restaurant/login');
   };
 
-  // Navigate to customer view
   const handleCustomerView = () => {
     const restaurantId = getRestaurantId();
     if (restaurantId) {
@@ -127,17 +117,6 @@ const RestaurantDashboard = () => {
     }
   };
 
-  // Navigate to customer landing page (optional)
-  const handleCustomerLanding = () => {
-    const restaurantId = getRestaurantId();
-    if (restaurantId) {
-      navigate(`#`);
-    } else {
-      setError('Restaurant ID not found');
-    }
-  };
-
-  // Menu functions
   const handleDeleteMenuItem = async (id) => {
     if (window.confirm('Are you sure you want to delete this item?')) {
       try {
@@ -201,7 +180,6 @@ const RestaurantDashboard = () => {
     }
   };
 
-  // Review functions
   const handleDeleteReview = async (id) => {
     if (window.confirm('Are you sure you want to delete this review?')) {
       try {
@@ -225,7 +203,15 @@ const RestaurantDashboard = () => {
     return item ? item.foodName : 'Unknown dish';
   };
 
-  // Food images for menu items
+  const formatCurrency = (amount) => {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
+    }).format(amount);
+  };
+
   const foodImages = [
     'https://images.unsplash.com/photo-1551183053-bf91a1d81141?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
     'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
@@ -235,407 +221,473 @@ const RestaurantDashboard = () => {
 
   if (loading) {
     return (
-      <div className="premium-restaurant-theme">
-        <div className="premium-loading">
-          <div className="premium-loading-spinner"></div>
+      <div className={styles.dashboardContainer}>
+        <div className={styles.loadingScreen}>
+          <div className={styles.loadingSpinner}></div>
+          <p className={styles.loadingText}>Loading your dashboard...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="premium-restaurant-theme">
-      {/* Premium Header */}
-      <header className="premium-header">
-        <div className="premium-header-content">
-          <div className="premium-logo">
-            <span className="premium-logo-icon">🌊</span>
-            <span className="premium-logo-text"> Webpoint Resturants</span>
+    <div className={styles.dashboard}>
+      {/* Desktop Sidebar */}
+      <aside className={styles.sidebar}>
+        <div className={styles.sidebarHeader}>
+          <div className={styles.logo}>
+            <span className={styles.logoIcon}>🌊</span>
+            <span className={styles.logoText}>Webpoint</span>
           </div>
-          <nav className="premium-nav">
-            <span className="premium-nav-link" style={{ color: 'var(--coral-reef)' }}>
-              👤 {restaurant?.ownerName || 'Owner'}
-            </span>
-            <span className="premium-nav-link" style={{ color: 'var(--pearl-white)' }}>
-              🏪 {restaurant?.restaurantName || 'Restaurant'}
-            </span>
-            <button onClick={handleLogout} className="premium-nav-link" style={{ background: 'none', border: 'none', cursor: 'pointer' }}>
-              🚪 Logout
-            </button>
-          </nav>
+          <div className={styles.restaurantBadge}>
+            <span className={styles.badgeIcon}>🏪</span>
+            <span className={styles.badgeText}>{restaurant?.restaurantName || 'Restaurant'}</span>
+          </div>
         </div>
+
+        <nav className={styles.sidebarNav}>
+          <button 
+            onClick={() => setActiveTab('menu')}
+            className={`${styles.navItem} ${activeTab === 'menu' ? styles.active : ''}`}
+          >
+            <span className={styles.navIcon}>🍽️</span>
+            <span className={styles.navLabel}>Menu</span>
+            <span className={styles.navBadge}>{menuItems.length}</span>
+          </button>
+          <button 
+            onClick={() => setActiveTab('reviews')}
+            className={`${styles.navItem} ${activeTab === 'reviews' ? styles.active : ''}`}
+          >
+            <span className={styles.navIcon}>⭐</span>
+            <span className={styles.navLabel}>Reviews</span>
+            <span className={styles.navBadge}>{reviews.length}</span>
+          </button>
+          <button 
+            onClick={() => navigate('/restaurant/menu/add')}
+            className={`${styles.navItem} ${styles.addItem}`}
+          >
+            <span className={styles.navIcon}>➕</span>
+            <span className={styles.navLabel}>Add Menu Item</span>
+          </button>
+        </nav>
+
+        <div className={styles.sidebarFooter}>
+          <button onClick={handleCustomerView} className={`${styles.footerBtn} ${styles.viewBtn}`}>
+            <span>👀</span>
+            <span>Customer View</span>
+          </button>
+          <button onClick={handleLogout} className={`${styles.footerBtn} ${styles.logoutBtn}`}>
+            <span>🚪</span>
+            <span>Logout</span>
+          </button>
+        </div>
+      </aside>
+
+      {/* Mobile Header */}
+      <header className={styles.mobileHeader}>
+        {/* Mobile Menu Dropdown */}
+        {isMobileMenuOpen && (
+          <div className={styles.mobileMenu}>
+            <button 
+              onClick={() => {
+                setActiveTab('menu');
+                setIsMobileMenuOpen(false);
+              }}
+              className={`${styles.mobileMenuItem} ${activeTab === 'menu' ? styles.active : ''}`}
+            >
+              <span>🍽️</span>
+              <span>Menu ({menuItems.length})</span>
+            </button>
+            <button 
+              onClick={() => {
+                setActiveTab('reviews');
+                setIsMobileMenuOpen(false);
+              }}
+              className={`${styles.mobileMenuItem} ${activeTab === 'reviews' ? styles.active : ''}`}
+            >
+              <span>⭐</span>
+              <span>Reviews ({reviews.length})</span>
+            </button>
+            <button 
+              onClick={() => {
+                navigate('/restaurant/menu/add');
+                setIsMobileMenuOpen(false);
+              }}
+              className={styles.mobileMenuItem}
+            >
+              <span>➕</span>
+              <span>Add Menu Item</span>
+            </button>
+            <div className={styles.mobileMenuDivider}></div>
+            <button onClick={handleCustomerView} className={styles.mobileMenuItem}>
+              <span>👀</span>
+              <span>Customer View</span>
+            </button>
+            <button onClick={handleLogout} className={`${styles.mobileMenuItem} ${styles.logout}`}>
+              <span>🚪</span>
+              <span>Logout</span>
+            </button>
+          </div>
+        )}
       </header>
 
       {/* Main Content */}
-      <div style={{ minHeight: '100vh', padding: 'var(--space-xl) 0' }}>
-        <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 var(--space-xl)' }}>
-          
+      <main className={styles.mainContent}>
+        <div className={styles.contentWrapper}>
           {/* Welcome Section */}
-          <div className="premium-card" style={{ marginBottom: 'var(--space-xl)' }}>
-            <h1 style={{ 
-              fontFamily: "'Cormorant Garamond', serif",
-              fontSize: 'clamp(2.5rem, 5vw, 3.5rem)',
-              color: 'var(--pearl-white)',
-              marginBottom: 'var(--space-sm)'
-            }}>
-              Welcome back, {restaurant?.ownerName}!
-            </h1>
-            <p style={{ color: 'var(--coral-reef)', fontSize: '1.2rem', marginBottom: 'var(--space-lg)' }}>
-              📍 {restaurant?.location || 'Location not set'} | 📞 {restaurant?.contactNumber || 'Contact not set'}
-            </p>
-            
-            {/* Action Buttons */}
-            <div style={{ 
-              display: 'flex', 
-              gap: 'var(--space-md)', 
-              justifyContent: 'center',
-              flexWrap: 'wrap',
-              marginBottom: 'var(--space-xl)'
-            }}>
-              <button 
-                onClick={handleCustomerView}
-                className="premium-btn premium-btn-primary"
-                style={{ minWidth: '200px' }}
-              >
-                👀 View Menu as Customer
-              </button>
-              <button 
-                onClick={handleCustomerLanding}
-                className="premium-btn premium-btn-secondary"
-                style={{ minWidth: '200px' }}
-              >
-                🏖️ View Landing Page
-              </button>
+          <div className={styles.welcomeSection}>
+            <div className={styles.welcomeHeader}>
+              <div className={styles.mobileProfile}>
+                <span className={styles.profileInitial}>
+                  {restaurant?.ownerName?.charAt(0) || 'O'}
+                </span>
+              </div>
+              <div className={styles.welcomeHeaderLeft}>
+                <div>
+                  <h1 className={styles.welcomeTitle}>
+                    Welcome back, <span className={styles.highlight}>{restaurant?.ownerName}</span>
+                  </h1>
+                  <p className={styles.welcomeSubtitle}>
+                    Here's what's happening with your restaurant today
+                  </p>
+                </div>
+              </div>
+              <div className={styles.restaurantInfo}>
+                <span className={styles.infoItem}>📍 {restaurant?.location || 'Location not set'}</span>
+                <span className={styles.infoItem}>📞 {restaurant?.contactNumber || 'Contact not set'}</span>
+                <span className={`${styles.infoItem} ${styles.customerView}`} onClick={handleCustomerView}>
+                  👁️ Customer View
+                </span>
+              </div>
             </div>
-            
-            {/* Stats Cards */}
-            <div className="premium-stats">
-              <div className="premium-stat-card">
-                <span className="premium-stat-icon">🍽️</span>
-                <div>
-                  <div className="premium-stat-number">{stats.totalItems}</div>
-                  <div className="premium-stat-label">Menu Items</div>
+
+            {/* Stats Grid */}
+            <div className={styles.statsGrid}>
+              <div className={styles.statCard}>
+                <div className={styles.statIcon}>🍽️</div>
+                <div className={styles.statDetails}>
+                  <span className={styles.statValue}>{stats.totalItems}</span>
+                  <span className={styles.statLabel}>Menu Items</span>
                 </div>
               </div>
-              <div className="premium-stat-card">
-                <span className="premium-stat-icon">⭐</span>
-                <div>
-                  <div className="premium-stat-number">{stats.totalReviews}</div>
-                  <div className="premium-stat-label">Reviews</div>
+              <div className={styles.statCard}>
+                <div className={styles.statIcon}>⭐</div>
+                <div className={styles.statDetails}>
+                  <span className={styles.statValue}>{stats.averageRating}</span>
+                  <span className={styles.statLabel}>Avg Rating</span>
                 </div>
               </div>
-              <div className="premium-stat-card">
-                <span className="premium-stat-icon">📊</span>
-                <div>
-                  <div className="premium-stat-number">{stats.averageRating}</div>
-                  <div className="premium-stat-label">Avg Rating</div>
+              <div className={styles.statCard}>
+                <div className={styles.statIcon}>📝</div>
+                <div className={styles.statDetails}>
+                  <span className={styles.statValue}>{stats.totalReviews}</span>
+                  <span className={styles.statLabel}>Reviews</span>
                 </div>
               </div>
+              <div className={styles.statCard}>
+                <div className={styles.statIcon}>💰</div>
+                <div className={styles.statDetails}>
+                  <span className={styles.statValue}>{formatCurrency(stats.revenue)}</span>
+                  <span className={styles.statLabel}>Revenue</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Growth Indicator */}
+            <div className={styles.growthIndicator}>
+              <span className={styles.growthIcon}>📈</span>
+              <span className={styles.growthText}>{stats.growth} growth this month</span>
             </div>
           </div>
 
-          {/* Success/Error Messages */}
+          {/* Messages */}
           {success && (
-            <div style={{ 
-              background: 'rgba(168, 230, 207, 0.1)', 
-              border: '1px solid var(--seafoam)',
-              borderRadius: 'var(--radius-full)',
-              padding: 'var(--space-md)',
-              marginBottom: 'var(--space-lg)',
-              textAlign: 'center',
-              color: 'var(--seafoam)'
-            }}>
-              {success}
+            <div className={`${styles.message} ${styles.success}`}>
+              <span>✓</span>
+              <span>{success}</span>
             </div>
           )}
-
           {error && (
-            <div style={{ 
-              background: 'rgba(255, 107, 107, 0.1)', 
-              border: '1px solid var(--coral-reef)',
-              borderRadius: 'var(--radius-full)',
-              padding: 'var(--space-md)',
-              marginBottom: 'var(--space-lg)',
-              textAlign: 'center',
-              color: 'var(--coral-reef)'
-            }}>
-              {error}
+            <div className={`${styles.message} ${styles.error}`}>
+              <span>⚠</span>
+              <span>{error}</span>
             </div>
           )}
 
-          {/* Tab Navigation */}
-          <div style={{ display: 'flex', gap: 'var(--space-md)', marginBottom: 'var(--space-xl)', flexWrap: 'wrap' }}>
-            <button
-              onClick={() => setActiveTab('menu')}
-              className={`premium-btn ${activeTab === 'menu' ? 'premium-btn-primary' : 'premium-btn-secondary'}`}
-            >
-              🍽️ Menu Items ({menuItems.length})
-            </button>
-            <button
-              onClick={() => setActiveTab('reviews')}
-              className={`premium-btn ${activeTab === 'reviews' ? 'premium-btn-primary' : 'premium-btn-secondary'}`}
-            >
-              ⭐ Reviews ({reviews.length})
-            </button>
-            <button
-              onClick={() => navigate('/restaurant/menu/add')}
-              className="premium-btn premium-btn-primary"
-              style={{ marginLeft: 'auto' }}
-            >
-              + Add New Item
-            </button>
-          </div>
-
-          {/* Menu Items Tab */}
-          {activeTab === 'menu' && (
-            <div>
-              {menuItems.length === 0 ? (
-                <div className="premium-empty-state">
-                  <div className="premium-empty-icon">🍽️</div>
-                  <h2 className="premium-empty-title">No Menu Items Yet</h2>
-                  <p className="premium-empty-text">Start adding delicious dishes to your menu!</p>
+          {/* Tab Content */}
+          <div className={styles.tabContent}>
+            {/* Menu Tab */}
+            {activeTab === 'menu' && (
+              <div className={styles.menuTab}>
+                <div className={styles.tabHeader}>
+                  <h2 className={styles.tabTitle}>Your Menu Items</h2>
                   <button 
                     onClick={() => navigate('/restaurant/menu/add')}
-                    className="premium-btn premium-btn-primary"
+                    className={`${styles.addButton} ${styles.desktopOnly}`}
                   >
-                    Add First Item
+                    <span>➕</span>
+                    <span>Add New Item</span>
                   </button>
                 </div>
-              ) : (
-                <div className="premium-menu-grid">
-                  {menuItems.map((item, index) => (
-                    <div key={item._id} className="premium-menu-item">
-                      <div className="premium-menu-image">
-                        <img 
-                          src={item.image || foodImages[index % foodImages.length]} 
-                          alt={item.foodName}
-                        />
-                        {item.discount > 0 && (
-                          <div className="premium-menu-discount">
-                            -{item.discount}%
-                          </div>
-                        )}
-                      </div>
-                      <div className="premium-menu-content">
-                        <h3 className="premium-menu-title">{item.foodName}</h3>
-                        <div className="premium-menu-price">
-                          {item.discount > 0 ? (
-                            <>
-                              <span className="premium-price-original">${item.price}</span>
-                              <span className="premium-price-current">
-                                ${(item.price * (1 - item.discount / 100)).toFixed(2)}
-                              </span>
-                            </>
-                          ) : (
-                            <span className="premium-price-current">${item.price}</span>
+
+                {menuItems.length === 0 ? (
+                  <div className={styles.emptyState}>
+                    <div className={styles.emptyIcon}>🍽️</div>
+                    <h3 className={styles.emptyTitle}>No Menu Items Yet</h3>
+                    <p className={styles.emptyText}>Start adding delicious dishes to your menu!</p>
+                    <button 
+                      onClick={() => navigate('/restaurant/menu/add')}
+                      className={styles.emptyButton}
+                    >
+                      Add First Item
+                    </button>
+                  </div>
+                ) : (
+                  <div className={styles.menuGrid}>
+                    {menuItems.map((item, index) => (
+                      <div key={item._id} className={styles.menuCard}>
+                        <div className={styles.menuCardImage}>
+                          <img 
+                            src={item.image || foodImages[index % foodImages.length]} 
+                            alt={item.foodName}
+                          />
+                          {item.discount > 0 && (
+                            <div className={styles.discountBadge}>
+                              -{item.discount}%
+                            </div>
                           )}
                         </div>
-                        <p className="premium-menu-ingredients">
-                          {Array.isArray(item.ingredients) 
-                            ? item.ingredients.join(' · ')
-                            : item.ingredients}
-                        </p>
-                        {item.specialOffers && (
-                          <div className="premium-menu-offer">
-                            🎁 {item.specialOffers}
+                        <div className={styles.menuCardContent}>
+                          <div className={styles.menuCardHeader}>
+                            <h3 className={styles.menuCardTitle}>{item.foodName}</h3>
+                            <div className={styles.menuCardPrice}>
+                              {item.discount > 0 ? (
+                                <>
+                                  <span className={styles.originalPrice}>${item.price}</span>
+                                  <span className={styles.currentPrice}>
+                                    ${(item.price * (1 - item.discount / 100)).toFixed(2)}
+                                  </span>
+                                </>
+                              ) : (
+                                <span className={styles.currentPrice}>${item.price}</span>
+                              )}
+                            </div>
+                          </div>
+                          <p className={styles.menuCardIngredients}>
+                            {Array.isArray(item.ingredients) 
+                              ? item.ingredients.join(' · ')
+                              : item.ingredients}
+                          </p>
+                          {item.specialOffers && (
+                            <div className={styles.specialOffer}>
+                              🎁 {item.specialOffers}
+                            </div>
+                          )}
+                          <div className={styles.menuCardActions}>
+                            <button 
+                              onClick={() => handleEditMenuItem(item)}
+                              className={`${styles.actionBtn} ${styles.editBtn}`}
+                            >
+                              ✏️ Edit
+                            </button>
+                            <button 
+                              onClick={() => handleDeleteMenuItem(item._id)}
+                              className={`${styles.actionBtn} ${styles.deleteBtn}`}
+                            >
+                              🗑️ Delete
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* Reviews Tab */}
+            {activeTab === 'reviews' && (
+              <div className={styles.reviewsTab}>
+                <div className={styles.tabHeader}>
+                  <h2 className={styles.tabTitle}>Customer Reviews</h2>
+                  <div className={styles.ratingSummary}>
+                    <span className={styles.ratingAverage}>{stats.averageRating}</span>
+                    <span className={styles.ratingStars}>
+                      {getRatingStars(Math.round(parseFloat(stats.averageRating)))}
+                    </span>
+                    <span className={styles.ratingCount}>({stats.totalReviews} reviews)</span>
+                  </div>
+                </div>
+
+                {reviews.length === 0 ? (
+                  <div className={styles.emptyState}>
+                    <div className={styles.emptyIcon}>⭐</div>
+                    <h3 className={styles.emptyTitle}>No Reviews Yet</h3>
+                    <p className={styles.emptyText}>Customers haven't reviewed your restaurant yet</p>
+                  </div>
+                ) : (
+                  <div className={styles.reviewsList}>
+                    {reviews.map((review) => (
+                      <div key={review._id} className={styles.reviewCard}>
+                        <div className={styles.reviewCardHeader}>
+                          <div className={styles.reviewerInfo}>
+                            <div className={styles.reviewerAvatar}>
+                              {review.customerName?.charAt(0) || 'A'}
+                            </div>
+                            <div>
+                              <h4 className={styles.reviewerName}>
+                                {review.customerName || 'Anonymous'}
+                              </h4>
+                              <div className={styles.reviewMeta}>
+                                <span className={styles.reviewRating}>
+                                  {getRatingStars(review.rating)}
+                                </span>
+                                <span className={styles.reviewDate}>
+                                  {new Date(review.createdAt).toLocaleDateString('en-US', {
+                                    year: 'numeric',
+                                    month: 'short',
+                                    day: 'numeric'
+                                  })}
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                          <button 
+                            onClick={() => handleDeleteReview(review._id)}
+                            className={styles.deleteReviewBtn}
+                            title="Delete review"
+                          >
+                            🗑️
+                          </button>
+                        </div>
+                        
+                        {review.comment && (
+                          <p className={styles.reviewComment}>{review.comment}</p>
+                        )}
+                        
+                        {review.menuItemId && (
+                          <div className={styles.reviewedDish}>
+                            <span className={styles.dishIcon}>🍽️</span>
+                            <span className={styles.dishName}>{getFoodItemName(review.menuItemId)}</span>
                           </div>
                         )}
-                        <div style={{ display: 'flex', gap: 'var(--space-sm)', marginTop: 'var(--space-lg)' }}>
-                          <button 
-                            onClick={() => handleEditMenuItem(item)}
-                            className="premium-action-btn premium-action-btn-secondary"
-                            style={{ flex: 1 }}
-                          >
-                            ✏️ Edit
-                          </button>
-                          <button 
-                            onClick={() => handleDeleteMenuItem(item._id)}
-                            className="premium-action-btn premium-action-btn-danger"
-                            style={{ flex: 1 }}
-                          >
-                            🗑️ Delete
-                          </button>
-                        </div>
                       </div>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-          )}
-
-          {/* Reviews Tab */}
-          {activeTab === 'reviews' && (
-            <div>
-              {reviews.length === 0 ? (
-                <div className="premium-empty-state">
-                  <div className="premium-empty-icon">⭐</div>
-                  <h2 className="premium-empty-title">No Reviews Yet</h2>
-                  <p className="premium-empty-text">Customers haven't reviewed your restaurant yet</p>
-                </div>
-              ) : (
-                <div className="premium-grid" style={{ gridTemplateColumns: '1fr' }}>
-                  {reviews.map((review) => (
-                    <div key={review._id} className="premium-card" style={{ padding: 'var(--space-lg)' }}>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 'var(--space-md)' }}>
-                        <div>
-                          <h3 style={{ 
-                            fontFamily: "'Cormorant Garamond', serif",
-                            fontSize: '1.4rem',
-                            color: 'var(--pearl-white)',
-                            marginBottom: 'var(--space-xs)'
-                          }}>
-                            {review.customerName || 'Anonymous'}
-                          </h3>
-                          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)' }}>
-                            <span style={{ color: 'var(--coral-reef)', fontSize: '1.2rem' }}>
-                              {getRatingStars(review.rating)}
-                            </span>
-                            <span style={{ color: 'rgba(240,247,255,0.5)', fontSize: '0.9rem' }}>
-                              {new Date(review.createdAt).toLocaleDateString()}
-                            </span>
-                          </div>
-                        </div>
-                        <button 
-                          onClick={() => handleDeleteReview(review._id)}
-                          className="premium-action-btn premium-action-btn-danger"
-                          style={{ padding: 'var(--space-xs) var(--space-md)' }}
-                        >
-                          🗑️ Delete
-                        </button>
-                      </div>
-                      
-                      {review.comment && (
-                        <p style={{ 
-                          color: 'rgba(240,247,255,0.9)', 
-                          lineHeight: '1.6',
-                          marginBottom: 'var(--space-md)',
-                          padding: 'var(--space-md)',
-                          background: 'rgba(26, 59, 90, 0.3)',
-                          borderRadius: 'var(--radius-md)',
-                          fontStyle: 'italic'
-                        }}>
-                          "{review.comment}"
-                        </p>
-                      )}
-                      
-                      {review.menuItemId && (
-                        <div style={{ 
-                          display: 'inline-block',
-                          background: 'rgba(255, 127, 107, 0.1)',
-                          border: '1px solid var(--coral-reef)',
-                          borderRadius: 'var(--radius-full)',
-                          padding: 'var(--space-xs) var(--space-md)',
-                          fontSize: '0.9rem',
-                          color: 'var(--coral-reef)'
-                        }}>
-                          🍽️ Reviewed dish: {getFoodItemName(review.menuItemId)}
-                        </div>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-          )}
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
         </div>
-      </div>
+      </main>
 
       {/* Edit Modal */}
       {editingItem && (
-        <div className="premium-modal-overlay">
-          <div className="premium-modal">
-            <h2 className="premium-modal-title">Edit Menu Item</h2>
-            <form onSubmit={handleEditSubmit}>
-              <div className="premium-form-group">
-                <label className="premium-label">Food Name</label>
+        <div className={styles.modalOverlay}>
+          <div className={styles.modal}>
+            <div className={styles.modalHeader}>
+              <h2 className={styles.modalTitle}>Edit Menu Item</h2>
+              <button 
+                className={styles.modalClose}
+                onClick={() => setEditingItem(null)}
+              >
+                ✕
+              </button>
+            </div>
+            <form onSubmit={handleEditSubmit} className={styles.modalForm}>
+              <div className={styles.formGroup}>
+                <label className={styles.formLabel}>Food Name</label>
                 <input
                   type="text"
                   name="foodName"
                   value={editFormData.foodName}
                   onChange={handleEditChange}
-                  className="premium-input"
+                  className={styles.formInput}
                   required
+                  placeholder="e.g., Grilled Salmon"
                 />
               </div>
 
-              <div className="premium-form-group">
-                <label className="premium-label">Image URL</label>
+              <div className={styles.formGroup}>
+                <label className={styles.formLabel}>Image URL</label>
                 <input
                   type="url"
                   name="image"
                   value={editFormData.image}
                   onChange={handleEditChange}
-                  className="premium-input"
-                  placeholder="https://..."
+                  className={styles.formInput}
+                  placeholder="https://example.com/image.jpg"
                 />
               </div>
 
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--space-md)' }}>
-                <div className="premium-form-group">
-                  <label className="premium-label">Price ($)</label>
+              <div className={styles.formRow}>
+                <div className={styles.formGroup}>
+                  <label className={styles.formLabel}>Price ($)</label>
                   <input
                     type="number"
                     name="price"
                     value={editFormData.price}
                     onChange={handleEditChange}
-                    className="premium-input"
+                    className={styles.formInput}
                     step="0.01"
                     min="0"
                     required
+                    placeholder="29.99"
                   />
                 </div>
 
-                <div className="premium-form-group">
-                  <label className="premium-label">Discount (%)</label>
+                <div className={styles.formGroup}>
+                  <label className={styles.formLabel}>Discount (%)</label>
                   <input
                     type="number"
                     name="discount"
                     value={editFormData.discount}
                     onChange={handleEditChange}
-                    className="premium-input"
+                    className={styles.formInput}
                     min="0"
                     max="100"
+                    placeholder="0"
                   />
                 </div>
               </div>
 
-              <div className="premium-form-group">
-                <label className="premium-label">Ingredients (comma separated)</label>
+              <div className={styles.formGroup}>
+                <label className={styles.formLabel}>Ingredients</label>
                 <input
                   type="text"
                   name="ingredients"
                   value={editFormData.ingredients}
                   onChange={handleEditChange}
-                  className="premium-input"
+                  className={styles.formInput}
                   required
+                  placeholder="salmon, rice, vegetables"
                 />
+                <span className={styles.inputHint}>Separate ingredients with commas</span>
               </div>
 
-              <div className="premium-form-group">
-                <label className="premium-label">Special Offers</label>
+              <div className={styles.formGroup}>
+                <label className={styles.formLabel}>Special Offers</label>
                 <textarea
                   name="specialOffers"
                   value={editFormData.specialOffers}
                   onChange={handleEditChange}
-                  className="premium-input premium-textarea"
+                  className={styles.formTextarea}
                   rows="3"
+                  placeholder="e.g., Free drink with this meal"
                 />
               </div>
 
-              <div style={{ display: 'flex', gap: 'var(--space-md)', marginTop: 'var(--space-xl)' }}>
+              <div className={styles.modalActions}>
                 <button 
                   type="button"
                   onClick={() => setEditingItem(null)}
-                  className="premium-btn premium-btn-secondary"
-                  style={{ flex: 1 }}
+                  className={`${styles.modalBtn} ${styles.modalBtnSecondary}`}
                 >
                   Cancel
                 </button>
                 <button 
                   type="submit" 
-                  className="premium-btn premium-btn-primary"
-                  style={{ flex: 2 }}
+                  className={`${styles.modalBtn} ${styles.modalBtnPrimary}`}
                 >
                   Save Changes
                 </button>
@@ -645,54 +697,30 @@ const RestaurantDashboard = () => {
         </div>
       )}
 
-      {/* Premium Footer */}
-      <footer className="premium-footer">
-        <div className="premium-footer-content">
-          <div className="premium-footer-section">
-            <h3>About Webpoint Sri Lanka</h3>
-            <p>Websites and Software Developing experiences since 2020.</p>
-          </div>
-          <div className="premium-footer-section">
-            <h3>Quick Links</h3>
-            <p><a href="#" style={{ color: 'rgba(240,247,255,0.7)', textDecoration: 'none' }}>All Restaurants</a></p>
-            <p><a href="#" style={{ color: 'rgba(240,247,255,0.7)', textDecoration: 'none' }}>Reviews</a></p>
-          </div>
-          <div className="premium-footer-section">
-            <h3>Contact</h3>
-            <p>📍 Malabe, Colombo</p>
-            <p>📞 +94 (70) 731-2180</p>
-          </div>
-        </div>
-        <div className="premium-footer-bottom">
-          <p>© 2026 Webpoint Sri Lanka. All rights reserved.</p>
-        </div>
-      </footer>
-
       {/* Mobile Bottom Navigation */}
-      <div className="premium-bottom-nav">
-        <div className="premium-bottom-nav-items">
-          <button onClick={() => setActiveTab('menu')} className={`premium-bottom-nav-item ${activeTab === 'menu' ? 'active' : ''}`}>
-            <span>🍽️</span>
-            <span>Menu</span>
-          </button>
-          <button onClick={() => setActiveTab('reviews')} className={`premium-bottom-nav-item ${activeTab === 'reviews' ? 'active' : ''}`}>
-            <span>⭐</span>
-            <span>Reviews</span>
-          </button>
-          <button onClick={() => navigate('/restaurant/menu/add')} className="premium-bottom-nav-item">
-            <span>➕</span>
-            <span>Add</span>
-          </button>
-          <button onClick={handleCustomerView} className="premium-bottom-nav-item">
-            <span>👀</span>
-            <span>View</span>
-          </button>
-          <button onClick={handleLogout} className="premium-bottom-nav-item">
-            <span>🚪</span>
-            <span>Logout</span>
-          </button>
-        </div>
-      </div>
+      <nav className={styles.mobileBottomNav}>
+        <button 
+          onClick={() => setActiveTab('menu')}
+          className={`${styles.bottomNavItem} ${activeTab === 'menu' ? styles.active : ''}`}
+        >
+          <span className={styles.bottomNavIcon}>🍽️</span>
+          <span className={styles.bottomNavLabel}>Menu</span>
+        </button>
+        <button 
+          onClick={() => setActiveTab('reviews')}
+          className={`${styles.bottomNavItem} ${activeTab === 'reviews' ? styles.active : ''}`}
+        >
+          <span className={styles.bottomNavIcon}>⭐</span>
+          <span className={styles.bottomNavLabel}>Reviews</span>
+        </button>
+        <button 
+          onClick={() => navigate('/restaurant/menu/add')}
+          className={`${styles.bottomNavItem} ${styles.addNavItem}`}
+        >
+          <span className={`${styles.bottomNavIcon} ${styles.addIcon}`}>+</span>
+          <span className={styles.bottomNavLabel}>Add</span>
+        </button>
+      </nav>
     </div>
   );
 };

@@ -38,9 +38,9 @@ const Services = () => {
       image: websiteDevImg,
       color: '#8b5cf6',
       packages: [
-        { name: 'Basic', price: 'LKR 25,000/=', features: ['5 Pages', 'Responsive Design', 'Basic SEO', 'Contact Form', '1 Month Support'] },
-        { name: 'Professional', price: 'LKR 40,000/=', features: ['15 Pages', 'E-commerce Ready', 'Advanced SEO', 'CMS Integration', '3 Months Support'] },
-        { name: 'Enterprise', price: 'LKR 75,000/=', features: ['Unlimited Pages', 'Custom Features', 'Full SEO', 'API Integration', '6 Months Support'] }
+        { name: 'Basic', price: 'LKR 35,000/=', features: ['5 Pages', 'Responsive Design', 'Basic SEO', 'Contact Form', '1 Month Support'] },
+        { name: 'Professional', price: 'LKR 50,000/=', features: ['15 Pages', 'E-commerce Ready', 'Advanced SEO', 'CMS Integration', '3 Months Support'] },
+        { name: 'Enterprise', price: 'LKR 80,000/=', features: ['Unlimited Pages', 'Custom Features', 'Full SEO', 'API Integration', '6 Months Support'] }
       ]
     },
     {

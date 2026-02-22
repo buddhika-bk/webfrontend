@@ -64,19 +64,19 @@ const Home = () => {
   const packages = [
     {
       name: "Basic",
-      price: "LKR 25,000",
+      price: "LKR 35,000",
       features: ["5 Page Website", "Responsive Design", "Contact Form", "1 Month Free Support"],
       recommended: false
     },
     {
       name: "Professional",
-      price: "LKR 40,000",
+      price: "LKR 50,000",
       features: ["10 Page Website", "CMS Integration", "SEO Basic", "3 Months Free Support", "Mobile Friendly"],
       recommended: true
     },
     {
       name: "Enterprise",
-      price: "LKR 75,000",
+      price: "LKR 80,000",
       features: ["25 Pages", "E-Commerce Functionality", "Advanced SEO", "5 Months Free Support", "Custom Design"],
       recommended: false
     }
