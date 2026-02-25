@@ -10,7 +10,7 @@ const Services = () => {
   const navigate = useNavigate();
 
   // Google Images URLs for services
- 
+
   const systemDevImg = 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80';
   const mobileAppImg = 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80';
   const ecommerceImg = 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80';
@@ -130,9 +130,9 @@ const Services = () => {
       image: digitalMarketingImg,
       color: '#10b981',
       packages: [
-        { name: 'Basic Plan', price: '$999/mo', features: ['SEO Audit', 'Social Media', 'Basic Analytics', 'Monthly Reports'] },
-        { name: 'Growth Plan', price: '$2,999/mo', features: ['Full SEO', 'PPC Campaigns', 'Advanced Analytics', 'Weekly Reports'] },
-        { name: 'Enterprise Plan', price: '$7,999/mo', features: ['Complete Strategy', 'Multi-channel', 'Real-time Analytics', 'Dedicated Team'] }
+        { name: 'Basic Plan', price: 'Rs.45,000', features: ['SEO Audit', 'Social Media', 'Basic Analytics', 'Monthly Reports'] },
+        { name: 'Growth Plan', price: 'Rs.70,000', features: ['Full SEO', 'Social  Campaigns', 'Advanced Analytics', 'Weekly Reports'] },
+        { name: 'Enterprise Plan', price: 'Rs.1,00,000', features: ['Complete Strategy', 'Multi-channel', 'Real-time Analytics', 'Dedicated Team'] }
       ]
     }
   ];
@@ -211,8 +211,8 @@ const Services = () => {
       <div className={styles.backgroundAnimation}>
         <div className={styles.floatingShapes}>
           {[...Array(12)].map((_, i) => (
-            <div 
-              key={i} 
+            <div
+              key={i}
               className={styles.floatingShape}
               style={{
                 animationDelay: `${i * 0.5}s`,
@@ -235,13 +235,13 @@ const Services = () => {
           <div className={styles.heroBadge}>
             <span className={styles.badgeText}>✨ Premium Services</span>
           </div>
-          
+
           <h1 className={styles.heroTitle}>
             Transform Your <span className={styles.titleHighlight}>Digital</span> Presence
           </h1>
-          
+
           <p className={styles.heroDescription}>
-            We deliver exceptional digital solutions that drive growth, enhance engagement, 
+            We deliver exceptional digital solutions that drive growth, enhance engagement,
             and transform businesses. From concept to launch, we're with you every step of the way.
           </p>
 
@@ -263,14 +263,14 @@ const Services = () => {
           </div>
 
           <div className={styles.heroActions}>
-            <button 
+            <button
               className={styles.primaryButton}
               onClick={() => navigate('/contact')}
             >
               Start Your Project
               <span className={styles.buttonIcon}>🚀</span>
             </button>
-            <button 
+            <button
               className={styles.secondaryButton}
               onClick={() => document.querySelector(`.${styles.servicesGrid}`)?.scrollIntoView({ behavior: 'smooth' })}
             >
@@ -283,10 +283,10 @@ const Services = () => {
         <div className={styles.heroVisual}>
           <div className={styles.serviceCards}>
             {services.slice(0, 4).map((service, index) => (
-              <div 
+              <div
                 key={service.id}
                 className={`${styles.serviceCard} ${styles[`card${index + 1}`]}`}
-                style={{ 
+                style={{
                   '--service-color': service.color,
                   transform: `rotate(${index * 5}deg) translateY(${index * 10}px)`
                 }}
@@ -319,7 +319,7 @@ const Services = () => {
 
         <div className={styles.servicesGrid}>
           {services.map((service) => (
-            <div 
+            <div
               key={service.id}
               className={`${styles.serviceItem} ${activeService === service.id ? styles.active : ''}`}
               onMouseEnter={() => setHoveredService(service.id)}
@@ -331,6 +331,8 @@ const Services = () => {
                   navigate('/webservice');
                 } else if (service.id === 'system') {
                   navigate('/systems');
+                } else if (service.id === 'marketing') {
+                  navigate('/digital-solution'); // Add this line for digital marketing
                 }
               }}
               style={{
@@ -344,7 +346,7 @@ const Services = () => {
               <h3 className={styles.serviceItemTitle}>{service.title}</h3>
               <p className={styles.serviceItemTagline}>{service.tagline}</p>
               <p className={styles.serviceItemDescription}>{service.description}</p>
-              
+
               <div className={styles.serviceFeatures}>
                 {service.features.slice(0, 3).map((feature, index) => (
                   <div key={index} className={styles.serviceFeature}>
@@ -353,8 +355,8 @@ const Services = () => {
                   </div>
                 ))}
               </div>
-              
-              <button 
+
+              <button
                 className={styles.serviceButton}
                 onClick={(e) => {
                   e.stopPropagation();
@@ -364,6 +366,8 @@ const Services = () => {
                     navigate('/webservice');
                   } else if (service.id === 'system') {
                     navigate('/systems');
+                  } else if (service.id === 'marketing') {
+                    navigate('/digital-solution'); // Add this line for digital marketing
                   }
                 }}
               >
@@ -414,7 +418,7 @@ const Services = () => {
                           <li key={idx}>{feature}</li>
                         ))}
                       </ul>
-                      <button 
+                      <button
                         className={styles.pricingButton}
                         onClick={() => navigate('/contact')}
                       >
@@ -428,8 +432,8 @@ const Services = () => {
 
             <div className={styles.detailsVisual}>
               <div className={styles.imageWrapper}>
-                <img 
-                  src={currentService.image} 
+                <img
+                  src={currentService.image}
                   alt={currentService.title}
                   className={styles.detailsImage}
                   onError={(e) => {
@@ -437,7 +441,7 @@ const Services = () => {
                     e.target.src = `https://via.placeholder.com/500x300/1a1b3a/8b5cf6?text=${encodeURIComponent(currentService.title)}`;
                   }}
                 />
-                <div 
+                <div
                   className={styles.imageOverlay}
                   style={{ background: `linear-gradient(45deg, ${currentService.color}20, transparent)` }}
                 ></div>
@@ -477,7 +481,7 @@ const Services = () => {
                   </div>
                 ))}
               </div>
-              <button 
+              <button
                 className={styles.systemButton}
                 onClick={() => navigate('/systems')}
                 style={{ background: system.color }}
@@ -525,23 +529,25 @@ const Services = () => {
         </div>
       </div>
 
+
+
       {/* CTA Section */}
       <div className={styles.ctaSection}>
         <div className={styles.ctaContainer}>
           <div className={styles.ctaContent}>
             <h2>Ready to Start Your Project?</h2>
             <p>
-              Let's discuss your ideas and create something amazing together. 
+              Let's discuss your ideas and create something amazing together.
               Get a free consultation and project estimate.
             </p>
             <div className={styles.ctaActions}>
-              <button 
+              <button
                 className={styles.ctaPrimary}
                 onClick={() => navigate('/contact')}
               >
                 Get Free Consultation
               </button>
-              <button 
+              <button
                 className={styles.ctaSecondary}
                 onClick={() => navigate('/portfolio')}
               >
@@ -552,7 +558,7 @@ const Services = () => {
           <div className={styles.ctaVisual}>
             <div className={styles.ctaOrbit}>
               {services.map((service, index) => (
-                <div 
+                <div
                   key={service.id}
                   className={styles.orbitingIcon}
                   style={{
