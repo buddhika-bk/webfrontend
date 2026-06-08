@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { menuAPI, restaurantAPI, setCurrentRestaurant } from '../services/api';
+import { menuAPI, restaurantAPI } from '../services/api';
 import './RestaurantPremium.css';
 
 const PremiumAllMenus = () => {
@@ -100,8 +100,16 @@ const PremiumAllMenus = () => {
     }
   };
 
-  const handleManageRestaurantMenu = (restaurantId) => {
-    setCurrentRestaurant(restaurantId);
+  const handleManageRestaurantMenu = (restaurantId, restaurantName) => {
+    // FIXED: Store restaurant data in localStorage instead of using setCurrentRestaurant
+    const restaurantData = {
+      restaurantId: restaurantId,
+      restaurantName: restaurantName || 'Restaurant'
+    };
+    
+    localStorage.setItem('currentRestaurant', JSON.stringify(restaurantData));
+    localStorage.setItem('authToken', restaurantId);
+    
     navigate('/restaurant/menu');
   };
 
@@ -296,7 +304,7 @@ const PremiumAllMenus = () => {
                     )}
                     <div style={{ display: 'flex', gap: 'var(--space-sm)', marginTop: 'var(--space-lg)' }}>
                       <button 
-                        onClick={() => handleManageRestaurantMenu(item.restaurantId)}
+                        onClick={() => handleManageRestaurantMenu(item.restaurantId, getRestaurantName(item.restaurantId))}
                         className="premium-action-btn premium-action-btn-primary"
                         style={{ flex: 1 }}
                       >

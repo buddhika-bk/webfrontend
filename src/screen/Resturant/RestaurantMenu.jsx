@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { menuAPI, getCurrentRestaurant, isAuthenticated } from '../services/api';
+import { menuAPI, getCurrentRestaurant, isRestaurantAuthenticated } from '../services/api';
 import './RestaurantPremium.css';
 
 const RestaurantMenu = () => {
@@ -11,8 +11,8 @@ const RestaurantMenu = () => {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    // Check if user is authenticated
-    if (!isAuthenticated()) {
+    // Check if user is authenticated - FIXED: using isRestaurantAuthenticated
+    if (!isRestaurantAuthenticated()) {
       navigate('/restaurant/login');
       return;
     }
@@ -241,18 +241,6 @@ const RestaurantMenu = () => {
 
       <div className="premium-bottom-nav">
         <div className="premium-bottom-nav-items">
-          {/* <a href="/restaurant/all" className="premium-bottom-nav-item">
-            <span>🏖️</span>
-            <span>Restaurants</span>
-          </a>
-          <a href="/restaurant/all-menus" className="premium-bottom-nav-item">
-            <span>🍽️</span>
-            <span>Menus</span>
-          </a>
-          <a href="/addrest" className="premium-bottom-nav-item">
-            <span>➕</span>
-            <span>Add</span>
-          </a> */}
           <button onClick={handleLogout} className="premium-bottom-nav-item" style={{ background: 'none', border: 'none' }}>
             <span>🚪</span>
             <span>Logout</span>

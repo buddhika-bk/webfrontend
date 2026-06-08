@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import './Footer.css';
+import styles from './Footer.module.css';
 
 function Footer() {
     const navigate = useNavigate();
@@ -10,47 +10,47 @@ function Footer() {
     };
 
     return (
-        <footer className="main-footer" id="contact">
-            <div className="section-container">
-                <div className="footer-content">
-                    <div className="footer-main">
-                        <div className="footer-brand">
-                            <div className="logo">
+        <footer className={styles.mainFooter} id="contact">
+            <div className={styles.sectionContainer}>
+                <div className={styles.footerContent}>
+                    <div className={styles.footerMain}>
+                        <div className={styles.footerBrand}>
+                            <div className={styles.logo}>
                                 <h1>WebPoint<span>.lk</span></h1>
                             </div>
                             <p>Professional web design and development services for Sri Lankan businesses.</p>
-                            <div className="social-icons">
+                            <div className={styles.socialIcons}>
                                 <a href="#"><span>📱</span></a>
                                 <a href="#"><span>💻</span></a>
                                 <a href="#"><span>📸</span></a>
                             </div>
                         </div>
 
-                        <div className="footer-links">
-                            <div className="footer-column">
+                        <div className={styles.footerLinks}>
+                            <div className={styles.footerColumn}>
                                 <h4>Services</h4>
                                 <ul>
-                                    <li><a href="/webservice">Website Development</a></li>
-                                    <li><a href="/service">Mobile Applications</a></li>
-                                    <li><a href="/systems">Software Solutions</a></li>
-                                    <li><a href="/service">Digital Marketing</a></li>
+                                    <li><a onClick={() => handleNavigation('/webservice')}>Website Development</a></li>
+                                    <li><a onClick={() => handleNavigation('/service')}>Mobile Applications</a></li>
+                                    <li><a onClick={() => handleNavigation('/systems')}>Software Solutions</a></li>
+                                    <li><a onClick={() => handleNavigation('/service')}>Digital Marketing</a></li>
                                 </ul>
                             </div>
 
-                            <div className="footer-column">
+                            <div className={styles.footerColumn}>
                                 <h4>Quick Links</h4>
                                 <ul>
-                                    <li><a href="/home">Home</a></li>
-                                    <li><a href="/service">Services</a></li>
-                                    <li><a href="/about">About</a></li>
-                                    <li><a href="/contact">Contact</a></li>
+                                    <li><a onClick={() => handleNavigation('/home')}>Home</a></li>
+                                    <li><a onClick={() => handleNavigation('/service')}>Services</a></li>
+                                    <li><a onClick={() => handleNavigation('/about')}>About</a></li>
+                                    <li><a onClick={() => handleNavigation('/contact')}>Contact</a></li>
                                 </ul>
                             </div>
 
-                            <div className="footer-column">
+                            <div className={styles.footerColumn}>
                                 <h4>Contact Info</h4>
-                                <ul className="contact-info">
-                                    <li>📍 Colombo, Sri Lanka</li>
+                                <ul className={styles.contactInfo}>
+                                    <li>📍 2B/Suncity Apartment, Malabe, Colombo.</li>
                                     <li>📞 +94 70 731 2180</li>
                                     <li>✉️ info@webpoint.lk</li>
                                 </ul>
@@ -58,7 +58,7 @@ function Footer() {
                         </div>
                     </div>
 
-                    <div className="footer-bottom">
+                    <div className={styles.footerBottom}>
                         <p>&copy; 2026 WebPoint.lk. All rights reserved.</p>
                     </div>
                 </div>

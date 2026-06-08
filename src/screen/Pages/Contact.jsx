@@ -79,7 +79,7 @@ const Contact = () => {
     { icon: '📧', title: 'Email', value: 'info@webpoint.lk', color: '#8b5cf6' },
     { icon: '📱', title: 'Phone', value: '070-7312180', color: '#3b82f6' },
     { icon: '💬', title: 'WhatsApp', value: '072-1202070', color: '#10b981' },
-    { icon: '📍', title: 'Location', value: 'Gampaha, Sri Lanka', color: '#f59e0b' }
+    { icon: '📍', title: 'Location', value: '2B/Suncity Apartment, Malabe, Colombo.', color: '#f59e0b' }
   ];
 
   return (
@@ -359,7 +359,8 @@ const Contact = () => {
                 <div className={styles.locationDetails}>
                   <p className={styles.locationAddress}>
                     <strong>WebPoint Sri Lanka</strong><br />
-                    Gampaha, Sri Lanka
+                    2B/Suncity Apartment,<br />
+                    Malabe, Colombo.
                   </p>
                   <div className={styles.locationFeatures}>
                     <div className={styles.feature}>
@@ -413,8 +414,8 @@ const Contact = () => {
               <div className={styles.mapPin}>
                 <div className={styles.pinIcon}>📍</div>
                 <div className={styles.pinText}>
-                  <h4>Gampaha, Sri Lanka</h4>
-                  <p>Comming Soon WebPoint Headquarters</p>
+                  <h4>2B/Suncity Apartment, Malabe, Colombo.</h4>
+                  <p> WebPoint Headquarters</p>
                 </div>
               </div>
               <div className={styles.mapDetails}>

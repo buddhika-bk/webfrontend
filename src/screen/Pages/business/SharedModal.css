@@ -1,0 +1,57 @@
+/* shared-modal.css — import at top of each feature CSS */
+.sm-overlay {
+  position: fixed; inset: 0;
+  background: rgba(15,23,42,.6); backdrop-filter: blur(4px);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 1000;
+}
+
+.sm-modal {
+  background: white; border-radius: 20px;
+  width: 90%; max-width: 720px; max-height: 88vh;
+  overflow: hidden; display: flex; flex-direction: column;
+  animation: bdSlideUp .25s ease;
+}
+
+.sm-modal-head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 20px 24px; border-bottom: 1px solid #f1f5f9;
+}
+
+.sm-modal-title { font-family: 'Sora', sans-serif; font-size: 1.05rem; font-weight: 700; color: #0f172a; margin: 0; }
+
+.sm-modal-close { background: none; border: none; font-size: 1.2rem; cursor: pointer; color: #64748b; }
+.sm-modal-close:hover { color: #ef4444; }
+
+.sm-modal-body { padding: 24px; overflow-y: auto; flex: 1; }
+
+.sm-modal-foot {
+  display: flex; gap: 10px; justify-content: flex-end;
+  padding: 18px 24px; border-top: 1px solid #f1f5f9;
+}
+
+.sm-section { margin-bottom: 22px; }
+
+.sm-section-title {
+  font-family: 'Sora', sans-serif; font-size: 0.88rem; font-weight: 700;
+  color: #0f172a; margin: 0 0 14px; padding-bottom: 10px; border-bottom: 1px solid #f1f5f9;
+}
+
+/* Shared buttons used across all feature pages */
+.bd-btn {
+  padding: 9px 20px; border-radius: 10px;
+  font-family: 'DM Sans', sans-serif; font-size: 0.88rem; font-weight: 600;
+  cursor: pointer; transition: all .2s; border: none;
+}
+.bd-btn--primary { background: linear-gradient(135deg, #0ea5e9, #0369a1); color: white; }
+.bd-btn--primary:hover { transform: translateY(-1px); box-shadow: 0 5px 16px rgba(14,165,233,.32); }
+.bd-btn--outline { background: transparent; border: 1.5px solid #e2e8f0; color: #475569; }
+.bd-btn--outline:hover { border-color: #0ea5e9; color: #0ea5e9; }
+.bd-btn--ghost   { background: #e0f2fe; color: #0369a1; }
+.bd-btn--ghost:hover { background: #bae6fd; }
+.bd-btn--danger  { background: #fef2f2; color: #dc2626; border: 1.5px solid #fecaca; }
+.bd-btn--danger:hover { background: #fee2e2; }
+.bd-btn--success { background: #ecfdf5; color: #059669; border: 1.5px solid #a7f3d0; }
+.bd-btn--success:hover { background: #d1fae5; }
+
+@keyframes bdSlideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }

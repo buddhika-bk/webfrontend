@@ -407,7 +407,7 @@ const About = () => {
                 <div className={styles.contactIcon}>📍</div>
                 <div className={styles.contactDetails}>
                   <h4>Location</h4>
-                  <p>Gampaha, Sri Lanka</p>
+                  <p>2B/Suncity Apartment, Malabe, Colombo.</p>
                 </div>
               </div>
             </div>
@@ -440,7 +440,7 @@ const About = () => {
                 allowFullScreen=""
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
-                title="Google Maps - Gampaha, Sri Lanka"
+                title="Google Maps - 2B/Suncity Apartment, Malabe, Colombo."
               ></iframe>
             </div>
           </div>

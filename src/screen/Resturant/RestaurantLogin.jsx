@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { restaurantAPI, setAuthToken, setCurrentRestaurant } from '../services/api';
+import { restaurantAPI, setRestaurantAuth } from '../services/api';
 import './RestaurantPremium.css';
 
 const RestaurantLogin = () => {
@@ -47,9 +47,8 @@ const RestaurantLogin = () => {
       
       console.log('🏪 Restaurant data to store:', restaurant);
       
-      // Store auth data
-      setAuthToken(token);
-      setCurrentRestaurant(restaurant);
+      // FIXED: Use setRestaurantAuth instead of setAuthToken and setCurrentRestaurant
+      setRestaurantAuth(token, restaurant);
       
       // Verify storage
       const storedRestaurant = localStorage.getItem('currentRestaurant');
@@ -72,13 +71,10 @@ const RestaurantLogin = () => {
         <div className="premium-header-content">
           <div className="premium-logo">
             <span className="premium-logo-icon">🌊</span>
-            <span className="premium-logo-text">Webpont Resturants</span>
+            <span className="premium-logo-text">Webpoint Resturants</span>
           </div>
           <nav className="premium-nav">
-            {/* <a href="/restaurant/all" className="premium-nav-link">Restaurants</a>
-            <a href="/restaurant/all-menus" className="premium-nav-link">Menus</a>
-            <a href="/addrest" className="premium-nav-link">Register</a> */}
-            <a href="/addrest" className="premium-nav-link active">Register</a>
+            <a href="/addrest" className="premium-nav-link">Register</a>
             <a href="/restaurant/login" className="premium-nav-link active">Login</a>
           </nav>
         </div>
@@ -197,14 +193,6 @@ const RestaurantLogin = () => {
       {/* Mobile Bottom Navigation */}
       <div className="premium-bottom-nav">
         <div className="premium-bottom-nav-items">
-          {/* <a href="/restaurant/all" className="premium-bottom-nav-item">
-            <span>🏖️</span>
-            <span>Restaurants</span>
-          </a>
-          <a href="/restaurant/all-menus" className="premium-bottom-nav-item">
-            <span>🍽️</span>
-            <span>Menus</span>
-          </a>*/}
           <a href="/addrest" className="premium-bottom-nav-item">
             <span>➕</span>
             <span>Add</span>

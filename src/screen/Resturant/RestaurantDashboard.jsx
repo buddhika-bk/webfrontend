@@ -5,8 +5,8 @@ import {
   reviewAPI, 
   getCurrentRestaurant, 
   getRestaurantId,
-  clearAuth,
-  isAuthenticated 
+  clearRestaurantAuth,
+  isRestaurantAuthenticated 
 } from '../services/api';
 import styles from './RestaurantDashboard.module.css';
 
@@ -44,14 +44,15 @@ const RestaurantDashboard = () => {
   });
 
   useEffect(() => {
-    if (!isAuthenticated()) {
+    // FIXED: Use isRestaurantAuthenticated instead of isAuthenticated
+    if (!isRestaurantAuthenticated()) {
       navigate('/restaurant/login');
       return;
     }
 
     const currentRestaurant = getCurrentRestaurant();
     if (!currentRestaurant) {
-      clearAuth();
+      clearRestaurantAuth(); // FIXED: Use clearRestaurantAuth instead of clearAuth
       navigate('/restaurant/login');
       return;
     }
@@ -95,7 +96,7 @@ const RestaurantDashboard = () => {
       setError(err.response?.data?.error || err.message || 'Failed to fetch data');
       
       if (err.response?.status === 401) {
-        clearAuth();
+        clearRestaurantAuth(); // FIXED: Use clearRestaurantAuth instead of clearAuth
         navigate('/restaurant/login');
       }
     } finally {
@@ -104,7 +105,7 @@ const RestaurantDashboard = () => {
   };
 
   const handleLogout = () => {
-    clearAuth();
+    clearRestaurantAuth(); // FIXED: Use clearRestaurantAuth instead of clearAuth
     navigate('/restaurant/login');
   };
 
@@ -285,6 +286,24 @@ const RestaurantDashboard = () => {
 
       {/* Mobile Header */}
       <header className={styles.mobileHeader}>
+        <div className={styles.mobileHeaderContent}>
+          <button 
+            className={styles.mobileMenuToggle}
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          >
+            {isMobileMenuOpen ? '✕' : '☰'}
+          </button>
+          <div className={styles.mobileLogo}>
+            <span className={styles.mobileLogoIcon}>🌊</span>
+            <span className={styles.mobileLogoText}>Webpoint</span>
+          </div>
+          <div className={styles.mobileProfile}>
+            <span className={styles.profileInitial}>
+              {restaurant?.ownerName?.charAt(0) || 'O'}
+            </span>
+          </div>
+        </div>
+
         {/* Mobile Menu Dropdown */}
         {isMobileMenuOpen && (
           <div className={styles.mobileMenu}>
@@ -337,11 +356,6 @@ const RestaurantDashboard = () => {
           {/* Welcome Section */}
           <div className={styles.welcomeSection}>
             <div className={styles.welcomeHeader}>
-              <div className={styles.mobileProfile}>
-                <span className={styles.profileInitial}>
-                  {restaurant?.ownerName?.charAt(0) || 'O'}
-                </span>
-              </div>
               <div className={styles.welcomeHeaderLeft}>
                 <div>
                   <h1 className={styles.welcomeTitle}>

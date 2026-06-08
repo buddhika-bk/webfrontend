@@ -1,0 +1,120 @@
+/* ═══════════════════════════════════
+   Header user section — new additions
+   Matches the image: chip + logout
+═══════════════════════════════════ */
+
+/* Wrapper that holds chip + logout button side by side */
+.header-user-section {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Clickable pill that shows avatar + name + type badge */
+.header-user-chip {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 14px 6px 8px;
+  background: #f8fafc;
+  border: 1px solid #e8edf3;
+  border-radius: 40px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: left;
+}
+
+.header-user-chip:hover {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+  transform: translateY(-1px);
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.07);
+}
+
+/* Avatar circle — gradient matches existing brand */
+.header-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+  color: #ffffff;
+  font-size: 0.95rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
+}
+
+.header-user-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.header-user-name {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #1e293b;
+  line-height: 1.2;
+  white-space: nowrap;
+  max-width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Small coloured badge: Personal / Business / Admin */
+.header-user-type {
+  display: inline-block;
+  font-size: 0.68rem;
+  font-weight: 600;
+  padding: 1px 8px;
+  border-radius: 20px;
+  text-transform: capitalize;
+  line-height: 1.5;
+}
+
+/* Logout pill — light red, matches image exactly */
+.header-logout-btn {
+  padding: 7px 18px;
+  background: #fee2e2;
+  color: #dc2626;
+  border: none;
+  border-radius: 22px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.header-logout-btn:hover {
+  background: #fecaca;
+  transform: translateY(-1px);
+  box-shadow: 0 3px 10px rgba(220, 38, 38, 0.18);
+}
+
+.header-logout-btn.full-width {
+  width: 100%;
+  border-radius: 10px;
+  text-align: center;
+}
+
+/* Mobile user section inside the mobile nav */
+.mobile-user-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+}
+
+.mobile-chip {
+  width: 100%;
+  justify-content: flex-start;
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .header-user-section { display: none; }
+}

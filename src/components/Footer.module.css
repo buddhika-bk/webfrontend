@@ -1,0 +1,167 @@
+/* Footer.module.css */
+.mainFooter {
+  background: #0f172a;
+  color: white;
+  padding: 60px 0 20px;
+}
+
+.sectionContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  width: 100%;
+}
+
+.footerContent {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.footerMain {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 4rem;
+  margin-bottom: 2rem;
+}
+
+.footerBrand h3 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: #2563eb;
+}
+
+.logo h1 {
+  color: #2563eb;
+  font-size: 2rem;
+}
+
+.logo span {
+  color: #ff6b35;
+}
+
+.footerBrand p {
+  color: #94a3b8;
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+}
+
+.socialIcons {
+  display: flex;
+  gap: 1rem;
+}
+
+.socialIcons a {
+  display: inline-block;
+  padding: 0.5rem;
+  background: #1e293b;
+  border-radius: 5px;
+  transition: background 0.3s;
+  text-decoration: none;
+}
+
+.socialIcons a:hover {
+  background: #2563eb;
+}
+
+.socialIcons span {
+  font-size: 1.2rem;
+}
+
+.footerLinks {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+.footerColumn h4 {
+  color: white;
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+}
+
+.footerColumn ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footerColumn li {
+  margin-bottom: 0.5rem;
+}
+
+.footerColumn a {
+  color: #94a3b8;
+  text-decoration: none;
+  transition: color 0.3s;
+  cursor: pointer;
+}
+
+.footerColumn a:hover {
+  color: #2563eb;
+}
+
+.contactInfo li {
+  color: #94a3b8;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.footerBottom {
+  text-align: center;
+  padding-top: 2rem;
+  border-top: 1px solid #1e293b;
+  color: #94a3b8;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .footerMain {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .footerLinks {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .footerBrand {
+    text-align: center;
+  }
+
+  .socialIcons {
+    justify-content: center;
+  }
+
+  .footerColumn {
+    text-align: center;
+  }
+
+  .contactInfo li {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .mainFooter {
+    padding: 40px 0 15px;
+  }
+
+  .logo h1 {
+    font-size: 1.5rem;
+  }
+
+  .footerBrand p {
+    font-size: 0.9rem;
+  }
+
+  .footerColumn h4 {
+    font-size: 1rem;
+  }
+
+  .footerColumn a,
+  .contactInfo li {
+    font-size: 0.9rem;
+  }
+}

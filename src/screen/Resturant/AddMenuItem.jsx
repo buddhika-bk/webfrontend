@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { menuAPI, getCurrentRestaurant, isAuthenticated, clearAuth } from '../services/api';
+import { menuAPI, getCurrentRestaurant, isRestaurantAuthenticated, clearRestaurantAuth } from '../services/api';
 import styles from './AddMenuItem.module.css';
 
 const AddMenuItem = () => {
@@ -27,14 +27,15 @@ const AddMenuItem = () => {
   };
 
   useEffect(() => {
-    if (!isAuthenticated()) {
+    // Check if restaurant is authenticated - FIXED
+    if (!isRestaurantAuthenticated()) {
       navigate('/restaurant/login');
       return;
     }
 
     const currentRestaurant = getCurrentRestaurant();
     if (!currentRestaurant) {
-      clearAuth();
+      clearRestaurantAuth(); // FIXED: using clearRestaurantAuth instead of clearAuth
       navigate('/restaurant/login');
       return;
     }
@@ -125,7 +126,7 @@ const AddMenuItem = () => {
   };
 
   const handleLogout = () => {
-    clearAuth();
+    clearRestaurantAuth(); // FIXED: using clearRestaurantAuth instead of clearAuth
     navigate('/restaurant/login');
   };
 
@@ -208,7 +209,7 @@ const AddMenuItem = () => {
           <div className={styles.mobileMenuDropdown}>
             <button
               onClick={() => {
-                navigate('/restaurant/menu');
+                navigate('/restaurant/dashboard');
                 setIsMobileMenuOpen(false);
               }}
               className={styles.mobileMenuItem}
@@ -218,7 +219,7 @@ const AddMenuItem = () => {
             </button>
             <button
               onClick={() => {
-                navigate('/restaurant/reviews');
+                navigate('/restaurant/dashboard');
                 setIsMobileMenuOpen(false);
               }}
               className={styles.mobileMenuItem}

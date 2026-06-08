@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { restaurantAPI, setCurrentRestaurant } from '../services/api';
+import { restaurantAPI, setRestaurantAuth } from '../services/api';
 import './RestaurantPremium.css';
 
 const PremiumAllRestaurants = () => {
@@ -76,12 +76,26 @@ const PremiumAllRestaurants = () => {
   };
 
   const handleManageMenu = (restaurant) => {
-    setCurrentRestaurant(restaurant.restaurantId);
+    // FIXED: Using setRestaurantAuth instead of setCurrentRestaurant
+    // Store the restaurant data in localStorage for menu management
+    const restaurantData = {
+      restaurantId: restaurant.restaurantId || restaurant._id,
+      restaurantName: restaurant.restaurantName,
+      location: restaurant.location,
+      ownerName: restaurant.ownerName,
+      ownerContactNumber: restaurant.ownerContactNumber,
+      contactNumber: restaurant.contactNumber
+    };
+    
+    // You might need a token here - for now, we'll just store the restaurant data
+    localStorage.setItem('currentRestaurant', JSON.stringify(restaurantData));
+    localStorage.setItem('authToken', restaurant.restaurantId || restaurant._id);
+    
     navigate('/restaurant/menu');
   };
 
   const handleViewAsCustomer = (restaurantId) => {
-    navigate(`/restaurant/customer/landing/${restaurantId}`);
+    navigate(`/restaurant/customer/menu/${restaurantId}`);
   };
 
   const filteredRestaurants = restaurants.filter(restaurant => 
