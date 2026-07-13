@@ -82,7 +82,7 @@ const AdminLogin = () => {
         </form>
 
         <div className="admin-login-footer">
-          <p>© 2024 WebPoint POS Admin Panel</p>
+          <p>© 2026 WebPoint  Admin Panel</p>
         </div>
       </div>
     </div>

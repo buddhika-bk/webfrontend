@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './About.module.css';
-import logoImage from '../../assets/logo.jpeg';
+import logoImage from '../../assets/logo.png';
 import storyImage from '../../assets/story.jpeg';
 
 const About = () => {
@@ -85,11 +85,11 @@ const About = () => {
   // Timeline data
   const timeline = [
     { year: 2020, title: 'Company Founded', description: 'WebPoint established in Colombo, Sri Lanka' },
-    { year: 2021, title: 'First 100 Projects', description: 'Successfully delivered 100+ projects' },
+    { year: 2021, title: 'First 100 Projects', description: 'Successfully delivered 30+ projects' },
     { year: 2022, title: 'Team Expansion', description: 'Expanded to 15+ team members' },
     { year: 2023, title: 'International Clients', description: 'Started serving international clients' },
     { year: 2024, title: 'Award Recognition', description: 'Best Tech Startup Award 2024' },
-    { year: 2025, title: 'New Office', description: 'Opening soon new headquarters in Gampaha' }
+    { year: 2025, title: 'New Office', description: 'Opening new headquarters in Malabe' }
   ];
 
   return (
@@ -144,7 +144,7 @@ const About = () => {
             <div className={styles.statCard}>
               <div className={styles.statIcon}>💼</div>
               <div className={styles.statContent}>
-                <div className={styles.statNumber}>500+</div>
+                <div className={styles.statNumber}>100+</div>
                 <div className={styles.statLabel}>Projects Delivered</div>
               </div>
             </div>
@@ -158,7 +158,7 @@ const About = () => {
             <div className={styles.statCard}>
               <div className={styles.statIcon}>🎯</div>
               <div className={styles.statContent}>
-                <div className={styles.statNumber}>98%</div>
+                <div className={styles.statNumber}>99%</div>
                 <div className={styles.statLabel}>Client Satisfaction</div>
               </div>
             </div>
@@ -197,7 +197,7 @@ const About = () => {
             </div>
             <div className={styles.logoText}>
               <span className={styles.logoTitle}>WebPoint</span>
-              <span className={styles.logoSubtitle}>Sri Lanka</span>
+              <span className={styles.logoSubtitle}>Lanka (Pvt) Ltd.</span>
             </div>
           </div>
           <div className={styles.logoGlow}></div>
@@ -407,7 +407,7 @@ const About = () => {
                 <div className={styles.contactIcon}>📍</div>
                 <div className={styles.contactDetails}>
                   <h4>Location</h4>
-                  <p>2B/Suncity Apartment, Malabe, Colombo.</p>
+                  <p>Suncity Tower, Malabe, Colombo.</p>
                 </div>
               </div>
             </div>
@@ -440,7 +440,7 @@ const About = () => {
                 allowFullScreen=""
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
-                title="Google Maps - 2B/Suncity Apartment, Malabe, Colombo."
+                title="Google Maps - Suncity Tower, Malabe, Colombo."
               ></iframe>
             </div>
           </div>

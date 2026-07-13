@@ -34,7 +34,7 @@ const Login = () => {
         <div className="auth-panel-left">
           <div className="auth-brand">
             <div className="auth-brand-icon">⚡</div>
-            <h2>WebPoint POS</h2>
+            <h2>WebPoint Lanaka (PVT) Ltd</h2>
             <p>The smart way to manage your business online</p>
           </div>
           <div className="auth-features">

@@ -33,7 +33,7 @@ function Footer() {
                                     <li><a onClick={() => handleNavigation('/webservice')}>Website Development</a></li>
                                     <li><a onClick={() => handleNavigation('/service')}>Mobile Applications</a></li>
                                     <li><a onClick={() => handleNavigation('/systems')}>Software Solutions</a></li>
-                                    <li><a onClick={() => handleNavigation('/service')}>Digital Marketing</a></li>
+                                    <li><a onClick={() => handleNavigation('/digital-solution')}>Digital Marketing</a></li>
                                 </ul>
                             </div>
 
@@ -50,7 +50,7 @@ function Footer() {
                             <div className={styles.footerColumn}>
                                 <h4>Contact Info</h4>
                                 <ul className={styles.contactInfo}>
-                                    <li>📍 2B/Suncity Apartment, Malabe, Colombo.</li>
+                                    <li>📍 Suncity Tower, Malabe, Colombo.</li>
                                     <li>📞 +94 70 731 2180</li>
                                     <li>✉️ info@webpoint.lk</li>
                                 </ul>

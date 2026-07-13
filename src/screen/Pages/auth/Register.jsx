@@ -55,7 +55,7 @@ const Register = () => {
         <div className="auth-panel-left">
           <div className="auth-brand">
             <div className="auth-brand-icon">⚡</div>
-            <h2>WebPoint POS</h2>
+            <h2>WebPoint Lanaka (PVT) Ltd</h2>
             <p>Create your account and get started in minutes</p>
           </div>
           <div className="auth-features">
@@ -79,7 +79,7 @@ const Register = () => {
           <div className="auth-form-box register-form-box">
             <div className="auth-form-header">
               <h1>Create Account</h1>
-              <p>Join WebPoint POS today</p>
+              <p>Join WebPoint Lanaka (PVT) Ltd today</p>
             </div>
 
             {/* Type Selector */}
