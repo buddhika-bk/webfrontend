@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './HomeStyle.module.css';
+import POSDemoPDF from "../../assets/POSDemo.pdf";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -63,19 +64,19 @@ const Home = () => {
   const packages = [
     {
       name: "Basic",
-      price: "LKR 35,000",
+      price: "LKR 49,990",
       features: ["5 Page Website", "Responsive Design", "Contact Form", "1 Month Free Support"],
       recommended: false
     },
     {
       name: "Professional",
-      price: "LKR 50,000",
+      price: "LKR 79,990",
       features: ["10 Page Website", "CMS Integration", "SEO Basic", "3 Months Free Support", "Mobile Friendly"],
       recommended: true
     },
     {
       name: "Enterprise",
-      price: "LKR 80,000",
+      price: "LKR 119,990",
       features: ["25 Pages", "E-Commerce Functionality", "Advanced SEO", "5 Months Free Support", "Custom Design"],
       recommended: false
     }
@@ -161,7 +162,7 @@ const Home = () => {
             <div className={styles.heroButtons}>
               <button
                 className={`${styles.primaryButton} ${styles.animatedButton}`}
-                onClick={() => navigate('/AddShop')}
+                onClick={() => navigate('/login')}
               >
                 <span className={styles.buttonText}>Get Started - It's Free</span>
                 <span className={styles.buttonIcon}>🚀</span>
@@ -315,7 +316,7 @@ const Home = () => {
               <div className={styles.ctaButtons}>
                 <button
                   className={`${styles.primaryButton} ${styles.large}`}
-                  onClick={() => navigate('/add-shop')}
+                  onClick={() => navigate('/login')}
                 >
                   <span>Start Your Project</span>
                   <span className={styles.buttonSparkle}>✨</span>
@@ -338,7 +339,7 @@ const Home = () => {
           <div className={`${styles.bgShape} ${styles.shape3}`}></div>
         </div>
       </section>
-      
+
       {/* POS System Section */}
       <section className={styles.posSystemSection} id="pos-system">
         <div className={styles.sectionBackground}>
@@ -413,39 +414,54 @@ const Home = () => {
               </div>
 
               <div className={styles.posActions}>
-                <button className={styles.primaryButton} onClick={() => navigate('/systems')}>
+                {/* Learn More Button */}
+                <button
+                  className={styles.primaryButton}
+                  onClick={() => navigate("/systems")}
+                >
                   <span>Learn More About POS</span>
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M5 12H19M19 12L12 5M19 12L12 19"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
                   </svg>
                 </button>
-                <a
-                  href="https://youtu.be/w-sDHXBIveg"
-                  target="_blank"
-                  rel="noopener noreferrer"
+
+                {/* View Live Demo Button */}
+                <button
+                  className={styles.secondaryButton}
+                  onClick={() => window.open(POSDemoPDF, "_blank")}
                 >
-                  <button className={styles.secondaryButton}>
-                    <span>View Live Demo</span>
-                    <svg
-                      width="16"
-                      height="16"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M10 12C10 10.8954 10.8954 10 12 10C13.1046 10 14 10.8954 14 12C14 13.1046 13.1046 14 12 14C10.8954 14 10 13.1046 10 12Z"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                      />
-                      <path
-                        d="M21 12C19.1114 14.991 15.7183 18 12 18C8.2817 18 4.88856 14.991 3 12C5.36527 9.04153 8.7858 6 12 6C15.2142 6 18.6347 9.04153 21 12Z"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                      />
-                    </svg>
-                  </button>
-                </a>
+                  <span>View Live Demo</span>
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M10 12C10 10.8954 10.8954 10 12 10C13.1046 10 14 10.8954 14 12C14 13.1046 13.1046 14 12 14C10.8954 14 10 13.1046 10 12Z"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                    />
+                    <path
+                      d="M21 12C19.1114 14.991 15.7183 18 12 18C8.2817 18 4.88856 14.991 3 12C5.36527 9.04153 8.7858 6 12 6C15.2142 6 18.6347 9.04153 21 12Z"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                    />
+                  </svg>
+                </button>
               </div>
             </div>
 
@@ -677,7 +693,10 @@ const Home = () => {
                   ))}
                 </ul>
 
-                <button className={`${styles.packageButton} ${pkg.recommended ? styles.recommendedButton : ''}`}>
+                <button
+                  className={`${styles.packageButton} ${pkg.recommended ? styles.recommendedButton : ''}`}
+                  onClick={() => navigate('/login')}
+                >
                   <span className={styles.buttonText}>Get Started</span>
                   <span className={styles.buttonArrow}>→</span>
                 </button>
@@ -747,7 +766,7 @@ const Home = () => {
             <div className={styles.ctaButtons}>
               <button
                 className={styles.ctaPrimaryButton}
-                onClick={() => navigate('/AddShop')}
+                onClick={() => navigate('/login')}
               >
                 <span className={styles.buttonContent}>
                   <span className={styles.buttonText}>Start Your Project Today</span>
