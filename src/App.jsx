@@ -48,6 +48,12 @@ import AdminUserDetails from './screen/Pages/admin/AdminUserDetails';
 import { useAuth } from './context/AuthContext';
 import UserHeader from './components/Layout/UserHeader';
 
+// QR Profile Imports - CORRECT PATHS
+import AddProfile from './screen/Pages/makeprofile/AddProfile';
+import AllProfile from './screen/Pages/makeprofile/AllProfile';
+import ViewProfile from './screen/Pages/makeprofile/ViewProfile';
+import EditProfile from './screen/Pages/makeprofile/EditProfile';
+
 import './App.css';
 
 // ─── Protected Route ───────────────────────────────────────────────────────────
@@ -278,6 +284,12 @@ function App() {
           <Route path="/premium/restaurants"                        element={<PremiumAllRestaurants />} />
           <Route path="/premium/menus"                              element={<PremiumAllMenus />} />
           <Route path="/restaurant/dashboard"                       element={<RestaurantDashboard />} />
+
+          {/* ── QR Profile Routes ── */}
+          <Route path="/add-profile" element={<AddProfile />} />
+          <Route path="/all-profiles" element={<AllProfile />} />
+          <Route path="/profile/:id" element={<ViewProfile />} />
+          <Route path="/edit-profile/:id" element={<EditProfile />} />
 
           {/* ── 404 ── */}
           <Route path="*" element={<div>404 Not Found</div>} />
