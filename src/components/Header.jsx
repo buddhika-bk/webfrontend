@@ -14,7 +14,7 @@ function Header() {
 
   const handleNavigation = (path) => { navigate(path); closeMobileNav(); };
   const handleLogin      = () => { navigate('/login');    closeMobileNav(); };
-  const handleRegister   = () => { navigate('/register'); closeMobileNav(); };
+  const handleRegister   = () => { navigate('/contact'); closeMobileNav(); };
 
   const handleLogout = () => {
     logout();
@@ -79,8 +79,8 @@ function Header() {
         <div className="header-buttons">
           {!isAuthenticated ? (
             <>
-              <button className="login-btn" onClick={handleLogin}>Login</button>
-              <button className="primary-button" onClick={handleRegister}>Get Started</button>
+              {/* <button className="login-btn" onClick={handleLogin}>Login</button> */}
+              <button className="primary-button" onClick={handleRegister}>Book a Demo Now! </button>
             </>
           ) : (
             /* ── Authenticated: user chip + logout (matches image) ── */
@@ -119,8 +119,8 @@ function Header() {
           <li className="mobile-nav-buttons">
             {!isAuthenticated ? (
               <>
-                <button className="login-btn" onClick={handleLogin}>Login</button>
-                <button className="primary-button" onClick={handleRegister}>Get Started</button>
+                {/* <button className="login-btn" onClick={handleLogin}>Login</button> */}
+                <button className="primary-button" onClick={handleRegister}>Book a Demo Now!</button>
               </>
             ) : (
               <div className="mobile-user-section">

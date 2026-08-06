@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../../context/AuthContext';
-import '../auth/Login.css'; // shared auth CSS
-import './Register.css';
+import styles from './Auth.module.css';
 
 const Register = () => {
   const navigate = useNavigate();
   const { register, error } = useAuth();
   const [userType, setUserType] = useState('personal');
   const [loading, setLoading] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -16,6 +16,14 @@ const Register = () => {
     personalDetails: { firstName: '', lastName: '', phoneNumber: '' },
     businessDetails: { companyName: '', contactPerson: '', businessPhone: '', industry: '' }
   });
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const handleChange = (e, section = null) => {
     const { name, value } = e.target;
@@ -49,62 +57,71 @@ const Register = () => {
   };
 
   return (
-    <div className="auth-page">
-      <div className="auth-split">
-        {/* Left Panel */}
-        <div className="auth-panel-left">
-          <div className="auth-brand">
-            <div className="auth-brand-icon">⚡</div>
+    <div className={styles.authPage}>
+      
+      <div className={styles.authSplit}>
+        {/* Left Panel - Branding */}
+        <div className={styles.authPanelLeft}>
+          <div className={styles.authBrand}>
+            <div className={styles.authBrandIcon}>◆</div>
             <h2>WebPoint Lanka (PVT) Ltd</h2>
             <p>Create your account and get started in minutes</p>
           </div>
-          <div className="auth-features">
-            <div className="auth-feature-item">
-              <span className="feature-check">✓</span>
+          <div className={styles.authFeatures}>
+            <div className={styles.authFeatureItem}>
+              <span className={styles.featureCheck}>✓</span>
               <span>Personal or Business accounts</span>
             </div>
-            <div className="auth-feature-item">
-              <span className="feature-check">✓</span>
+            <div className={styles.authFeatureItem}>
+              <span className={styles.featureCheck}>✓</span>
               <span>Full dashboard access from day one</span>
             </div>
-            <div className="auth-feature-item">
-              <span className="feature-check">✓</span>
+            <div className={styles.authFeatureItem}>
+              <span className={styles.featureCheck}>✓</span>
               <span>Free to get started</span>
             </div>
           </div>
+          <div className={styles.authTrustBadges}>
+            <span>⚡ 24/7 Support</span>
+            <span>🔒 Secure Login</span>
+            <span>⭐ 100% Satisfaction</span>
+          </div>
         </div>
 
-        {/* Right Panel */}
-        <div className="auth-panel-right register-panel-right">
-          <div className="auth-form-box register-form-box">
-            <div className="auth-form-header">
-              <h1>Create Account</h1>
-              <p>Join WebPoint Lanka (PVT) Ltd today</p>
+        {/* Right Panel - Form */}
+        <div className={styles.authPanelRight}>
+          <div className={styles.authFormBox}>
+            <div className={styles.authFormHeader}>
+              <div className={styles.authBadge}>
+                <span>✦ Create Account</span>
+              </div>
+              <h1>Join WebPoint Lanka</h1>
+              <p>Start your digital journey today</p>
             </div>
 
             {/* Type Selector */}
-            <div className="reg-type-selector">
+            <div className={styles.regTypeSelector}>
               <button
                 type="button"
-                className={`reg-type-btn ${userType === 'personal' ? 'active' : ''}`}
+                className={`${styles.regTypeBtn} ${userType === 'personal' ? styles.active : ''}`}
                 onClick={() => setUserType('personal')}
               >
                 <span>👤</span> Personal
               </button>
               <button
                 type="button"
-                className={`reg-type-btn ${userType === 'business' ? 'active' : ''}`}
+                className={`${styles.regTypeBtn} ${userType === 'business' ? styles.active : ''}`}
                 onClick={() => setUserType('business')}
               >
                 <span>🏢</span> Business
               </button>
             </div>
 
-            <form onSubmit={handleSubmit} className="auth-form">
-              <div className="auth-field">
+            <form onSubmit={handleSubmit} className={styles.authForm}>
+              <div className={styles.authField}>
                 <label>Email Address</label>
-                <div className="auth-input-wrap">
-                  <span className="auth-input-icon">✉</span>
+                <div className={styles.authInputWrap}>
+                  <span className={styles.authInputIcon}>✉</span>
                   <input type="email" name="email" value={formData.email}
                     onChange={handleChange} required placeholder="you@example.com" />
                 </div>
@@ -112,21 +129,21 @@ const Register = () => {
 
               {userType === 'personal' && (
                 <>
-                  <div className="reg-row">
-                    <div className="auth-field">
+                  <div className={styles.regRow}>
+                    <div className={styles.authField}>
                       <label>First Name</label>
-                      <div className="auth-input-wrap">
-                        <span className="auth-input-icon">👤</span>
+                      <div className={styles.authInputWrap}>
+                        <span className={styles.authInputIcon}>👤</span>
                         <input type="text" name="firstName"
                           value={formData.personalDetails.firstName}
                           onChange={(e) => handleChange(e, 'personalDetails')}
                           required placeholder="John" />
                       </div>
                     </div>
-                    <div className="auth-field">
+                    <div className={styles.authField}>
                       <label>Last Name</label>
-                      <div className="auth-input-wrap">
-                        <span className="auth-input-icon">👤</span>
+                      <div className={styles.authInputWrap}>
+                        <span className={styles.authInputIcon}>👤</span>
                         <input type="text" name="lastName"
                           value={formData.personalDetails.lastName}
                           onChange={(e) => handleChange(e, 'personalDetails')}
@@ -134,10 +151,10 @@ const Register = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="auth-field">
+                  <div className={styles.authField}>
                     <label>Phone Number</label>
-                    <div className="auth-input-wrap">
-                      <span className="auth-input-icon">📞</span>
+                    <div className={styles.authInputWrap}>
+                      <span className={styles.authInputIcon}>📞</span>
                       <input type="tel" name="phoneNumber"
                         value={formData.personalDetails.phoneNumber}
                         onChange={(e) => handleChange(e, 'personalDetails')}
@@ -149,45 +166,45 @@ const Register = () => {
 
               {userType === 'business' && (
                 <>
-                  <div className="auth-field">
+                  <div className={styles.authField}>
                     <label>Company Name</label>
-                    <div className="auth-input-wrap">
-                      <span className="auth-input-icon">🏢</span>
+                    <div className={styles.authInputWrap}>
+                      <span className={styles.authInputIcon}>🏢</span>
                       <input type="text" name="companyName"
                         value={formData.businessDetails.companyName}
                         onChange={(e) => handleChange(e, 'businessDetails')}
                         required placeholder="Your Company Ltd." />
                     </div>
                   </div>
-                  <div className="auth-field">
+                  <div className={styles.authField}>
                     <label>Contact Person</label>
-                    <div className="auth-input-wrap">
-                      <span className="auth-input-icon">👤</span>
+                    <div className={styles.authInputWrap}>
+                      <span className={styles.authInputIcon}>👤</span>
                       <input type="text" name="contactPerson"
                         value={formData.businessDetails.contactPerson}
                         onChange={(e) => handleChange(e, 'businessDetails')}
                         required placeholder="Full Name" />
                     </div>
                   </div>
-                  <div className="reg-row">
-                    <div className="auth-field">
+                  <div className={styles.regRow}>
+                    <div className={styles.authField}>
                       <label>Business Phone</label>
-                      <div className="auth-input-wrap">
-                        <span className="auth-input-icon">📞</span>
+                      <div className={styles.authInputWrap}>
+                        <span className={styles.authInputIcon}>📞</span>
                         <input type="tel" name="businessPhone"
                           value={formData.businessDetails.businessPhone}
                           onChange={(e) => handleChange(e, 'businessDetails')}
                           placeholder="+94 XX XXX XXXX" />
                       </div>
                     </div>
-                    <div className="auth-field">
+                    <div className={styles.authField}>
                       <label>Industry</label>
-                      <div className="auth-input-wrap">
-                        <span className="auth-input-icon">🏭</span>
+                      <div className={styles.authInputWrap}>
+                        <span className={styles.authInputIcon}>🏭</span>
                         <select name="industry"
                           value={formData.businessDetails.industry}
                           onChange={(e) => handleChange(e, 'businessDetails')}
-                          className="auth-select">
+                          className={styles.authSelect}>
                           <option value="">Select Industry</option>
                           <option value="technology">Technology</option>
                           <option value="retail">Retail</option>
@@ -202,32 +219,32 @@ const Register = () => {
                 </>
               )}
 
-              <div className="reg-row">
-                <div className="auth-field">
+              <div className={styles.regRow}>
+                <div className={styles.authField}>
                   <label>Password</label>
-                  <div className="auth-input-wrap">
-                    <span className="auth-input-icon">🔒</span>
+                  <div className={styles.authInputWrap}>
+                    <span className={styles.authInputIcon}>🔒</span>
                     <input type="password" name="password" value={formData.password}
                       onChange={handleChange} required placeholder="Min 6 characters" />
                   </div>
                 </div>
-                <div className="auth-field">
+                <div className={styles.authField}>
                   <label>Confirm Password</label>
-                  <div className="auth-input-wrap">
-                    <span className="auth-input-icon">🔒</span>
+                  <div className={styles.authInputWrap}>
+                    <span className={styles.authInputIcon}>🔒</span>
                     <input type="password" name="confirmPassword" value={formData.confirmPassword}
                       onChange={handleChange} required placeholder="Repeat password" />
                   </div>
                 </div>
               </div>
 
-              {error && <div className="auth-error">{error}</div>}
+              {error && <div className={styles.authError}>{error}</div>}
 
-              <button type="submit" className="auth-submit-btn" disabled={loading}>
-                {loading ? <span className="auth-spinner"></span> : 'Create Account'}
+              <button type="submit" className={styles.authSubmitBtn} disabled={loading}>
+                {loading ? <span className={styles.authSpinner}></span> : 'Create Account'}
               </button>
 
-              <p className="auth-switch">
+              <p className={styles.authSwitch}>
                 Already have an account? <Link to="/login">Sign in</Link>
               </p>
             </form>

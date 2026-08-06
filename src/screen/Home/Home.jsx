@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './HomeStyle.module.css';
 import POSDemoPDF from "../../assets/POSDemo.pdf";
@@ -6,8 +6,32 @@ import POSDemoPDF from "../../assets/POSDemo.pdf";
 const Home = () => {
   const navigate = useNavigate();
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [usdRate, setUsdRate] = useState(336);
+  const [isRateLive, setIsRateLive] = useState(true);
+  
+  // --- NEW STATE FOR SOCIAL SHARE BAR ---
+  const [isShareBarOpen, setIsShareBarOpen] = useState(true);
 
-  // Mobile navigation functions
+  // Simulate live USD rate update (in production, fetch from API)
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50);
+    };
+    window.addEventListener('scroll', handleScroll);
+
+    // Simulate live rate updates every second
+    const rateInterval = setInterval(() => {
+      const change = (Math.random() - 0.5) * 2;
+      setUsdRate(prev => Math.max(300, Math.min(370, prev + change)));
+    }, 1000);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      clearInterval(rateInterval);
+    };
+  }, []);
+
   const toggleMobileNav = () => {
     setIsMobileNavOpen(!isMobileNavOpen);
   };
@@ -16,7 +40,6 @@ const Home = () => {
     setIsMobileNavOpen(false);
   };
 
-  // Smooth scroll function for anchor links
   const smoothScroll = (targetId) => {
     const targetElement = document.querySelector(targetId);
     if (targetElement) {
@@ -28,684 +51,427 @@ const Home = () => {
     }
   };
 
-  // Handle anchor link clicks
   const handleAnchorClick = (e, targetId) => {
     e.preventDefault();
     smoothScroll(targetId);
   };
 
-  const features = [
+  // Updated services with navigation paths
+  const services = [
     {
-      title: "Web Design",
-      description: "Professional website design services tailored for your business needs.",
+      title: "Web Development",
+      description: "Professional website design and development tailored for your business needs. 48-hour delivery available.",
       icon: "💻",
-      features: ["Responsive Design", "SEO Optimized", "Custom UI/UX", "CMS Integration"]
+      features: ["Responsive Design", "SEO Optimized", "Custom UI/UX", "CMS Integration", "48-Hour Delivery"],
+      path: "/webservice"
     },
     {
-      title: "Mobile Applications",
-      description: "Custom mobile apps for iOS and Android to reach your customers anywhere.",
-      icon: "📱",
-      features: ["iOS & Android", "Native Development", "App Store Deployment", "Maintenance"]
-    },
-    {
-      title: "Software Development",
-      description: "Custom software solutions to streamline your business operations.",
-      icon: "⚙️",
-      features: ["Custom Solutions", "System Integration", "API Development", "Maintenance"]
-    },
-    {
-      title: "E-Commerce Solutions",
-      description: "Complete online store setup with payment integration and inventory management.",
+      title: "POS Systems",
+      description: "Complete Point of Sale solutions for supermarkets, restaurants, bookshops, pharmacies, and hardware stores.",
       icon: "🛒",
-      features: ["Payment Gateway", "Inventory Management", "Order Tracking", "Secure Checkout"]
+      features: ["Offline & Cloud Based", "Inventory Management", "Sales Tracking", "Customer Management", "Analytics & Reporting"],
+      path: "/pos-system"
+    },
+    {
+      title: "Concept Flyers & 3D Design",
+      description: "Creative design services including film posters, concert posters, and 3D designs for your marketing needs.",
+      icon: "🎨",
+      features: ["Film Posters", "Concert Posters", "3D Design", "Brand Identity", "Creative Concepts"],
+      path: "/digital-solution"
+    },
+    {
+      title: "Custom Software Development",
+      description: "Tailored software solutions to streamline your business operations and solve complex challenges.",
+      icon: "⚙️",
+      features: ["Custom Solutions", "System Integration", "API Development", "Cloud Solutions", "Maintenance Support"],
+      path: "/systems"
     }
   ];
 
+  // POS categories
+  const posCategories = [
+    {
+      name: "Supermarkets",
+      icon: "🏪",
+      description: "Complete POS with inventory, barcode scanning, and multi-branch management"
+    },
+    {
+      name: "Restaurants",
+      icon: "🍽️",
+      description: "Table management, order tracking, kitchen display, and billing"
+    },
+    {
+      name: "Bookshops",
+      icon: "📚",
+      description: "ISBN scanning, stock management, and customer loyalty programs"
+    },
+    {
+      name: "Pharmacies",
+      icon: "💊",
+      description: "Expiry tracking, prescription management, and compliance"
+    },
+    {
+      name: "Hardware Stores",
+      icon: "🔧",
+      description: "Heavy inventory, supplier management, and bulk pricing"
+    }
+  ];
+
+  // POS types
+  const posTypes = [
+    {
+      title: "Offline POS",
+      description: "Works without internet connection. Perfect for remote locations or businesses with unreliable internet.",
+      icon: "📶",
+      features: ["Works Offline", "Local Data Storage", "Syncs When Online", "Reliable Performance"]
+    },
+    {
+      title: "Cloud POS",
+      description: "Access your business anywhere, anytime. Real-time data sync across all locations.",
+      icon: "☁️",
+      features: ["Real-time Sync", "Access Anywhere", "Automatic Backups", "Multi-Branch Management"]
+    }
+  ];
+
+  // Updated pricing packages
   const packages = [
     {
-      name: "Basic",
-      price: "LKR 49,990",
-      features: ["5 Page Website", "Responsive Design", "Contact Form", "1 Month Free Support"],
-      recommended: false
+      name: "Starter",
+      price: "$150",
+      priceLKR: "$150 × " + Math.round(usdRate) + " = LKR " + (150 * Math.round(usdRate)).toLocaleString(),
+      features: ["5 Pages Website", "Responsive Design", "Contact Form", "Basic SEO", "1 Month Support"],
+      recommended: false,
+      description: "Perfect for small businesses"
     },
     {
       name: "Professional",
-      price: "LKR 79,990",
-      features: ["10 Page Website", "CMS Integration", "SEO Basic", "3 Months Free Support", "Mobile Friendly"],
-      recommended: true
+      price: "$250",
+      priceLKR: "$250 × " + Math.round(usdRate) + " = LKR " + (250 * Math.round(usdRate)).toLocaleString(),
+      features: ["10 Pages Website", "CMS Integration", "SEO Basic", "3 Months Support", "Mobile Friendly"],
+      recommended: true,
+      description: "Ideal for growing businesses"
     },
     {
       name: "Enterprise",
-      price: "LKR 119,990",
-      features: ["25 Pages", "E-Commerce Functionality", "Advanced SEO", "5 Months Free Support", "Custom Design"],
-      recommended: false
+      price: "$350",
+      priceLKR: "$350 × " + Math.round(usdRate) + " = LKR " + (350 * Math.round(usdRate)).toLocaleString(),
+      features: ["20 Pages Website", "Advanced SEO", "E-Commerce Ready", "5 Months Support", "Custom Design"],
+      recommended: false,
+      description: "For large organizations"
     }
   ];
 
   const whyChooseUsFeatures = [
     {
-      title: "Expertise and Experience",
-      description: "With years of experience in CMS website design, our team brings expertise and proficiency to every project. We have a proven track record of delivering high-quality websites that exceed client expectations.",
+      title: "24/7 Service",
+      description: "Round-the-clock support to ensure your business never stops. We're always here when you need us.",
+      icon: "🕐"
+    },
+    {
+      title: "48-Hour Delivery",
+      description: "Fast turnaround on website development. Get your professional website up and running in just 48 hours.",
+      icon: "⚡"
+    },
+    {
+      title: "Expertise & Experience",
+      description: "Years of experience delivering high-quality digital solutions that exceed client expectations.",
       icon: "🎯"
     },
     {
       title: "Creative Design",
-      description: "We believe in the power of creativity to make your website stand out. Our talented designers craft visually stunning and engaging designs that capture attention and leave a lasting impression on visitors.",
+      description: "Talented designers craft visually stunning designs that capture attention and leave a lasting impression.",
       icon: "🎨"
     },
     {
-      title: "Seamless User Experience",
-      description: "User experience is at the forefront of our design philosophy. We focus on creating intuitive navigation, clear calls-to-action, and fast-loading pages to ensure a seamless and enjoyable browsing experience.",
-      icon: "⚡"
-    },
-    {
-      title: "Responsive Support",
-      description: "Our dedicated support team is here to assist you every step of the way. Whether you have questions, need technical assistance, or want to make updates to your website, we're always available to provide prompt support.",
-      icon: "🔧"
-    },
-    {
-      title: "Proven Results",
-      description: "We have a history of delivering results for our clients. Our CMS websites are designed to drive traffic, generate leads, and increase conversions, helping you achieve your business objectives.",
-      icon: "📈"
+      title: "Customer Satisfaction",
+      description: "We prioritize your satisfaction with every project. Your success is our success.",
+      icon: "⭐"
     },
     {
       title: "Affordable Pricing",
-      description: "We understand the importance of affordability for businesses of all sizes. That's why we offer competitive pricing options without compromising on quality. You get excellent value for your investment.",
+      description: "Competitive pricing without compromising on quality. Great value for your investment.",
       icon: "💲"
     }
   ];
 
   return (
     <div className={styles.homeContainer}>
-      {/* Hero Section */}
-      <section className={styles.heroSection} id="home">
-        <div className={styles.heroBackground}>
-          <div className={styles.heroParticles} id="particles-js"></div>
-          <div className={styles.heroGradient}></div>
-        </div>
+      
+      {/* --- NEW SOCIAL SHARE BAR --- */}
+      {/* <div className={styles.socialWrapper}>
+        {isShareBarOpen ? (
+          <div className={styles.socialShareBar}>
+            <button 
+              className={styles.socialCloseBtn} 
+              onClick={() => setIsShareBarOpen(false)}
+              aria-label="Close social share"
+            >
+              ✕
+            </button>
+            <div className={styles.socialIconsContainer}>
+              <a href="https://facebook.com/webpointLanka" target="_blank" rel="noopener noreferrer" className={`${styles.socialIcon} ${styles.fb}`} title="Share on Facebook">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+              </a>
+              <a href="https://www.instagram.com/webpoint_lanka_pvt_ltd?igsh=MW1mNmR1Y3hma2c3eQ==" target="_blank" rel="noopener noreferrer" className={`${styles.socialIcon} ${styles.ig}`} title="Share on Instagram">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+              </a>
+              <a href="https://www.linkedin.com/company/webpoint-sl/" target="_blank" rel="noopener noreferrer" className={`${styles.socialIcon} ${styles.li}`} title="Share on LinkedIn">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5c0 1.381-1.11 2.5-2.48 2.5s-2.48-1.119-2.48-2.5c0-1.38 1.11-2.5 2.48-2.5s2.48 1.12 2.48 2.5zm.02 4.5h-5v16h5v-16zm7.982 0h-4.968v16h4.969v-8.399c0-4.67 6.029-5.052 6.029 0v8.399h4.988v-10.131c0-7.88-8.922-7.593-11.018-3.714v-2.155z"/></svg>
+              </a>
+              <a href="https://www.tiktok.com/@webpoint_lanka" target="_blank" rel="noopener noreferrer" className={`${styles.socialIcon} ${styles.tt}`} title="Share on TikTok">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93v6.16c0 2.57-1.68 5.16-4.47 5.61-2.93.48-5.84-1.44-6.45-4.26-.74-3.45 1.84-6.78 5.25-7.09.72-.06 1.44-.06 2.16-.06v3.99c-.43-.03-.86-.05-1.29-.02-1.44.09-2.73 1.24-2.79 2.69-.07 1.57 1.19 2.95 2.75 3.07 1.58.12 3.02-1.07 3.26-2.65.04-.23.04-.47.04-.71v-12.5h4.01c-.01-.94-.02-1.88-.01-2.82z"/></svg>
+              </a>
+              <a href="https://wa.me/+94706646255" target="_blank" rel="noopener noreferrer" className={`${styles.socialIcon} ${styles.wa}`} title="Share on WhatsApp">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+              </a>
+            </div>
+          </div>
+        ) : (
+          <button 
+            className={styles.socialOpenBtn} 
+            onClick={() => setIsShareBarOpen(true)}
+            aria-label="Open social share"
+          >
+            Share
+          </button>
+        )}
+      </div> */}
+      {/* --- END NEW SOCIAL SHARE BAR --- */}
 
+      {/* Hero Section - Updated with larger card */}
+      <section className={styles.heroSection} id="home">
+        <div className={styles.heroBackground}></div>
+        
         <div className={styles.heroContent}>
           <div className={styles.heroText}>
             <div className={styles.heroBadge}>
               <span>🚀 Trusted by 100+ Sri Lankan Businesses</span>
             </div>
-
+            
             <h1 className={styles.heroTitle}>
-              <span className={styles.titleLine}>Elevate Your</span>
-              <span className={`${styles.titleLine} ${styles.highlightContainer}`}>
-                <span className={styles.highlightText}>Online Presence</span>
-                <span className={styles.highlightUnderline}></span>
-              </span>
-              <span className={styles.titleLine}>in Sri Lanka</span>
+              <span>Transform Your</span>
+              <span className={styles.highlightText}>Digital Presence</span>
+              <span>in Sri Lanka</span>
             </h1>
-
+            
             <p className={styles.heroDescription}>
-              We deliver cutting-edge web design, mobile applications, and custom software solutions
-              that drive growth for Sri Lankan businesses. Transform your digital footprint today.
+              We deliver professional web development, POS systems, creative design, and custom software solutions 
+              tailored for Sri Lankan businesses. Fast delivery, 24/7 support, and guaranteed satisfaction.
             </p>
-
+            
             <div className={styles.heroStats}>
               <div className={styles.statItem}>
-                <div className={styles.statNumber} data-count="250">20+</div>
-                <div className={styles.statLabel}>Projects Delivered</div>
+                <span className={styles.statNumber}>48hr</span>
+                <span className={styles.statLabel}>Website Delivery</span>
               </div>
               <div className={styles.statItem}>
-                <div className={styles.statNumber} data-count="98">100%</div>
-                <div className={styles.statLabel}>Client Satisfaction</div>
+                <span className={styles.statNumber}>24/7</span>
+                <span className={styles.statLabel}>Support Available</span>
               </div>
               <div className={styles.statItem}>
-                <div className={styles.statNumber} data-count="5">6+</div>
-                <div className={styles.statLabel}>Years Experience</div>
+                <span className={styles.statNumber}>99.9%</span>
+                <span className={styles.statLabel}>Satisfaction</span>
               </div>
             </div>
-
+            
             <div className={styles.heroButtons}>
-              <button
-                className={`${styles.primaryButton} ${styles.animatedButton}`}
-                onClick={() => navigate('/login')}
-              >
-                <span className={styles.buttonText}>Get Started - It's Free</span>
-                <span className={styles.buttonIcon}>🚀</span>
+              <button className={styles.primaryButton} onClick={() => navigate('/login')}>
+                Get Started - It's Free
+                <span className={styles.buttonArrow}>→</span>
               </button>
-              <button className={`${styles.secondaryButton} ${styles.videoButton}`}>
+              <button className={styles.secondaryButton} onClick={() => smoothScroll('#services')}>
                 <span className={styles.playIcon}>▶</span>
-                Watch Demo Video
+                Explore Services
               </button>
-            </div>
-
-            <div className={styles.heroClients}>
-              <p>Trusted by leading Sri Lankan brands:</p>
-              <div className={styles.clientLogos} style={{ fontSize: '34px', color: '#d5d0d0ff', fontWeight: '600', fontFamily: 'Poppins, sans-serif' }}>
-              </div>
             </div>
           </div>
-
+          
+          {/* Hero Visual - Enlarged Card */}
           <div className={styles.heroVisual}>
-            <div className={styles.floatingPlatform}>
-              <div className={styles.platformBase}>
-                <div className={styles.browserWindow}>
-                  <div className={styles.browserHeader}>
-                    <div className={styles.browserDots}>
-                      <span></span>
-                      <span></span>
-                      <span></span>
+            <div className={styles.heroCard}>
+              <div className={styles.heroCardHeader}>
+                <div className={styles.cardDots}>
+                  <span></span><span></span><span></span>
+                </div>
+                <span className={styles.cardTitle}>WebPoint Solutions</span>
+              </div>
+              <div className={styles.heroCardContent}>
+                <div className={styles.cardMetrics}>
+                  <div className={styles.cardMetric}>
+                    <span className={styles.metricIcon}>💻</span>
+                    <div>
+                      <div className={styles.metricValue}>Web Dev</div>
+                      <div className={styles.metricLabel}>48hr Delivery</div>
                     </div>
                   </div>
-                  <div className={styles.browserContent}>
-                    <div className={styles.websitePreview}></div>
+                  <div className={styles.cardMetric}>
+                    <span className={styles.metricIcon}>🛒</span>
+                    <div>
+                      <div className={styles.metricValue}>POS Systems</div>
+                      <div className={styles.metricLabel}>Offline & Cloud</div>
+                    </div>
+                  </div>
+                  <div className={styles.cardMetric}>
+                    <span className={styles.metricIcon}>🎨</span>
+                    <div>
+                      <div className={styles.metricValue}>3D Design</div>
+                      <div className={styles.metricLabel}>Creative Concepts</div>
+                    </div>
+                  </div>
+                  <div className={styles.cardMetric}>
+                    <span className={styles.metricIcon}>⚙️</span>
+                    <div>
+                      <div className={styles.metricValue}>Custom Software</div>
+                      <div className={styles.metricLabel}>Tailored Solutions</div>
+                    </div>
                   </div>
                 </div>
-
-                <div className={styles.mobileDevice}>
-                  <div className={styles.mobileScreen}>
-                    <div className={styles.appPreview}></div>
-                  </div>
-                </div>
-              </div>
-
-              <div className={`${styles.floatingElement} ${styles.element1}`}>
-                <span className={styles.spanicon}>💻</span>
-                <div className={styles.tooltip}>Web Design</div>
-              </div>
-              <div className={`${styles.floatingElement} ${styles.element2}`}>
-                <span className={styles.spanicon}>📱</span>
-                <div className={styles.tooltip}>Mobile Apps</div>
-              </div>
-              <div className={`${styles.floatingElement} ${styles.element3}`}>
-                <span className={styles.spanicon}>🛒</span>
-                <div className={styles.tooltip}>E-Commerce</div>
-              </div>
-              <div className={`${styles.floatingElement} ${styles.element4}`}>
-                <span className={styles.spanicon}>📊</span>
-                <div className={styles.tooltip}>POS Systems</div>
               </div>
             </div>
           </div>
-        </div>
-
-        <div className={styles.scrollIndicator}>
-          <div className={styles.scrollArrow}></div>
         </div>
       </section>
 
-      {/* Modern Services Section */}
+       {/* Services Section */}
       <section className={styles.servicesSection} id="services">
         <div className={styles.sectionContainer}>
           <div className={styles.sectionHeader}>
             <div className={styles.sectionBadge}>
-              <span>✨ Our Expertise</span>
+              <span>✦ Our Expertise</span>
             </div>
-            <h2 className={styles.sectionTitle}>Transform Your Digital Presence</h2>
+            <h2 className={styles.sectionTitle}>Comprehensive Digital Solutions</h2>
             <p className={styles.sectionSubtitle}>
-              Comprehensive digital solutions tailored for Sri Lankan businesses to thrive in the digital era
+              From web development to custom software, we deliver excellence for Sri Lankan businesses
             </p>
           </div>
 
           <div className={styles.servicesGrid}>
-            {features.map((service, index) => (
-              <div
-                key={index}
-                className={styles.serviceCard}
-                data-aos="fade-up"
-                data-aos-delay={index * 100}
-                onClick={() => {
-                  if (service.title === "Web Design" || service.title === "E-Commerce Solutions") {
-                    navigate('/webservice');
-                  }
-                  if (service.title === "Software Development") {
-                    navigate('/systems');
-                  }
-                }}
-                style={{
-                  cursor: (service.title === "Web Design" || service.title === "E-Commerce Solutions" || service.title === "Software Development")
-                    ? 'pointer'
-                    : 'default'
-                }}
-              >
-                <div className={styles.cardBackground}></div>
-                <div className={styles.cardContent}>
-                  <div className={styles.serviceIconWrapper}>
-                    <div className={styles.iconBackground}></div>
-                    <div className={styles.serviceIcon}>{service.icon}</div>
-                  </div>
-                  <h3 className={styles.serviceTitle}>{service.title}</h3>
-                  <p className={styles.serviceDescription}>{service.description}</p>
-                  <div className={styles.serviceFeatures}>
-                    {service.features && service.features.map((feature, idx) => (
-                      <span key={idx} className={styles.featureTag}>✓ {feature}</span>
-                    ))}
-                  </div>
-                  <button
-                    className={styles.serviceCta}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      if (service.title === "Web Design" || service.title === "E-Commerce Solutions") {
-                        navigate('/webservice');
-                      }
-                      if (service.title === "Software Development") {
-                        navigate('/systems');
-                      }
-                    }}
-                  >
-                    <span className={styles.ctaText}>
-                      {service.title === "Web Design" || service.title === "E-Commerce Solutions" || service.title === "Software Development"
-                        ? "Explore Service"
-                        : "Coming Soon"}
-                    </span>
-                    <span className={styles.ctaArrow}>
-                      {service.title === "Web Design" || service.title === "E-Commerce Solutions" || service.title === "Software Development" ? "→" : "🔒"}
-                    </span>
-                    <div className={styles.ctaHoverEffect}></div>
-                  </button>
+            {services.map((service, index) => (
+              <div key={index} className={styles.serviceCard}>
+                <div className={styles.serviceIconWrapper}>
+                  <span className={styles.serviceIcon}>{service.icon}</span>
                 </div>
-                <div className={styles.cardHoverEffect}></div>
-
-                {(service.title === "Web Design" || service.title === "E-Commerce Solutions" || service.title === "Software Development") && (
-                  <div className={styles.clickIndicator}>
-                    <span>Click to explore →</span>
-                  </div>
-                )}
+                <h3 className={styles.serviceTitle}>{service.title}</h3>
+                <p className={styles.serviceDescription}>{service.description}</p>
+                <ul className={styles.serviceFeatures}>
+                  {service.features.map((feature, idx) => (
+                    <li key={idx}>{feature}</li>
+                  ))}
+                </ul>
+                <button 
+                  className={styles.serviceCta} 
+                  onClick={() => navigate(service.path)}
+                >
+                  Learn More <span>→</span>
+                </button>
               </div>
             ))}
           </div>
-
-          <div className={styles.servicesCta}>
-            <div className={styles.ctaContent}>
-              <h3>Ready to Transform Your Business?</h3>
-              <p>Let's discuss your project and create something amazing together</p>
-              <div className={styles.ctaButtons}>
-                <button
-                  className={`${styles.primaryButton} ${styles.large}`}
-                  onClick={() => navigate('/login')}
-                >
-                  <span>Start Your Project</span>
-                  <span className={styles.buttonSparkle}>✨</span>
-                </button>
-                <button
-                  className={styles.secondaryButton}
-                  onClick={() => navigate('/service')}
-                >
-                  <span>View All Services</span>
-                  <span className={styles.buttonArrow}>📊</span>
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className={styles.servicesBackground}>
-          <div className={`${styles.bgShape} ${styles.shape1}`}></div>
-          <div className={`${styles.bgShape} ${styles.shape2}`}></div>
-          <div className={`${styles.bgShape} ${styles.shape3}`}></div>
         </div>
       </section>
 
       {/* POS System Section */}
       <section className={styles.posSystemSection} id="pos-system">
-        <div className={styles.sectionBackground}>
-          <div className={`${styles.bgShape} ${styles.shape1}`}></div>
-          <div className={`${styles.bgShape} ${styles.shape2}`}></div>
-          <div className={`${styles.bgShape} ${styles.shape3}`}></div>
-          <div className={styles.bgGrid}></div>
-        </div>
-
-        <div className={styles.sectionContainer}>
-          <div className={styles.posContent}>
-            <div className={styles.posText}>
-              <div className={styles.sectionBadge}>
-                <span>Point of Sale</span>
-              </div>
-              <h2>Revolutionize Your Retail Operations</h2>
-              <p>
-                At Webpoint, we develop custom Point of Sale (POS) systems that streamline retail operations
-                with inventory management, sales tracking, and customer management features. Our POS solutions
-                help businesses process transactions efficiently while providing valuable insights through
-                comprehensive reporting and analytics tools.
-              </p>
-
-              <div className={styles.posFeatures}>
-                <div className={styles.featureCard}>
-                  <div className={styles.featureIcon}>
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M3 13H21V5C21 3.89543 20.1046 3 19 3H5C3.89543 3 3 3.89543 3 5V13ZM3 13V19C3 20.1046 3.89543 21 5 21H19C20.1046 21 21 20.1046 21 19V13M7 17H17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-                    </svg>
-                  </div>
-                  <div className={styles.featureText}>
-                    <h4>Inventory Management</h4>
-                    <p>Track stock levels, automate reordering, and manage suppliers efficiently.</p>
-                  </div>
-                </div>
-
-                <div className={styles.featureCard}>
-                  <div className={styles.featureIcon}>
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M12 8V12L15 15M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-                    </svg>
-                  </div>
-                  <div className={styles.featureText}>
-                    <h4>Sales Tracking</h4>
-                    <p>Monitor transactions, analyze trends, and optimize your sales strategy.</p>
-                  </div>
-                </div>
-
-                <div className={styles.featureCard}>
-                  <div className={styles.featureIcon}>
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M17 21V19C17 17.9391 16.5786 16.9217 15.8284 16.1716C15.0783 15.4214 14.0609 15 13 15H5C3.93913 15 2.92172 15.4214 2.17157 16.1716C1.42143 16.9217 1 17.9391 1 19V21M23 21V19C22.9993 18.1137 22.7044 17.2528 22.1614 16.5523C21.6184 15.8519 20.8581 15.3516 20 15.13M16 3.13C16.8604 3.3503 17.623 3.8507 18.1676 4.55231C18.7122 5.25392 19.0078 6.11683 19.0078 7.005C19.0078 7.89317 18.7122 8.75608 18.1676 9.45769C17.623 10.1593 16.8604 10.6597 16 10.88M13 7C13 9.20914 11.2091 11 9 11C6.79086 11 5 9.20914 5 7C5 4.79086 6.79086 3 9 3C11.2091 3 13 4.79086 13 7Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                  </div>
-                  <div className={styles.featureText}>
-                    <h4>Customer Management</h4>
-                    <p>Build customer profiles, track purchase history, and enhance loyalty.</p>
-                  </div>
-                </div>
-
-                <div className={styles.featureCard}>
-                  <div className={styles.featureIcon}>
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M7 20L11 4M13 20L17 4M6 9H20M4 15H18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-                    </svg>
-                  </div>
-                  <div className={styles.featureText}>
-                    <h4>Analytics & Reporting</h4>
-                    <p>Gain insights with detailed reports and data visualization tools.</p>
-                  </div>
-                </div>
-              </div>
-
-              <div className={styles.posActions}>
-                {/* Learn More Button */}
-                <button
-                  className={styles.primaryButton}
-                  onClick={() => navigate("/systems")}
-                >
-                  <span>Learn More About POS</span>
-                  <svg
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M5 12H19M19 12L12 5M19 12L12 19"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                </button>
-
-                {/* View Live Demo Button */}
-                <button
-                  className={styles.secondaryButton}
-                  onClick={() => window.open(POSDemoPDF, "_blank")}
-                >
-                  <span>View Live Demo</span>
-                  <svg
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M10 12C10 10.8954 10.8954 10 12 10C13.1046 10 14 10.8954 14 12C14 13.1046 13.1046 14 12 14C10.8954 14 10 13.1046 10 12Z"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                    />
-                    <path
-                      d="M21 12C19.1114 14.991 15.7183 18 12 18C8.2817 18 4.88856 14.991 3 12C5.36527 9.04153 8.7858 6 12 6C15.2142 6 18.6347 9.04153 21 12Z"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                    />
-                  </svg>
-                </button>
-              </div>
-            </div>
-
-            <div className={styles.posVisual}>
-              <div className={styles.dashboardPreview}>
-                <div className={styles.dashboardHeader}>
-                  <div className={styles.dashboardControls}>
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                  </div>
-                  <div className={styles.dashboardTitle}>Webpoint POS Dashboard</div>
-                  <div className={styles.dashboardStatus}>
-                    <div className={styles.statusIndicator}></div>
-                    <span>Live</span>
-                  </div>
-                </div>
-                <div className={styles.dashboardContent}>
-                  <div className={styles.metricCards}>
-                    <div className={styles.metricCard}>
-                      <div className={styles.metricIcon}>
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <path d="M12 1V23M17 5H9.5C8.57174 5 7.6815 5.36875 7.02513 6.02513C6.36875 6.6815 6 7.57174 6 8.5C6 9.42826 6.36875 10.3185 7.02513 10.9749C7.6815 11.6313 8.57174 12 9.5 12H14.5C15.4283 12 16.3185 12.3687 16.9749 13.0251C17.6313 13.6815 18 14.5717 18 15.5C18 16.4283 17.6313 17.3185 16.9749 17.9749C16.3185 18.6313 15.4283 19 14.5 19H6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                        </svg>
-                      </div>
-                      <div className={styles.metricData}>
-                        <div className={styles.metricValue}>$12,485</div>
-                        <div className={styles.metricLabel}>Today's Revenue</div>
-                      </div>
-                      <div className={`${styles.metricTrend} ${styles.up}`}>+12%</div>
-                    </div>
-                    <div className={styles.metricCard}>
-                      <div className={styles.metricIcon}>
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <path d="M8 7V3M16 7V3M7 11H17M5 21H19C20.1046 21 21 20.1046 21 19V7C21 5.89543 20.1046 5 19 5H5C3.89543 5 3 5.89543 3 7V19C3 20.1046 3.89543 21 5 21Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                        </svg>
-                      </div>
-                      <div className={styles.metricData}>
-                        <div className={styles.metricValue}>84</div>
-                        <div className={styles.metricLabel}>Transactions</div>
-                      </div>
-                      <div className={`${styles.metricTrend} ${styles.up}`}>+5%</div>
-                    </div>
-                  </div>
-                  <div className={styles.chartArea}>
-                    <div className={styles.chartHeader}>
-                      <h4>Sales Overview</h4>
-                      <div className={styles.chartLegend}>
-                        <div className={styles.legendItem}>
-                          <span className={`${styles.legendColor} ${styles.current}`}></span>
-                          <span>Current</span>
-                        </div>
-                        <div className={styles.legendItem}>
-                          <span className={`${styles.legendColor} ${styles.previous}`}></span>
-                          <span>Previous</span>
-                        </div>
-                      </div>
-                    </div>
-                    <div className={styles.chartContainer}>
-                      <div className={styles.chartBars}>
-                        <div className={styles.barGroup}>
-                          <div className={`${styles.bar} ${styles.previous}`} style={{ height: '60%' }}></div>
-                          <div className={`${styles.bar} ${styles.current}`} style={{ height: '80%' }}></div>
-                        </div>
-                        <div className={styles.barGroup}>
-                          <div className={`${styles.bar} ${styles.previous}`} style={{ height: '70%' }}></div>
-                          <div className={`${styles.bar} ${styles.current}`} style={{ height: '85%' }}></div>
-                        </div>
-                        <div className={styles.barGroup}>
-                          <div className={`${styles.bar} ${styles.previous}`} style={{ height: '50%' }}></div>
-                          <div className={`${styles.bar} ${styles.current}`} style={{ height: '75%' }}></div>
-                        </div>
-                        <div className={styles.barGroup}>
-                          <div className={`${styles.bar} ${styles.previous}`} style={{ height: '65%' }}></div>
-                          <div className={`${styles.bar} ${styles.current}`} style={{ height: '90%' }}></div>
-                        </div>
-                        <div className={styles.barGroup}>
-                          <div className={`${styles.bar} ${styles.previous}`} style={{ height: '55%' }}></div>
-                          <div className={`${styles.bar} ${styles.current}`} style={{ height: '70%' }}></div>
-                        </div>
-                        <div className={styles.barGroup}>
-                          <div className={`${styles.bar} ${styles.previous}`} style={{ height: '75%' }}></div>
-                          <div className={`${styles.bar} ${styles.current}`} style={{ height: '95%' }}></div>
-                        </div>
-                      </div>
-                      <div className={styles.chartLabels}>
-                        <span>Mon</span>
-                        <span>Tue</span>
-                        <span>Wed</span>
-                        <span>Thu</span>
-                        <span>Fri</span>
-                        <span>Sat</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div className={styles.recentActivity}>
-                    <h4>Recent Sales</h4>
-                    <div className={styles.activityList}>
-                      <div className={styles.activityItem}>
-                        <div className={styles.activityInfo}>
-                          <span className={styles.customer}>Customer #4821</span>
-                          <span className={styles.time}>2:30 PM</span>
-                        </div>
-                        <span className={styles.amount}>$245.50</span>
-                      </div>
-                      <div className={styles.activityItem}>
-                        <div className={styles.activityInfo}>
-                          <span className={styles.customer}>Customer #4822</span>
-                          <span className={styles.time}>2:15 PM</span>
-                        </div>
-                        <span className={styles.amount}>$89.99</span>
-                      </div>
-                      <div className={styles.activityItem}>
-                        <div className={styles.activityInfo}>
-                          <span className={styles.customer}>Customer #4823</span>
-                          <span className={styles.time}>1:45 PM</span>
-                        </div>
-                        <span className={styles.amount}>$156.75</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className={styles.floatingElements}>
-                <div className={`${styles.floatingCard} ${styles.card1}`}>
-                  <div className={styles.cardIcon}>
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M9 12L11 14L15 10M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-                    </svg>
-                  </div>
-                  <span>Inventory Updated</span>
-                </div>
-                <div className={`${styles.floatingCard} ${styles.card2}`}>
-                  <div className={styles.cardIcon}>
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M12 6V12L16 14M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-                    </svg>
-                  </div>
-                  <span>New Customer Added</span>
-                </div>
-                <div className={`${styles.floatingCard} ${styles.card3}`}>
-                  <div className={styles.cardIcon}>
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M9 17H7C5.89543 17 5 16.1046 5 15V5C5 3.89543 5.89543 3 7 3H17C18.1046 3 19 3.89543 19 5V9M14 21H5M14 21L19 16M14 21L14 16H19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                  </div>
-                  <span>Report Generated</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Why Choose Us Section */}
-      <section className={styles.whyChooseUsSection} id="why-choose-us">
         <div className={styles.sectionContainer}>
           <div className={styles.sectionHeader}>
-            <h2>Why Choose WebPoint</h2>
-            <p>Discover what makes us the preferred choice for Sri Lankan businesses</p>
+            <div className={styles.sectionBadge}>
+              <span>✦ Point of Sale Systems</span>
+            </div>
+            <h2 className={styles.sectionTitle} style={{ color: '#fff' }}>Complete POS Solutions</h2>
+            <p className={styles.sectionSubtitle} style={{ color: 'rgba(255,255,255,0.7)' }}>
+              Offline and Cloud-based systems for every business type
+            </p>
           </div>
-          <div className={styles.whyChooseGrid}>
-            {whyChooseUsFeatures.map((feature, index) => (
-              <div key={index} className={styles.whyChooseCard}>
-                <div className={styles.featureIcon}>{feature.icon}</div>
-                <h3>{feature.title}</h3>
-                <p>{feature.description}</p>
+
+          {/* POS Types */}
+          <div className={styles.posTypes}>
+            {posTypes.map((type, index) => (
+              <div key={index} className={styles.posTypeCard}>
+                <div className={styles.posTypeIcon}>{type.icon}</div>
+                <h3>{type.title}</h3>
+                <p>{type.description}</p>
+                <ul className={styles.posTypeFeatures}>
+                  {type.features.map((feature, idx) => (
+                    <li key={idx}>✓ {feature}</li>
+                  ))}
+                </ul>
               </div>
             ))}
           </div>
+
+          {/* POS Categories */}
+          <div className={styles.posCategories}>
+            <h3 className={styles.posCategoriesTitle}>Industries We Serve</h3>
+            <div className={styles.posCategoriesGrid}>
+              {posCategories.map((category, index) => (
+                <div key={index} className={styles.posCategoryCard}>
+                  <div className={styles.posCategoryIcon}>{category.icon}</div>
+                  <h4>{category.name}</h4>
+                  <p>{category.description}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className={styles.posCta}>
+            <button className={styles.primaryButton} onClick={() => navigate('/pos-system')}>
+              Explore POS Solutions →
+            </button>
+          </div>
         </div>
       </section>
 
-      {/* Packages Section */}
-      <section className={styles.packagesSection} id="packages">
+      {/* Pricing Section */}
+      <section className={styles.packagesSection} id="pricing">
         <div className={styles.sectionContainer}>
           <div className={styles.sectionHeader}>
-            <div className={styles.packageBadge}>
-              <span>💎 Premium Solutions</span>
+            <div className={styles.sectionBadge}>
+              <span>✦ Simple, Transparent Pricing</span>
             </div>
-            <h2>Choose Your Perfect Plan</h2>
-            <p>Affordable web design packages tailored for Sri Lankan businesses of all sizes</p>
+            <h2 className={styles.sectionTitle}>Choose Your Perfect Plan</h2>
+            <p className={styles.sectionSubtitle}>
+              Priced in USD - Billed in LKR at daily bank rate
+            </p>
           </div>
 
-          <div className={styles.packagesToggle}>
-            <span className={styles.toggleLabel}>Monthly</span>
-            <label className={styles.toggleSwitch}>
-              <input type="checkbox" className={styles.toggleInput} />
-              <span className={styles.toggleSlider}></span>
-            </label>
-            <span className={`${styles.toggleLabel} ${styles.active}`}>Annual <span className={styles.discountBadge}>Save 20%</span></span>
+          {/* Live Rate Display */}
+          <div className={styles.liveRateContainer}>
+            <div className={styles.liveRateBadge}>
+              <span className={`${styles.liveIndicator} ${isRateLive ? styles.live : ''}`}>
+                {isRateLive ? '● LIVE' : '● OFFLINE'}
+              </span>
+              <span className={styles.rateDisplay}>
+                1 USD = LKR <span className={styles.rateValue}>{Math.round(usdRate)}</span>
+              </span>
+              <span className={styles.rateUpdate}>Updating every second</span>
+            </div>
           </div>
 
           <div className={styles.packagesContainer}>
             {packages.map((pkg, index) => (
               <div key={index} className={`${styles.packageCard} ${pkg.recommended ? styles.recommended : ''}`}>
                 {pkg.recommended && (
-                  <div className={styles.recommendedBadge}>
-                    <span>⭐ Most Popular</span>
-                  </div>
+                  <div className={styles.recommendedBadge}>⭐ Most Popular</div>
                 )}
-
                 <div className={styles.packageHeader}>
-                  <div className={styles.packageIcon}>
-                    {pkg.name === "Basic" && "🚀"}
-                    {pkg.name === "Professional" && "💼"}
-                    {pkg.name === "Enterprise" && "🏢"}
-                  </div>
                   <h3>{pkg.name}</h3>
-                  <p className={styles.packageSubtitle}>
-                    {pkg.name === "Basic" && "Perfect for startups"}
-                    {pkg.name === "Professional" && "Ideal for growing businesses"}
-                    {pkg.name === "Enterprise" && "For large organizations"}
-                  </p>
+                  <p className={styles.packageSubtitle}>{pkg.description}</p>
                 </div>
-
                 <div className={styles.packagePrice}>
-                  <div className={styles.priceAmount}>{pkg.price}</div>
-                  <div className={styles.pricePeriod}>one-time payment</div>
+                  <span className={styles.priceAmount}>{pkg.price}</span>
+                  <span className={styles.pricePeriod}>one-time payment</span>
+                  <div className={styles.priceLKR}>{pkg.priceLKR}</div>
                 </div>
-
                 <ul className={styles.packageFeatures}>
-                  {pkg.features.map((feature, fIndex) => (
-                    <li key={fIndex}>
-                      <span className={styles.featureIcon}>✓</span>
-                      <span>{feature}</span>
-                    </li>
+                  {pkg.features.map((feature, idx) => (
+                    <li key={idx}>✓ {feature}</li>
                   ))}
                 </ul>
-
-                <button
-                  className={`${styles.packageButton} ${pkg.recommended ? styles.recommendedButton : ''}`}
-                  onClick={() => navigate('/login')}
-                >
-                  <span className={styles.buttonText}>Get Started</span>
-                  <span className={styles.buttonArrow}>→</span>
+                <button className={`${styles.packageButton} ${pkg.recommended ? styles.recommendedButton : ''}`} onClick={() => navigate('/login')}>
+                  Get Started →
                 </button>
-
                 <div className={styles.packageFooter}>
-                  <div className={styles.supportInfo}>
-                    <span>📞</span>
-                    <span>Priority Support Included</span>
-                  </div>
+                  <span>📞 24/7 Support Included</span>
                 </div>
               </div>
             ))}
@@ -714,111 +480,69 @@ const Home = () => {
           <div className={styles.packagesFooter}>
             <div className={styles.guaranteeBadge}>
               <span>✅ 30-Day Money-Back Guarantee</span>
+              <span className={styles.separator}>|</span>
+              <span>⚡ 48-Hour Website Delivery</span>
+              <span className={styles.separator}>|</span>
+              <span>🕐 24/7 Customer Support</span>
             </div>
-            <p className={styles.footerNote}>All plans include free SSL certificate and basic SEO setup</p>
+          </div>
+        </div>
+      </section>
+
+      {/* About Section */}
+      <section className={styles.whyChooseUsSection} id="about">
+        <div className={styles.sectionContainer}>
+          <div className={styles.sectionHeader}>
+            <div className={styles.sectionBadge}>
+              <span>✦ Why Choose Us</span>
+            </div>
+            <h2 className={styles.sectionTitle}>Your Trusted Digital Partner</h2>
+            <p className={styles.sectionSubtitle}>
+              We deliver excellence with speed, quality, and unwavering support
+            </p>
+          </div>
+
+          <div className={styles.whyChooseGrid}>
+            {whyChooseUsFeatures.map((feature, index) => (
+              <div key={index} className={styles.whyChooseCard}>
+                <div className={styles.whyChooseIcon}>{feature.icon}</div>
+                <h3>{feature.title}</h3>
+                <p>{feature.description}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
       {/* CTA Section */}
       <section className={styles.ctaSection}>
-        <div className={styles.ctaBackground}>
-          <div className={styles.ctaShapes}>
-            <div className={`${styles.shape} ${styles.shape1}`}></div>
-            <div className={`${styles.shape} ${styles.shape2}`}></div>
-            <div className={`${styles.shape} ${styles.shape3}`}></div>
-            <div className={`${styles.shape} ${styles.shape4}`}></div>
-          </div>
-          <div className={styles.ctaGradient}></div>
-        </div>
-
+        <div className={styles.ctaBackground}></div>
         <div className={styles.sectionContainer}>
           <div className={styles.ctaContent}>
             <div className={styles.ctaBadge}>
-              <span>✨ Limited Time Offer</span>
+              <span>✦ Let's Build Something Together</span>
             </div>
-
             <h2 className={styles.ctaTitle}>
-              Ready to Transform Your
-              <span className={styles.ctaHighlight}> Digital Presence</span>?
+              Ready to Transform Your <span>Business</span>?
             </h2>
-
             <p className={styles.ctaDescription}>
-              Join <strong>20+ successful Sri Lankan businesses</strong> that have elevated their online presence
-              with WebPoint.lk. Start your journey today and get <strong>free consultation</strong> worth LKR 25,000!
+              Tell us about your project and get a free consultation. We respond within one business day.
             </p>
-
-            <div className={styles.ctaFeatures}>
-              <div className={styles.featureItem}>
-                <span className={styles.featureIcon}>✅</span>
-                <span>Free 3 Month Service</span>
-              </div>
-              <div className={styles.featureItem}>
-                <span className={styles.featureIcon}>✅</span>
-                <span>30-Day Money Back</span>
-              </div>
-              <div className={styles.featureItem}>
-                <span className={styles.featureIcon}>✅</span>
-                <span>Lifetime Support</span>
-              </div>
-            </div>
-
             <div className={styles.ctaButtons}>
-              <button
-                className={styles.ctaPrimaryButton}
-                onClick={() => navigate('/login')}
-              >
-                <span className={styles.buttonContent}>
-                  <span className={styles.buttonText}>Start Your Project Today</span>
-                  <span className={styles.buttonArrow}>→</span>
-                </span>
-                <div className={styles.buttonGlow}></div>
+              <button className={styles.ctaPrimaryButton} onClick={() => navigate('/login')}>
+                Start Your Project
               </button>
-
-              <button className={styles.ctaSecondaryButton}>
-                <span className={styles.videoIcon}>🎬</span>
-                Watch Success Stories
+              <button className={styles.ctaSecondaryButton} onClick={() => smoothScroll('#services')}>
+                Explore Services
               </button>
             </div>
-
             <div className={styles.ctaGuarantee}>
-              <div className={styles.guaranteeItem}>
-                <span className={styles.guaranteeIcon}>🏆</span>
-                <span>6-Year Experience</span>
-              </div>
-              <div className={styles.guaranteeItem}>
-                <span className={styles.guaranteeIcon}>💎</span>
-                <span>Quality Guaranteed</span>
-              </div>
-              <div className={styles.guaranteeItem}>
-                <span className={styles.guaranteeIcon}>🚀</span>
-                <span>Fast Delivery</span>
-              </div>
-            </div>
-
-            <div className={styles.ctaStats}>
-              <div className={styles.stat}>
-                <div className={styles.statNumber}>100%</div>
-                <div className={styles.statLabel}>Client Satisfaction</div>
-              </div>
-              <div className={styles.stat}>
-                <div className={styles.statNumber}>24/7</div>
-                <div className={styles.statLabel}>Support Available</div>
-              </div>
-              <div className={styles.stat}>
-                <div className={styles.statNumber}>20+</div>
-                <div className={styles.statLabel}>Projects Delivered</div>
-              </div>
+              <span>⚡ 48-Hour Delivery</span>
+              <span>🕐 24/7 Support</span>
+              <span>⭐ 100% Satisfaction</span>
+              <span>💲 Best Value</span>
             </div>
           </div>
-        </div>
-
-        <div className={styles.ctaWave}>
-          <svg viewBox="0 0 1200 120" preserveAspectRatio="none">
-            <path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" opacity=".25" fill="currentColor"></path>
-            <path d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z" opacity=".5" fill="currentColor"></path>
-            <path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z" fill="currentColor"></path>
-          </svg>
         </div>
       </section>
     </div>

@@ -1,402 +1,685 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './Systems.module.css';
 
-// Import local POS system image
+// Import local images
 import posSystemImg from '../../assets/pos.jpeg';
 import dashboardImg from '../../assets/dashboad.jpeg';
 import analyticsImg from '../../assets/reportview.jpeg';
 import lmsSystemImg from '../../assets/lms.jpeg';
 import financeSystemImg from '../../assets/financial.jpeg';
 import mobileAppImg from '../../assets/mobile.jpeg';
-import POSDemoPDF from '../../assets/POSDemo.pdf';
+
 const Systems = () => {
-  const [activeSystem, setActiveSystem] = useState('pos');
+  const [activeSystem, setActiveSystem] = useState('business');
+  const [activeCategory, setActiveCategory] = useState('crm');
+  const [scrolled, setScrolled] = useState(false);
   const navigate = useNavigate();
 
-   const openDocumentation = () => {
-    window.open(POSDemoPDF, '_blank');
-  };
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
-  // Method 2.2: Download instead of open
-  const downloadDocumentation = () => {
-    const link = document.createElement('a');
-    link.href = POSDemoPDF;
-    link.download = 'POSDemo.pdf';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
-
-  // Other images - using Unsplash URLs
-  const integrationImg = 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1174&q=80';
-
-  const systems = [
+  // System Categories
+  const systemCategories = [
     {
-      id: 'POS',
-      title: 'Point of Sale (POS) System',
-      tagline: 'Streamline Your Retail Operations',
-      description: 'A comprehensive POS system designed to optimize your retail business operations, from inventory management to customer relationship management.',
-      icon: '🛒',
-      gradient: styles.gradientBlue,
-      features: [
-        'Real-time inventory tracking',
-        'Multi-payment integration',
-        'Customer loyalty programs',
-        'Sales analytics & reporting',
-        'Employee management',
-        'Barcode scanning'
-      ],
-      image: posSystemImg, // Using the imported local image
-      color: '#3b82f6'
+      id: 'business',
+      title: 'Business Management Systems',
+      icon: '🏢',
+      color: '#3b82f6',
+      systems: [
+        {
+          id: 'crm',
+          title: 'CRM (Customer Relationship Management)',
+          icon: '🤝',
+          features: ['Customer Management', 'Sales Tracking', 'Lead Management', 'Call Management']
+        },
+        {
+          id: 'erp',
+          title: 'ERP (Enterprise Resource Planning)',
+          icon: '🏭',
+          features: ['HR', 'Finance', 'Inventory', 'Procurement', 'Payroll', 'Manufacturing', 'Sales']
+        },
+        {
+          id: 'pos',
+          title: 'POS (Point of Sale)',
+          icon: '🛒',
+          features: ['Billing', 'Inventory', 'Barcode', 'Customer Management', 'Reports']
+        },
+        {
+          id: 'inventory',
+          title: 'Inventory Management System',
+          icon: '📦',
+          features: ['Stock Management', 'Warehouse', 'Suppliers', 'Purchase Orders']
+        },
+        {
+          id: 'accounting',
+          title: 'Accounting Software',
+          icon: '💰',
+          features: ['Income', 'Expenses', 'Tax', 'Ledger', 'Reports']
+        }
+      ]
     },
     {
-      id: 'LMS',
-      title: 'Learning Management System (LMS)',
-      tagline: 'Transform Education & Training',
-      description: 'An intuitive LMS platform for educational institutions and corporate training, enabling seamless course management and student engagement.',
+      id: 'healthcare',
+      title: 'Healthcare Systems',
+      icon: '🏥',
+      color: '#10b981',
+      systems: [
+        {
+          id: 'hospital',
+          title: 'Hospital Management System',
+          icon: '🏨',
+          features: ['Patients', 'Doctors', 'Pharmacy', 'Lab', 'Billing', 'Appointments']
+        },
+        {
+          id: 'clinic',
+          title: 'Clinic Management',
+          icon: '🩺',
+          features: ['Patient Records', 'Appointments', 'Billing', 'Prescriptions']
+        },
+        {
+          id: 'pharmacy',
+          title: 'Pharmacy Management',
+          icon: '💊',
+          features: ['Medicine Inventory', 'Sales', 'Expiry Tracking', 'Supplier Management']
+        },
+        {
+          id: 'laboratory',
+          title: 'Laboratory Management',
+          icon: '🔬',
+          features: ['Test Management', 'Patient Records', 'Results', 'Billing']
+        }
+      ]
+    },
+    {
+      id: 'education',
+      title: 'Education Systems',
       icon: '📚',
-      gradient: styles.gradientPurple,
-      features: [
-        'Course creation & management',
-        'Interactive quizzes & assignments',
-        'Progress tracking & analytics',
-        'Video conferencing integration',
-        'Mobile learning support',
-        'Certificate generation'
-      ],
-      image: lmsSystemImg,
-      color: '#8b5cf6'
+      color: '#8b5cf6',
+      systems: [
+        {
+          id: 'school',
+          title: 'School Management System',
+          icon: '🏫',
+          features: ['Students', 'Teachers', 'Exams', 'Timetable', 'Attendance']
+        },
+        {
+          id: 'university',
+          title: 'University Management',
+          icon: '🎓',
+          features: ['Courses', 'Registration', 'Results', 'Faculty']
+        },
+        {
+          id: 'lms',
+          title: 'Learning Management System (LMS)',
+          icon: '📖',
+          features: ['Online Classes', 'Assignments', 'Quizzes', 'Videos']
+        },
+        {
+          id: 'exam',
+          title: 'Online Exam System',
+          icon: '📝',
+          features: ['Question Bank', 'Online Tests', 'Auto Grading', 'Results']
+        }
+      ]
     },
     {
-      id: 'Finance',
-      title: 'Personal Financial Tracker',
-      tagline: 'Master Your Financial Journey',
-      description: 'A powerful personal finance management tool that helps individuals track expenses, set budgets, and achieve financial goals.',
-      icon: '💰',
-      gradient: styles.gradientGreen,
-      features: [
-        'Expense categorization',
-        'Budget planning & tracking',
-        'Investment portfolio management',
-        'Bill payment reminders',
-        'Financial goal setting',
-        'Tax preparation assistance'
-      ],
-      image: financeSystemImg,
-      color: '#10b981'
-    }
-  ];
-
-  const features = [
-    {
-      icon: '⚡',
-      title: 'Real-time Updates',
-      description: 'Live data synchronization across all devices'
+      id: 'ecommerce',
+      title: 'E-Commerce Systems',
+      icon: '🛍️',
+      color: '#f59e0b',
+      systems: [
+        {
+          id: 'onlineshop',
+          title: 'Online Shopping Website',
+          icon: '🏪',
+          features: ['Product Catalog', 'Cart', 'Payment Gateway', 'Order Management']
+        },
+        {
+          id: 'foodordering',
+          title: 'Food Ordering System',
+          icon: '🍔',
+          features: ['Restaurant List', 'Order Placement', 'Delivery Tracking', 'Payment']
+        },
+        {
+          id: 'restaurant',
+          title: 'Restaurant Management',
+          icon: '🍽️',
+          features: ['Orders', 'Kitchen', 'POS', 'Inventory']
+        },
+        {
+          id: 'grocery',
+          title: 'Grocery Delivery',
+          icon: '🛒',
+          features: ['Product Catalog', 'Delivery Scheduling', 'Payment', 'Order Tracking']
+        }
+      ]
     },
     {
-      icon: '📊',
-      title: 'Advanced Analytics',
-      description: 'Comprehensive reporting and insights'
+      id: 'financial',
+      title: 'Financial Systems',
+      icon: '💳',
+      color: '#ec4899',
+      systems: [
+        {
+          id: 'banking',
+          title: 'Banking System',
+          icon: '🏦',
+          features: ['Accounts', 'Transfers', 'Loans', 'Statements']
+        },
+        {
+          id: 'loan',
+          title: 'Loan Management',
+          icon: '📊',
+          features: ['Loan Applications', 'Approval', 'Repayment', 'Interest Calculation']
+        },
+        {
+          id: 'wallet',
+          title: 'Wallet System',
+          icon: '👛',
+          features: ['eWallet', 'Digital Payments', 'Transactions', 'Balance Management']
+        }
+      ]
     },
     {
-      icon: '🛡️',
-      title: 'Bank-level Security',
-      description: 'Enterprise-grade security protocols'
+      id: 'government',
+      title: 'Government Systems',
+      icon: '🏛️',
+      color: '#6366f1',
+      systems: [
+        {
+          id: 'citizen',
+          title: 'Citizen Registration',
+          icon: '📋',
+          features: ['Registration', 'ID Management', 'Records', 'Verification']
+        },
+        {
+          id: 'passport',
+          title: 'Passport & License',
+          icon: '🪪',
+          features: ['Applications', 'Document Verification', 'Status Tracking', 'Renewal']
+        },
+        {
+          id: 'tax',
+          title: 'Tax Management',
+          icon: '📄',
+          features: ['Tax Filing', 'Payments', 'Returns', 'Records']
+        },
+        {
+          id: 'election',
+          title: 'Election Management',
+          icon: '🗳️',
+          features: ['Voter Registration', 'Voting', 'Results', 'Reporting']
+        }
+      ]
     },
     {
-      icon: '☁️',
-      title: 'Cloud-Based',
-      description: 'Access from anywhere, anytime'
+      id: 'hotel',
+      title: 'Hotel & Tourism',
+      icon: '🏨',
+      color: '#06b6d4',
+      systems: [
+        {
+          id: 'hotelmgmt',
+          title: 'Hotel Management',
+          icon: '🏩',
+          features: ['Rooms', 'Bookings', 'Payments', 'Guest Management']
+        },
+        {
+          id: 'travel',
+          title: 'Travel Booking',
+          icon: '✈️',
+          features: ['Flight/Hotel Search', 'Booking', 'Payment', 'Itinerary']
+        }
+      ]
     },
     {
+      id: 'hr',
+      title: 'Human Resources',
+      icon: '👥',
+      color: '#f97316',
+      systems: [
+        {
+          id: 'hrms',
+          title: 'HR Management',
+          icon: '📋',
+          features: ['Employees', 'Payroll', 'Attendance', 'Leave Management']
+        },
+        {
+          id: 'recruitment',
+          title: 'Recruitment Portal',
+          icon: '🎯',
+          features: ['Job Postings', 'Applications', 'Candidate Tracking', 'Hiring']
+        }
+      ]
+    },
+    {
+      id: 'logistics',
+      title: 'Logistics',
+      icon: '🚚',
+      color: '#10b981',
+      systems: [
+        {
+          id: 'courier',
+          title: 'Courier System',
+          icon: '📦',
+          features: ['Tracking', 'Delivery', 'Drivers', 'Route Optimization']
+        },
+        {
+          id: 'fleet',
+          title: 'Fleet Management',
+          icon: '🚛',
+          features: ['Vehicle Tracking', 'Driver Management', 'Maintenance', 'Fuel Management']
+        }
+      ]
+    },
+    {
+      id: 'social',
+      title: 'Social Media',
       icon: '📱',
-      title: 'Mobile Responsive',
-      description: 'Fully optimized for mobile devices'
+      color: '#8b5cf6',
+      systems: [
+        {
+          id: 'socialmedia',
+          title: 'Social Media Platform',
+          icon: '🌐',
+          features: ['User Profiles', 'Posts', 'Messaging', 'Feed']
+        },
+        {
+          id: 'chat',
+          title: 'Chat Application',
+          icon: '💬',
+          features: ['Real-time Messaging', 'Groups', 'File Sharing', 'Notifications']
+        },
+        {
+          id: 'videocall',
+          title: 'Video Calling App',
+          icon: '🎥',
+          features: ['Video Calls', 'Audio Calls', 'Screen Sharing', 'Recording']
+        }
+      ]
     },
     {
-      icon: '🔄',
-      title: '24/7 Support',
-      description: 'Round-the-clock technical support'
+      id: 'realestate',
+      title: 'Real Estate',
+      icon: '🏠',
+      color: '#f59e0b',
+      systems: [
+        {
+          id: 'property',
+          title: 'Property Management',
+          icon: '🏘️',
+          features: ['Property Listings', 'Tenants', 'Rent', 'Maintenance']
+        },
+        {
+          id: 'propertsell',
+          title: 'Property Selling Platform',
+          icon: '🏡',
+          features: ['Listings', 'Inquiries', 'Appointments', 'Sales']
+        }
+      ]
+    },
+    {
+      id: 'manufacturing',
+      title: 'Manufacturing',
+      icon: '🏭',
+      color: '#3b82f6',
+      systems: [
+        {
+          id: 'factory',
+          title: 'Factory Management',
+          icon: '⚙️',
+          features: ['Production', 'Machines', 'Inventory', 'Quality Control']
+        },
+        {
+          id: 'supplychain',
+          title: 'Supply Chain Management',
+          icon: '📦',
+          features: ['Supplier Management', 'Order Processing', 'Logistics', 'Inventory']
+        }
+      ]
+    },
+    {
+      id: 'booking',
+      title: 'Booking Systems',
+      icon: '📅',
+      color: '#ec4899',
+      systems: [
+        {
+          id: 'cinema',
+          title: 'Cinema Booking',
+          icon: '🎬',
+          features: ['Movie Listings', 'Seat Selection', 'Payment', 'Ticket Generation']
+        },
+        {
+          id: 'salon',
+          title: 'Salon Booking',
+          icon: '💇',
+          features: ['Services', 'Appointments', 'Staff', 'Customer Management']
+        }
+      ]
+    },
+    {
+      id: 'ai',
+      title: 'AI-Integrated Systems',
+      icon: '🧠',
+      color: '#6366f1',
+      systems: [
+        {
+          id: 'chatbot',
+          title: 'AI Chatbots',
+          icon: '🤖',
+          features: ['Customer Support', 'Conversational AI', '24/7 Availability', 'Integration']
+        },
+        {
+          id: 'ocr',
+          title: 'OCR & Document Analysis',
+          icon: '📄',
+          features: ['Image Recognition', 'Document Scanning', 'Text Extraction', 'Data Processing']
+        },
+        {
+          id: 'recommendation',
+          title: 'Recommendation Systems',
+          icon: '🎯',
+          features: ['Personalized Suggestions', 'Machine Learning', 'User Behavior Analysis']
+        }
+      ]
+    },
+    {
+      id: 'cms',
+      title: 'Content Management Systems (CMS)',
+      icon: '📝',
+      color: '#10b981',
+      systems: [
+        {
+          id: 'news',
+          title: 'News Website',
+          icon: '📰',
+          features: ['Articles', 'Categories', 'Authors', 'Comments']
+        },
+        {
+          id: 'blog',
+          title: 'Blog Platform',
+          icon: '✍️',
+          features: ['Posts', 'Tags', 'Comments', 'SEO']
+        },
+        {
+          id: 'portfolio',
+          title: 'Portfolio Website',
+          icon: '🎨',
+          features: ['Projects', 'Gallery', 'About', 'Contact']
+        }
+      ]
+    },
+    {
+      id: 'dashboard',
+      title: 'Dashboards & Analytics',
+      icon: '📊',
+      color: '#f59e0b',
+      systems: [
+        {
+          id: 'bi',
+          title: 'Business Intelligence Dashboard',
+          icon: '📈',
+          features: ['KPI Tracking', 'Data Visualization', 'Reports', 'Analytics']
+        },
+        {
+          id: 'salesdash',
+          title: 'Sales Dashboard',
+          icon: '💰',
+          features: ['Revenue Tracking', 'Sales Funnel', 'Performance Metrics']
+        },
+        {
+          id: 'hrdash',
+          title: 'HR Dashboard',
+          icon: '👥',
+          features: ['Employee Metrics', 'Attendance', 'Payroll', 'Performance']
+        }
+      ]
+    },
+    {
+      id: 'iot',
+      title: 'IoT Dashboards',
+      icon: '📶',
+      color: '#06b6d4',
+      systems: [
+        {
+          id: 'smarthome',
+          title: 'Smart Home Dashboard',
+          icon: '🏠',
+          features: ['Device Control', 'Automation', 'Monitoring', 'Alerts']
+        },
+        {
+          id: 'factoryiot',
+          title: 'Factory Monitoring',
+          icon: '🏭',
+          features: ['Machine Monitoring', 'Production Tracking', 'Maintenance Alerts']
+        },
+        {
+          id: 'agriiot',
+          title: 'Agriculture Monitoring',
+          icon: '🌾',
+          features: ['Weather Data', 'Crop Monitoring', 'Irrigation Control', 'Yield Tracking']
+        }
+      ]
     }
   ];
 
-  const demoScreens = [
-    {
-      title: 'Dashboard Overview',
-      description: 'Centralized control panel with real-time metrics',
-      image: dashboardImg,
-      system: 'all'
-    },
-    {
-      title: 'Analytics & Reports',
-      description: 'Detailed insights and performance analysis',
-      image: analyticsImg,
-      system: 'all'
-    },
-    {
-      title: 'Mobile Application',
-      description: 'On-the-go access to all system features',
-      image: mobileAppImg,
-      system: 'all'
-    }
-  ];
+  // Get current category systems
+  const currentCategory = systemCategories.find(cat => cat.id === activeSystem);
+  const currentSystem = currentCategory?.systems.find(sys => sys.id === activeCategory);
 
-  const currentSystem = systems.find(system => system.id === activeSystem);
+  const handleCategoryClick = (categoryId) => {
+    setActiveSystem(categoryId);
+    const category = systemCategories.find(cat => cat.id === categoryId);
+    if (category && category.systems.length > 0) {
+      setActiveCategory(category.systems[0].id);
+    }
+  };
+
+  const handleSystemClick = (systemId) => {
+    setActiveCategory(systemId);
+  };
 
   return (
     <div className={styles.systemsContainer}>
-      {/* Background Elements */}
-      <div className={styles.backgroundElements}>
-        <div className={`${styles.bgCircle} ${styles.circle1}`}></div>
-        <div className={`${styles.bgCircle} ${styles.circle2}`}></div>
-        <div className={`${styles.bgCircle} ${styles.circle3}`}></div>
-        <div className={styles.bgGrid}></div>
-        <div className={styles.floatingOrbs}>
-          {[...Array(5)].map((_, i) => (
-            <div key={i} className={styles.floatingOrb} style={{
-              animationDelay: `${i * 0.5}s`,
-              left: `${20 + i * 15}%`,
-              top: `${30 + i * 10}%`
-            }}></div>
-          ))}
+      
+
+      {/* Hero Section - Matching Home Page */}
+      <div className={styles.heroSection}>
+        <div className={styles.heroBackground}></div>
+        
+        <div className={styles.heroContent}>
+          <div className={styles.heroText}>
+            <div className={styles.heroBadge}>
+              <span>✦ Enterprise Systems</span>
+            </div>
+            
+            <h1 className={styles.heroTitle}>
+              <span>Comprehensive</span>
+              <span className={styles.highlightText}>Business Systems</span>
+              <span>for Every Industry</span>
+            </h1>
+            
+            <p className={styles.heroDescription}>
+              We develop custom business management systems tailored to your specific industry needs. 
+              From CRM and ERP to healthcare and education systems, we deliver enterprise-grade solutions.
+            </p>
+            
+            <div className={styles.heroStats}>
+              <div className={styles.statItem}>
+                <span className={styles.statNumber}>18+</span>
+                <span className={styles.statLabel}>Industry Categories</span>
+              </div>
+              <div className={styles.statItem}>
+                <span className={styles.statNumber}>50+</span>
+                <span className={styles.statLabel}>System Solutions</span>
+              </div>
+              <div className={styles.statItem}>
+                <span className={styles.statNumber}>24/7</span>
+                <span className={styles.statLabel}>Support Available</span>
+              </div>
+            </div>
+            
+            <div className={styles.heroButtons}>
+              <button className={styles.primaryButton} onClick={() => navigate('/contact')}>
+                Discuss Your Project
+                <span className={styles.buttonArrow}>→</span>
+              </button>
+              <button className={styles.secondaryButton} onClick={() => document.querySelector(`.${styles.categoriesSection}`)?.scrollIntoView({ behavior: 'smooth' })}>
+                <span className={styles.playIcon}>▶</span>
+                Explore Systems
+              </button>
+            </div>
+          </div>
+          
+          <div className={styles.heroVisual}>
+            <div className={styles.heroCard}>
+              <div className={styles.heroCardHeader}>
+                <div className={styles.cardDots}>
+                  <span></span><span></span><span></span>
+                </div>
+                <span className={styles.cardTitle}>Our Systems</span>
+              </div>
+              <div className={styles.heroCardContent}>
+                <div className={styles.cardMetrics}>
+                  {systemCategories.slice(0, 4).map((cat) => (
+                    <div key={cat.id} className={styles.cardMetric}>
+                      <span className={styles.metricIcon}>{cat.icon}</span>
+                      <div>
+                        <div className={styles.metricValue}>{cat.title}</div>
+                        <div className={styles.metricLabel}>{cat.systems.length} Solutions</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* Hero Section */}
-      <div className={styles.heroSection}>
-        <div className={styles.heroContent}>
-          <div className={styles.badge}>
-            <span>🚀 Enterprise Systems</span>
+      {/* Categories Section */}
+      <div className={styles.categoriesSection}>
+        <div className={styles.sectionContainer}>
+          <div className={styles.sectionHeader}>
+            <div className={styles.sectionBadge}>
+              <span>✦ System Categories</span>
+            </div>
+            <h2 className={styles.sectionTitle}>Explore Our <span className={styles.textGradient}>System Solutions</span></h2>
+            <p className={styles.sectionSubtitle}>
+              Choose from 18+ industry categories with 50+ specialized system solutions
+            </p>
           </div>
 
-          <h1 className={styles.heroTitle}>
-            Powerful <span className={styles.titleGradient}>Systems</span> for Modern Businesses
-          </h1>
-
-          <p className={styles.heroDescription}>
-            Discover our comprehensive suite of enterprise-grade systems designed to streamline operations,
-            enhance productivity, and drive growth for businesses of all sizes.
-          </p>
-
-          <div className={styles.heroStats}>
-            <div className={styles.statCard}>
-              <div className={styles.statIcon}>⚡</div>
-              <div className={styles.statContent}>
-                <div className={styles.statNumber}>99.9%</div>
-                <div className={styles.statLabel}>Uptime Guarantee</div>
-              </div>
-            </div>
-            <div className={styles.statCard}>
-              <div className={styles.statIcon}>👥</div>
-              <div className={styles.statContent}>
-                <div className={styles.statNumber}>10K+</div>
-                <div className={styles.statLabel}>Active Users</div>
-              </div>
-            </div>
-            <div className={styles.statCard}>
-              <div className={styles.statIcon}>🛡️</div>
-              <div className={styles.statContent}>
-                <div className={styles.statNumber}>24-hours</div>
-                <div className={styles.statLabel}>Services</div>
-              </div>
-            </div>
-          </div>
-
-          <div className={styles.heroActions}>
-            <button className={styles.ctaPrimary} onClick={() => navigate('/contact')}>
-              Request Demo
-            </button>
-            <button className={styles.ctaSecondary} onClick={() => document.querySelector(`.${styles.systemsSection}`).scrollIntoView({ behavior: 'smooth' })}>
-              Explore Systems
-            </button>
-          </div>
-        </div>
-
-        <div className={styles.heroVisual}>
-          <div className={styles.systemCardsPreview}>
-            {systems.map((system, index) => (
+          <div className={styles.categoriesGrid}>
+            {systemCategories.map((category) => (
               <div
-                key={system.id}
-                className={`${styles.previewCard} ${styles[`card${index + 1}`]}`}
-                style={{ '--system-color': system.color }}
-                onClick={() => setActiveSystem(system.id)}
+                key={category.id}
+                className={`${styles.categoryCard} ${activeSystem === category.id ? styles.active : ''}`}
+                onClick={() => handleCategoryClick(category.id)}
+                style={{ '--category-color': category.color }}
               >
-                <div className={`${styles.cardIcon} ${system.gradient}`}>
-                  {system.icon}
-                </div>
-                <h3>{system.id.split(' ')[0]}</h3>
-                <p>{system.tagline}</p>
+                <div className={styles.categoryIcon}>{category.icon}</div>
+                <h3>{category.title}</h3>
+                <span className={styles.categoryCount}>{category.systems.length} Systems</span>
               </div>
             ))}
           </div>
-          <div className={styles.visualGlow}></div>
         </div>
       </div>
 
-      {/* Systems Overview Section */}
-      <div className={styles.systemsSection}>
-        <div className={styles.sectionHeader}>
-          <h2>Our <span className={styles.highlight}>Systems</span></h2>
-          <p>Comprehensive solutions tailored for different business needs</p>
-        </div>
-
-        <div className={styles.systemTabs}>
-          {systems.map((system) => (
-            <button
-              key={system.id}
-              className={`${styles.systemTab} ${activeSystem === system.id ? styles.active : ''}`}
-              onClick={() => setActiveSystem(system.id)}
-              style={{
-                borderColor: activeSystem === system.id ? system.color : 'transparent',
-                background: activeSystem === system.id ? `${system.color}20` : 'transparent'
-              }}
-            >
-              <div className={`${styles.tabIcon} ${system.gradient}`}>
-                {system.icon}
+      {/* Systems Detail Section */}
+      {currentCategory && currentSystem && (
+        <div className={styles.systemsDetailSection}>
+          <div className={styles.sectionContainer}>
+            <div className={styles.detailHeader}>
+              <div className={styles.detailBreadcrumb}>
+                <span className={styles.breadcrumbItem}>{currentCategory.title}</span>
+                <span className={styles.breadcrumbSeparator}>/</span>
+                <span className={styles.breadcrumbItem} style={{ color: currentCategory.color }}>{currentSystem.title}</span>
               </div>
-              <span>{system.title}</span>
-            </button>
-          ))}
-        </div>
+            </div>
 
-        {currentSystem && (
-          <div className={styles.systemDetails}>
-            <div className={styles.systemInfo}>
-              <div className={styles.systemHeader}>
-                <div className={`${styles.systemIcon} ${currentSystem.gradient}`}>
-                  {currentSystem.icon}
-                </div>
-                <div>
-                  <h3 className={styles.systemTitle}>{currentSystem.title}</h3>
-                  <p className={styles.systemTagline}>{currentSystem.tagline}</p>
-                </div>
-              </div>
-
-              <p className={styles.systemDescription}>{currentSystem.description}</p>
-
-              <div className={styles.featuresGrid}>
-                {currentSystem.features.map((feature, index) => (
-                  <div key={index} className={styles.featureItem}>
-                    <div className={styles.featureCheck}>✓</div>
-                    <span>{feature}</span>
+            <div className={styles.detailContent}>
+              <div className={styles.systemList}>
+                {currentCategory.systems.map((sys) => (
+                  <div
+                    key={sys.id}
+                    className={`${styles.systemListItem} ${activeCategory === sys.id ? styles.active : ''}`}
+                    onClick={() => handleSystemClick(sys.id)}
+                    style={{ '--system-color': currentCategory.color }}
+                  >
+                    <span className={styles.systemListIcon}>{sys.icon}</span>
+                    <span className={styles.systemListName}>{sys.title}</span>
                   </div>
                 ))}
               </div>
 
-              <div className={styles.systemActions}>
-                <button className={styles.demoButton} onClick={() => navigate('/contact')}>
-                  Request Live Demo
-                </button>
-                <button
-                  className={styles.docsButton}
-                  onClick={openDocumentation} // or downloadDocumentation
-                >
-                  View Documentation
-                </button>
-              </div>
-            </div>
+              <div className={styles.systemDetailPanel}>
+                <div className={styles.systemDetailHeader}>
+                  <div className={styles.systemDetailIcon} style={{ background: `${currentCategory.color}20`, color: currentCategory.color }}>
+                    {currentSystem.icon}
+                  </div>
+                  <div>
+                    <h3>{currentSystem.title}</h3>
+                    <p style={{ color: currentCategory.color }}>Key Features</p>
+                  </div>
+                </div>
 
-            <div className={styles.systemVisual}>
-              <div className={styles.imageContainer}>
-                <img
-                  src={currentSystem.image}
-                  alt={currentSystem.title}
-                  className={styles.systemImage}
-                  onError={(e) => {
-                    e.target.onerror = null;
-                    e.target.src = `https://via.placeholder.com/500x300/0a192f/64ffda?text=${encodeURIComponent(currentSystem.title)}`;
-                  }}
-                />
-                <div className={styles.imageGlow} style={{ background: currentSystem.color }}></div>
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
+                <div className={styles.systemDetailFeatures}>
+                  {currentSystem.features.map((feature, index) => (
+                    <div key={index} className={styles.systemDetailFeature}>
+                      <span className={styles.featureCheck}>✓</span>
+                      <span>{feature}</span>
+                    </div>
+                  ))}
+                </div>
 
-      {/* Features Section */}
-      <div className={styles.featuresSection}>
-        <div className={styles.sectionHeader}>
-          <h2>Core <span className={styles.highlight}>Features</span></h2>
-          <p>Powerful capabilities across all our systems</p>
-        </div>
-
-        <div className={styles.featuresGrid}>
-          {features.map((feature, index) => (
-            <div key={index} className={styles.featureCard}>
-              <div className={styles.featureIconContainer}>
-                <span className={styles.featureIconEmoji}>{feature.icon}</span>
-              </div>
-              <h3 className={styles.featureTitle}>{feature.title}</h3>
-              <p className={styles.featureDescription}>{feature.description}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Demo Screens Section */}
-      <div className={styles.demoSection}>
-        <div className={styles.sectionHeader}>
-          <h2>System <span className={styles.highlight}>Preview</span></h2>
-          <p>Explore our intuitive interfaces and powerful dashboards</p>
-        </div>
-
-        <div className={styles.demoGrid}>
-          {demoScreens.map((screen, index) => (
-            <div key={index} className={styles.demoCard}>
-              <div className={styles.demoImageContainer}>
-                <img
-                  src={screen.image}
-                  alt={screen.title}
-                  className={styles.demoImage}
-                  onError={(e) => {
-                    e.target.onerror = null;
-                    e.target.src = `https://via.placeholder.com/400x200/0a192f/64ffda?text=${encodeURIComponent(screen.title)}`;
-                  }}
-                />
-                <div className={styles.demoOverlay}>
-                  <button className={styles.viewButton}>
-                    Expand View
+                <div className={styles.systemDetailActions}>
+                  <button className={styles.systemDetailBtn} onClick={() => navigate('/contact')}>
+                    Request a Demo
                   </button>
                 </div>
               </div>
-              <div className={styles.demoContent}>
-                <h3 className={styles.demoTitle}>{screen.title}</h3>
-                <p className={styles.demoDescription}>{screen.description}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* CTA Section */}
-      <div className={styles.ctaSection}>
-        <div className={styles.ctaCard}>
-          <div className={styles.ctaContent}>
-            <div className={styles.badge}>
-              <span>🎯 Get Started Today</span>
-            </div>
-            <h2>Ready to Transform Your Business?</h2>
-            <p>Schedule a personalized demo and discover how our systems can revolutionize your operations. Our experts will guide you through every feature.</p>
-            <div className={styles.ctaActions}>
-              <button className={styles.ctaPrimary} onClick={() => navigate('/contact')}>
-                Book a Demo
-              </button>
-              <button className={styles.ctaSecondary} onClick={() => navigate('/pricing')}>
-                View Pricing
-              </button>
             </div>
           </div>
-          <div className={styles.ctaGraphic}>
-            <div className={styles.ctaIcon}>🚀</div>
-            <div className={styles.ctaParticles}>
-              {[...Array(3)].map((_, i) => (
-                <div key={i} className={styles.particle} style={{
-                  animationDelay: `${i * 0.3}s`,
-                  background: systems[i]?.color
-                }}></div>
-              ))}
+        </div>
+      )}
+
+      {/* CTA Section - Matching Home Page */}
+      <div className={styles.ctaSection}>
+        <div className={styles.ctaBackground}></div>
+        <div className={styles.sectionContainer}>
+          <div className={styles.ctaContent}>
+            <div className={styles.ctaBadge}>
+              <span>✦ Let's Build Something Together</span>
+            </div>
+            <h2 className={styles.ctaTitle}>
+              Ready to Build Your <span>Custom System</span>?
+            </h2>
+            <p className={styles.ctaDescription}>
+              Let's discuss your requirements and create a custom system solution tailored to your business needs.
+              Get a free consultation and project estimate.
+            </p>
+            <div className={styles.ctaButtons}>
+              <button className={styles.ctaPrimary} onClick={() => navigate('/contact')}>
+                Get Free Consultation
+                <span className={styles.buttonArrow}>→</span>
+              </button>
+              <button className={styles.ctaSecondary} onClick={() => navigate('/service')}>
+                View All Services
+              </button>
+            </div>
+            <div className={styles.ctaGuarantee}>
+              <span>⚡ 48-Hour Delivery</span>
+              <span>🕐 24/7 Support</span>
+              <span>⭐ 99.9% Satisfaction</span>
             </div>
           </div>
         </div>

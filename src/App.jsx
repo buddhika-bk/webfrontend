@@ -18,6 +18,7 @@ import About from './screen/Pages/About';
 import Service from './screen/Pages/Service';
 import WebService from './screen/WebService';
 import Systems from './screen/Pages/Systems';
+import POSSystem from './screen/Pages/POSSystem';
 import DigitalSolution from './screen/Pages/DigitalSolution';
 import AddRest from './screen/Resturant/AddRest';
 import RestaurantMenu from './screen/Resturant/RestaurantMenu';
@@ -190,6 +191,7 @@ function App() {
           <Route path="/service"          element={<Service />} />
           <Route path="/webservice"       element={<WebService />} />
           <Route path="/systems"          element={<Systems />} />
+          <Route path="/pos-system"        element={<POSSystem />} />
           <Route path="/digital-solution" element={<DigitalSolution />} />
 
           {/* ── Demo pages ── */}

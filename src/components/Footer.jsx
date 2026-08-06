@@ -19,11 +19,11 @@ function Footer() {
                                 <h1>WebPoint<span>.lk</span></h1>
                             </div>
                             <p>Professional web design and development services for Sri Lankan businesses.</p>
-                            <div className={styles.socialIcons}>
+                            {/* <div className={styles.socialIcons}>
                                 <a href="#"><span>📱</span></a>
                                 <a href="#"><span>💻</span></a>
                                 <a href="#"><span>📸</span></a>
-                            </div>
+                            </div> */}
                         </div>
 
                         <div className={styles.footerLinks}>

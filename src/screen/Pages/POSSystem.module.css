@@ -5,7 +5,7 @@
   box-sizing: border-box;
 }
 
-.systemsContainer {
+.posContainer {
   width: 100%;
   min-height: 100vh;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -171,7 +171,7 @@
   background: #1a1a2e;
 }
 
-/* ===== HERO SECTION - Matching Home Page ===== */
+/* ===== HERO SECTION ===== */
 .heroSection {
   position: relative;
   min-height: 100vh;
@@ -428,24 +428,7 @@
   line-height: 1.2;
 }
 
-/* ===== CATEGORIES SECTION ===== */
-.categoriesSection {
-  padding: 100px 0;
-  background: #f8fafc;
-}
-
-.categoriesSection .sectionTitle {
-  color: #0f172a;
-}
-
-.categoriesSection .sectionSubtitle {
-  color: #64748b;
-}
-
-.categoriesSection .sectionBadge {
-  background: rgba(37, 99, 235, 0.08);
-}
-
+/* ===== SECTION HEADER ===== */
 .sectionHeader {
   text-align: center;
   margin-bottom: 60px;
@@ -483,202 +466,108 @@
   background-clip: text;
 }
 
-.categoriesGrid {
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  gap: 16px;
+/* ===== POS TYPES SECTION ===== */
+.posTypesSection {
+  padding: 100px 0;
+  background: #f8fafc;
 }
 
-.categoryCard {
-  background: #fff;
-  padding: 24px 16px;
-  border-radius: 16px;
-  border: 1px solid #e2e8f0;
-  text-align: center;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.categoryCard:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-  border-color: var(--category-color, #2563eb);
-}
-
-.categoryCard.active {
-  border-color: var(--category-color, #2563eb);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-  background: var(--category-color, #2563eb)08;
-}
-
-.categoryIcon {
-  font-size: 2rem;
-  margin-bottom: 8px;
-  display: block;
-}
-
-.categoryCard h3 {
-  font-size: 0.85rem;
-  font-weight: 600;
+.posTypesSection .sectionTitle {
   color: #0f172a;
-  margin-bottom: 4px;
-  line-height: 1.2;
 }
 
-.categoryCount {
-  font-size: 0.75rem;
+.posTypesSection .sectionSubtitle {
   color: #64748b;
 }
 
-/* ===== SYSTEMS DETAIL SECTION ===== */
-.systemsDetailSection {
-  padding: 80px 0;
-  background: #fff;
+.posTypesSection .sectionBadge {
+  background: rgba(37, 99, 235, 0.08);
 }
 
-.detailHeader {
-  margin-bottom: 40px;
-}
-
-.detailBreadcrumb {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 0.95rem;
-  color: #64748b;
-}
-
-.breadcrumbItem {
-  color: #64748b;
-}
-
-.breadcrumbItem:last-child {
-  font-weight: 600;
-}
-
-.breadcrumbSeparator {
-  color: #94a3b8;
-}
-
-.detailContent {
+.posTypesGrid {
   display: grid;
-  grid-template-columns: 280px 1fr;
-  gap: 40px;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
 }
 
-.systemList {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  background: #f8fafc;
-  border-radius: 12px;
-  padding: 8px;
-  border: 1px solid #e2e8f0;
-  max-height: 500px;
-  overflow-y: auto;
-}
-
-.systemListItem {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 12px 16px;
-  border-radius: 8px;
-  cursor: pointer;
+.posTypeCard {
+  background: #fff;
+  padding: 40px 32px;
+  border-radius: 20px;
+  border: 2px solid #e2e8f0;
   transition: all 0.3s ease;
-  color: #475569;
+  position: relative;
 }
 
-.systemListItem:hover {
-  background: #f1f5f9;
+.posTypeCard:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
 }
 
-.systemListItem.active {
-  background: var(--system-color, #2563eb)10;
-  color: var(--system-color, #2563eb);
-  font-weight: 600;
+.posTypeCard.active {
+  border-color: #2563eb;
+  box-shadow: 0 12px 40px rgba(37, 99, 235, 0.1);
 }
 
-.systemListIcon {
-  font-size: 1.2rem;
+.posTypeCard.cloudCard {
+  border-color: #8b5cf6;
 }
 
-.systemListName {
-  font-size: 0.9rem;
-}
-
-.systemDetailPanel {
-  background: #f8fafc;
-  border-radius: 16px;
-  padding: 32px;
-  border: 1px solid #e2e8f0;
-}
-
-.systemDetailHeader {
+.posTypeHeader {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+.posTypeIcon {
+  font-size: 2.5rem;
+}
+
+.posTypeHeader h3 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.posTypeBadge {
+  display: inline-block;
+  padding: 4px 16px;
+  background: #2563eb20;
+  color: #2563eb;
+  border-radius: 50px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.posTypeDescription {
+  color: #64748b;
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.posTypeFeatures {
+  list-style: none;
+  padding: 0;
   margin-bottom: 24px;
 }
 
-.systemDetailIcon {
-  width: 64px;
-  height: 64px;
-  border-radius: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 2rem;
-  flex-shrink: 0;
+.posTypeFeatures li {
+  padding: 8px 0;
+  color: #475569;
+  font-size: 0.95rem;
+  border-bottom: 1px solid #f1f5f9;
 }
 
-.systemDetailHeader h3 {
-  font-size: 1.4rem;
-  font-weight: 700;
-  color: #0f172a;
-  margin-bottom: 4px;
+.posTypeFeatures li:last-child {
+  border-bottom: none;
 }
 
-.systemDetailHeader p {
-  font-size: 1rem;
-  font-weight: 500;
-}
-
-.systemDetailFeatures {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  margin-bottom: 32px;
-}
-
-.systemDetailFeature {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px 14px;
-  background: #fff;
-  border-radius: 8px;
-  border: 1px solid #e2e8f0;
-}
-
-.featureCheck {
-  color: #10b981;
-  font-weight: 700;
-  font-size: 1rem;
-}
-
-.systemDetailFeature span:last-child {
-  color: #0f172a;
-  font-size: 0.9rem;
-}
-
-.systemDetailActions {
-  display: flex;
-  gap: 12px;
-}
-
-.systemDetailBtn {
-  padding: 12px 32px;
+.posTypeBtn {
+  width: 100%;
+  padding: 14px;
   background: #2563eb;
   color: #fff;
   border: none;
@@ -689,13 +578,292 @@
   transition: all 0.3s ease;
 }
 
-.systemDetailBtn:hover {
+.posTypeBtn:hover {
   background: #1d4ed8;
   transform: translateY(-2px);
   box-shadow: 0 8px 24px rgba(37, 99, 235, 0.3);
 }
 
-/* ===== CTA SECTION - Matching Home Page ===== */
+/* Cloud Features */
+.cloudFeaturesSection {
+  margin-top: 40px;
+  padding: 32px;
+  background: rgba(139, 92, 246, 0.08);
+  border-radius: 16px;
+  border: 1px solid rgba(139, 92, 246, 0.2);
+}
+
+.cloudFeaturesSection h3 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #0f172a;
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.cloudFeaturesGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.cloudFeature {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 20px;
+  background: #fff;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+}
+
+.cloudFeatureIcon {
+  font-size: 2rem;
+  flex-shrink: 0;
+}
+
+.cloudFeature h4 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 4px;
+}
+
+.cloudFeature p {
+  font-size: 0.9rem;
+  color: #64748b;
+  line-height: 1.5;
+}
+
+/* ===== FEATURES SECTION ===== */
+.featuresSection {
+  padding: 100px 0;
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+}
+
+.featuresGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.featureCard {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 32px 24px;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.featureCard:hover {
+  transform: translateY(-6px);
+  border-color: #2563eb;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+}
+
+.featureIconWrapper {
+  width: 64px;
+  height: 64px;
+  background: rgba(37, 99, 235, 0.1);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+}
+
+.featureIcon {
+  font-size: 2rem;
+}
+
+.featureCard h3 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 8px;
+}
+
+.featureCard p {
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1.6;
+}
+
+/* ===== BENEFITS SECTION ===== */
+.benefitsSection {
+  padding: 100px 0;
+  background: #f8fafc;
+}
+
+.benefitsSection .sectionTitle {
+  color: #0f172a;
+}
+
+.benefitsSection .sectionSubtitle {
+  color: #64748b;
+}
+
+.benefitsSection .sectionBadge {
+  background: rgba(37, 99, 235, 0.08);
+}
+
+.benefitsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.benefitCard {
+  background: #fff;
+  padding: 32px 24px;
+  border-radius: 16px;
+  border: 1px solid #e2e8f0;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.benefitCard:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+  border-color: #2563eb;
+}
+
+.benefitIcon {
+  font-size: 2.5rem;
+  margin-bottom: 12px;
+}
+
+.benefitCard h3 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 8px;
+}
+
+.benefitCard p {
+  font-size: 0.95rem;
+  color: #64748b;
+  line-height: 1.6;
+}
+
+/* ===== HARDWARE SECTION ===== */
+.hardwareSection {
+  padding: 100px 0;
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+}
+
+.hardwareGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.hardwareCard {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 24px 20px;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.hardwareCard:hover {
+  transform: translateY(-4px);
+  border-color: #2563eb;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+.hardwareIcon {
+  font-size: 2.5rem;
+  margin-bottom: 12px;
+}
+
+.hardwareCard h4 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 6px;
+}
+
+.hardwareCard p {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.5);
+  line-height: 1.5;
+}
+
+.hardwareNote {
+  margin-top: 32px;
+  padding: 16px 24px;
+  background: rgba(37, 99, 235, 0.1);
+  border-radius: 12px;
+  text-align: center;
+  border: 1px solid rgba(37, 99, 235, 0.2);
+}
+
+.hardwareNote p {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 1rem;
+}
+
+/* ===== INDUSTRIES SECTION ===== */
+.industriesSection {
+  padding: 100px 0;
+  background: #f8fafc;
+}
+
+.industriesSection .sectionTitle {
+  color: #0f172a;
+}
+
+.industriesSection .sectionSubtitle {
+  color: #64748b;
+}
+
+.industriesSection .sectionBadge {
+  background: rgba(37, 99, 235, 0.08);
+}
+
+.industriesGrid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 20px;
+}
+
+.industryCard {
+  background: #fff;
+  padding: 24px 20px;
+  border-radius: 16px;
+  border: 1px solid #e2e8f0;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.industryCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  border-color: #2563eb;
+}
+
+.industryIcon {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+}
+
+.industryCard h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 6px;
+}
+
+.industryCard p {
+  font-size: 0.85rem;
+  color: #64748b;
+  line-height: 1.5;
+}
+
+/* ===== CTA SECTION ===== */
 .ctaSection {
   padding: 100px 0;
   background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
@@ -843,30 +1011,30 @@
     max-width: 100%;
   }
 
-  .categoriesGrid {
-    grid-template-columns: repeat(4, 1fr);
-  }
-
-  .detailContent {
+  .posTypesGrid {
     grid-template-columns: 1fr;
+    max-width: 500px;
+    margin: 0 auto;
   }
 
-  .systemList {
-    max-height: 300px;
-    flex-direction: row;
-    flex-wrap: wrap;
-    padding: 12px;
-    gap: 8px;
-  }
-
-  .systemListItem {
-    flex: 1;
-    min-width: 150px;
-    justify-content: center;
-  }
-
-  .systemDetailFeatures {
+  .cloudFeaturesGrid {
     grid-template-columns: 1fr 1fr;
+  }
+
+  .featuresGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .benefitsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .hardwareGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .industriesGrid {
+    grid-template-columns: repeat(3, 1fr);
   }
 
   .navLinks {
@@ -928,26 +1096,24 @@
     font-size: 2rem;
   }
 
-  .categoriesGrid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-
-  .systemDetailFeatures {
+  .cloudFeaturesGrid {
     grid-template-columns: 1fr;
   }
 
-  .systemDetailHeader {
-    flex-direction: column;
-    text-align: center;
+  .featuresGrid {
+    grid-template-columns: 1fr;
   }
 
-  .systemDetailActions {
-    flex-direction: column;
+  .benefitsGrid {
+    grid-template-columns: 1fr;
   }
 
-  .systemDetailBtn {
-    width: 100%;
-    justify-content: center;
+  .hardwareGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .industriesGrid {
+    grid-template-columns: 1fr 1fr;
   }
 
   .ctaTitle {
@@ -991,14 +1157,6 @@
     font-size: 1.6rem;
   }
 
-  .categoriesGrid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .categoryCard {
-    padding: 16px 12px;
-  }
-
   .cardMetrics {
     grid-template-columns: 1fr 1fr;
     gap: 8px;
@@ -1023,7 +1181,19 @@
     font-size: 0.7rem;
   }
 
-  .systemDetailPanel {
-    padding: 20px;
+  .posTypeCard {
+    padding: 24px 20px;
+  }
+
+  .hardwareGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .industriesGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .cloudFeaturesSection {
+    padding: 20px 16px;
   }
 }

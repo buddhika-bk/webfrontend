@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../../context/AuthContext';
-import './Login.css';
+import styles from './Auth.module.css';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -9,6 +9,15 @@ const Login = () => {
   const [formData, setFormData] = useState({ email: '', password: '' });
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -28,44 +37,55 @@ const Login = () => {
   };
 
   return (
-    <div className="auth-page">
-      <div className="auth-split">
-        {/* Left Panel */}
-        <div className="auth-panel-left">
-          <div className="auth-brand">
-            <div className="auth-brand-icon">⚡</div>
+    <div className={styles.authPage}>
+      {/* Navigation Bar - Matching Home Page */}
+      
+
+      <div className={styles.authSplit}>
+        {/* Left Panel - Branding */}
+        <div className={styles.authPanelLeft}>
+          <div className={styles.authBrand}>
+            <div className={styles.authBrandIcon}>◆</div>
             <h2>WebPoint Lanka (PVT) Ltd</h2>
             <p>The smart way to manage your business online</p>
           </div>
-          <div className="auth-features">
-            <div className="auth-feature-item">
-              <span className="feature-check">✓</span>
+          <div className={styles.authFeatures}>
+            <div className={styles.authFeatureItem}>
+              <span className={styles.featureCheck}>✓</span>
               <span>Manage personal & business accounts</span>
             </div>
-            <div className="auth-feature-item">
-              <span className="feature-check">✓</span>
+            <div className={styles.authFeatureItem}>
+              <span className={styles.featureCheck}>✓</span>
               <span>Digital solutions for your brand</span>
             </div>
-            <div className="auth-feature-item">
-              <span className="feature-check">✓</span>
+            <div className={styles.authFeatureItem}>
+              <span className={styles.featureCheck}>✓</span>
               <span>Secure & fast access anytime</span>
             </div>
+          </div>
+          <div className={styles.authTrustBadges}>
+            <span>⚡ 24/7 Support</span>
+            <span>🔒 Secure Login</span>
+            <span>⭐ 100% Satisfaction</span>
           </div>
         </div>
 
         {/* Right Panel - Form */}
-        <div className="auth-panel-right">
-          <div className="auth-form-box">
-            <div className="auth-form-header">
-              <h1>Welcome back</h1>
-              <p>Sign in to continue to your account</p>
+        <div className={styles.authPanelRight}>
+          <div className={styles.authFormBox}>
+            <div className={styles.authFormHeader}>
+              <div className={styles.authBadge}>
+                <span>✦ Welcome Back</span>
+              </div>
+              <h1>Sign In to Your Account</h1>
+              <p>Enter your credentials to continue</p>
             </div>
 
-            <form onSubmit={handleSubmit} className="auth-form">
-              <div className="auth-field">
+            <form onSubmit={handleSubmit} className={styles.authForm}>
+              <div className={styles.authField}>
                 <label>Email Address</label>
-                <div className="auth-input-wrap">
-                  <span className="auth-input-icon">✉</span>
+                <div className={styles.authInputWrap}>
+                  <span className={styles.authInputIcon}>✉</span>
                   <input
                     type="email"
                     name="email"
@@ -77,13 +97,13 @@ const Login = () => {
                 </div>
               </div>
 
-              <div className="auth-field">
-                <div className="auth-label-row">
+              <div className={styles.authField}>
+                <div className={styles.authLabelRow}>
                   <label>Password</label>
-                  <Link to="/forgot-password" className="auth-forgot">Forgot password?</Link>
+                  <Link to="/forgot-password" className={styles.authForgot}>Forgot password?</Link>
                 </div>
-                <div className="auth-input-wrap">
-                  <span className="auth-input-icon">🔒</span>
+                <div className={styles.authInputWrap}>
+                  <span className={styles.authInputIcon}>🔒</span>
                   <input
                     type={showPassword ? 'text' : 'password'}
                     name="password"
@@ -94,7 +114,7 @@ const Login = () => {
                   />
                   <button
                     type="button"
-                    className="auth-toggle-pw"
+                    className={styles.authTogglePw}
                     onClick={() => setShowPassword(!showPassword)}
                   >
                     {showPassword ? '🙈' : '👁'}
@@ -102,15 +122,15 @@ const Login = () => {
                 </div>
               </div>
 
-              {error && <div className="auth-error">{error}</div>}
+              {error && <div className={styles.authError}>{error}</div>}
 
-              <button type="submit" className="auth-submit-btn" disabled={loading}>
-                {loading ? <span className="auth-spinner"></span> : 'Sign In'}
+              <button type="submit" className={styles.authSubmitBtn} disabled={loading}>
+                {loading ? <span className={styles.authSpinner}></span> : 'Sign In'}
               </button>
 
-              <div className="auth-divider"><span>or</span></div>
+              <div className={styles.authDivider}><span>or</span></div>
 
-              <p className="auth-switch">
+              <p className={styles.authSwitch}>
                 Don't have an account? <Link to="/register">Create one free</Link>
               </p>
             </form>
