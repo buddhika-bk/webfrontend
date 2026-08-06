@@ -9,7 +9,7 @@ const Home = () => {
   const [scrolled, setScrolled] = useState(false);
   const [usdRate, setUsdRate] = useState(336);
   const [isRateLive, setIsRateLive] = useState(true);
-  
+
   // --- NEW STATE FOR SOCIAL SHARE BAR ---
   const [isShareBarOpen, setIsShareBarOpen] = useState(true);
 
@@ -196,7 +196,7 @@ const Home = () => {
 
   return (
     <div className={styles.homeContainer}>
-      
+
       {/* --- NEW SOCIAL SHARE BAR --- */}
       {/* <div className={styles.socialWrapper}>
         {isShareBarOpen ? (
@@ -241,24 +241,24 @@ const Home = () => {
       {/* Hero Section - Updated with larger card */}
       <section className={styles.heroSection} id="home">
         <div className={styles.heroBackground}></div>
-        
+
         <div className={styles.heroContent}>
           <div className={styles.heroText}>
             <div className={styles.heroBadge}>
               <span>🚀 Trusted by 100+ Sri Lankan Businesses</span>
             </div>
-            
+
             <h1 className={styles.heroTitle}>
               <span>Transform Your</span>
               <span className={styles.highlightText}>Digital Presence</span>
               <span>in Sri Lanka</span>
             </h1>
-            
+
             <p className={styles.heroDescription}>
-              We deliver professional web development, POS systems, creative design, and custom software solutions 
+              We deliver professional web development, POS systems, creative design, and custom software solutions
               tailored for Sri Lankan businesses. Fast delivery, 24/7 support, and guaranteed satisfaction.
             </p>
-            
+
             <div className={styles.heroStats}>
               <div className={styles.statItem}>
                 <span className={styles.statNumber}>48hr</span>
@@ -273,7 +273,7 @@ const Home = () => {
                 <span className={styles.statLabel}>Satisfaction</span>
               </div>
             </div>
-            
+
             <div className={styles.heroButtons}>
               <button className={styles.primaryButton} onClick={() => navigate('/login')}>
                 Get Started - It's Free
@@ -285,7 +285,7 @@ const Home = () => {
               </button>
             </div>
           </div>
-          
+
           {/* Hero Visual - Enlarged Card */}
           <div className={styles.heroVisual}>
             <div className={styles.heroCard}>
@@ -332,7 +332,7 @@ const Home = () => {
         </div>
       </section>
 
-       {/* Services Section */}
+      {/* Services Section */}
       <section className={styles.servicesSection} id="services">
         <div className={styles.sectionContainer}>
           <div className={styles.sectionHeader}>
@@ -347,7 +347,12 @@ const Home = () => {
 
           <div className={styles.servicesGrid}>
             {services.map((service, index) => (
-              <div key={index} className={styles.serviceCard}>
+              <div
+                key={index}
+                className={styles.serviceCard}
+                onClick={() => navigate(service.path)}
+                style={{ cursor: 'pointer' }}
+              >
                 <div className={styles.serviceIconWrapper}>
                   <span className={styles.serviceIcon}>{service.icon}</span>
                 </div>
@@ -358,9 +363,12 @@ const Home = () => {
                     <li key={idx}>{feature}</li>
                   ))}
                 </ul>
-                <button 
-                  className={styles.serviceCta} 
-                  onClick={() => navigate(service.path)}
+                <button
+                  className={styles.serviceCta}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    navigate(service.path);
+                  }}
                 >
                   Learn More <span>→</span>
                 </button>

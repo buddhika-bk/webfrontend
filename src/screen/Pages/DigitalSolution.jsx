@@ -4,14 +4,16 @@ import styles from './DigitalSolution.module.css';
 
 // Import images
 import solutionHeroImg from '../../assets/solution-hero.jpg';
-import filmProjectImg from '../../assets/September .jpeg';
+import filmProjectImg from '../../assets/September.jpeg';
 import concertProjectImg from '../../assets/kpop.jpeg';
-import tshirtProjectImg from '../../assets/Tshirt.png';
+import ikkaProjectImg from '../../assets/Ikka.jpeg';
 
 const DigitalSolution = () => {
   const [hoveredPlan, setHoveredPlan] = useState(null);
   const [activeTab, setActiveTab] = useState('all');
   const [scrolled, setScrolled] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [isImagePopupOpen, setIsImagePopupOpen] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -146,91 +148,77 @@ const DigitalSolution = () => {
     }
   ];
 
-  // Our Work / Portfolio Items
+  // Digital Marketing Only Projects (Updated)
   const workItems = [
     {
       id: 1,
-      title: 'E-commerce Platform',
-      category: 'Web Development',
-      description: 'A modern e-commerce solution with AI-powered recommendations',
-      image: solutionImage1,
-      color: '#8b5cf6',
-      tags: ['React', 'Node.js', 'MongoDB'],
-      link: '#'
-    },
-    {
-      id: 2,
-      title: 'September Film Campaign',
+      title: 'September Film Flyers',
       category: 'Digital Marketing',
-      description: 'Complete digital marketing campaign for September Film release',
+      description: 'Complete creative campaign for September film release with poster concepts, social media designs, and all visual branding developed by WebPoint.lk.',
       image: filmProjectImg,
       color: '#3b82f6',
       tags: ['Social Media', 'Video Marketing', 'Content Strategy'],
-      link: '#'
+      link: '#',
+      fullImage: filmProjectImg
     },
     {
-      id: 3,
-      title: 'Mobile Banking App',
-      category: 'Mobile Development',
-      description: 'Secure and user-friendly mobile banking application',
-      image: solutionImage3,
-      color: '#10b981',
-      tags: ['React Native', 'Firebase', 'Payment API'],
-      link: '#'
-    },
-    {
-      id: 4,
+      id: 2,
       title: 'Sweet Day K-pop Concert',
       category: 'Digital Marketing',
-      description: 'Comprehensive digital promotion for Sweet Day K-pop concert',
+      description: 'Comprehensive digital promotion for Sweet Day K-pop concert including social media buzz, influencer collaborations, and targeted advertising.',
       image: concertProjectImg,
       color: '#ec4899',
       tags: ['Event Marketing', 'Social Media', 'Influencer Collaboration'],
-      link: '#'
+      link: '#',
+      fullImage: concertProjectImg
     },
     {
-      id: 5,
-      title: 'LMS Platform',
-      category: 'Web Development',
-      description: 'Learning management system for online education',
-      image: solutionImage1,
-      color: '#f59e0b',
-      tags: ['React', 'Django', 'PostgreSQL'],
-      link: '#'
-    },
-    {
-      id: 6,
-      title: 'T-Shirt Design Campaign',
+      id: 3,
+      title: 'Ikka Film Flyers',
       category: 'Digital Marketing',
-      description: 'Creative digital campaign for a custom t-shirt brand',
-      image: tshirtProjectImg,
+      description: 'Ikka Film main poster concepts, social media creatives, and complete visual branding developed and designed by WebPoint.lk.',
+      image: ikkaProjectImg,
       color: '#06b6d4',
       tags: ['Visual Design', 'Branding', 'Social Commerce'],
-      link: '#'
-    },
-    {
-      id: 7,
-      title: 'Corporate Website Redesign',
-      category: 'Web Design',
-      description: 'Modern redesign for a leading corporate brand',
-      image: heroImage,
-      color: '#8b5cf6',
-      tags: ['UI/UX', 'Animation', 'Responsive'],
-      link: '#'
-    },
-    {
-      id: 8,
-      title: 'Brand Identity Package',
-      category: 'Branding',
-      description: 'Complete brand identity design for a startup',
-      image: solutionImage2,
-      color: '#f59e0b',
-      tags: ['Logo', 'Branding', 'Style Guide'],
-      link: '#'
-    }
+      link: '#',
+      fullImage: ikkaProjectImg}
+    // },
+    // {
+    //   id: 4,
+    //   title: 'Social Media Growth Strategy',
+    //   category: 'Digital Marketing',
+    //   description: 'Data-driven social media growth strategy that increased engagement by 300% across multiple platforms through content optimization.',
+    //   image: solutionImage2,
+    //   color: '#8b5cf6',
+    //   tags: ['Social Media', 'Data Analytics', 'Content Strategy'],
+    //   link: '#',
+    //   fullImage: solutionImage2
+    // },
+    // {
+    //   id: 5,
+    //   title: 'Influencer Marketing Campaign',
+    //   category: 'Digital Marketing',
+    //   description: 'Strategic influencer marketing campaign connecting brands with relevant creators to drive authentic engagement and conversion.',
+    //   image: solutionImage1,
+    //   color: '#f59e0b',
+    //   tags: ['Influencer Marketing', 'Brand Strategy', 'Content Creation'],
+    //   link: '#',
+    //   fullImage: solutionImage1
+    // },
+    // {
+    //   id: 6,
+    //   title: 'Digital Brand Awareness Campaign',
+    //   category: 'Digital Marketing',
+    //   description: 'Comprehensive brand awareness campaign utilizing multi-channel digital marketing to establish brand presence and recognition.',
+    //   image: heroImage,
+    //   color: '#10b981',
+    //   tags: ['Brand Awareness', 'Multi-Channel', 'Digital Strategy'],
+    //   link: '#',
+    //   fullImage: heroImage
+    // }
   ];
 
-  const categories = ['all', 'Web Development', 'Mobile Development', 'Digital Marketing', 'Web Design', 'Branding'];
+  const categories = ['all', 'Digital Marketing'];
 
   const filteredWork = activeTab === 'all' 
     ? workItems 
@@ -244,10 +232,21 @@ const DigitalSolution = () => {
     }
   };
 
+  const openImagePopup = (image) => {
+    setSelectedImage(image);
+    setIsImagePopupOpen(true);
+    document.body.style.overflow = 'hidden';
+  };
+
+  const closeImagePopup = () => {
+    setIsImagePopupOpen(false);
+    setSelectedImage(null);
+    document.body.style.overflow = 'auto';
+  };
+
   return (
     <div className={styles.digitalSolutionContainer}>
       
-
       {/* Hero Section - Matching Home Page */}
       <div className={styles.heroSection}>
         <div className={styles.heroBackground}></div>
@@ -289,7 +288,15 @@ const DigitalSolution = () => {
                 Start Your Digital Journey
                 <span className={styles.buttonArrow}>→</span>
               </button>
-              <button className={styles.secondaryButton} onClick={() => document.querySelector(`.${styles.pricingSection}`)?.scrollIntoView({ behavior: 'smooth' })}>
+              <button 
+                className={styles.secondaryButton} 
+                onClick={() => {
+                  const pricingSection = document.querySelector(`.${styles.pricingSection}`);
+                  if (pricingSection) {
+                    pricingSection.scrollIntoView({ behavior: 'smooth' });
+                  }
+                }}
+              >
                 <span className={styles.playIcon}>▶</span>
                 View Pricing
               </button>
@@ -408,18 +415,16 @@ const DigitalSolution = () => {
         </div>
       </div> */}
 
-      
-
-      {/* Our Work Section */}
+      {/* Our Work Section - UPDATED with Digital Marketing Only */}
       <div className={styles.workSection}>
         <div className={styles.sectionContainer}>
           <div className={styles.sectionHeader}>
             <div className={styles.sectionBadge}>
               <span>✦ Our Portfolio</span>
             </div>
-            <h2 className={styles.sectionTitle}>Recent <span className={styles.textGradient}>Digital</span> Projects</h2>
+            <h2 className={styles.sectionTitle}>Digital Marketing <span className={styles.textGradient}>Projects</span></h2>
             <p className={styles.sectionSubtitle}>
-              Explore some of our favorite projects that showcase our expertise and creativity
+              Explore our digital marketing success stories that drive results and engagement
             </p>
           </div>
 
@@ -443,6 +448,7 @@ const DigitalSolution = () => {
                     src={work.image} 
                     alt={work.title}
                     className={styles.workImage}
+                    onClick={() => openImagePopup(work.fullImage || work.image)}
                     onError={(e) => {
                       e.target.onerror = null;
                       e.target.src = `https://via.placeholder.com/600x400/1a1b3a/${work.color.slice(1)}?text=${encodeURIComponent(work.title)}`;
@@ -454,8 +460,14 @@ const DigitalSolution = () => {
                         <span key={index} className={styles.workTag}>{tag}</span>
                       ))}
                     </div>
-                    <button className={styles.workViewButton}>
-                      View Project
+                    <button 
+                      className={styles.workViewButton}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        openImagePopup(work.fullImage || work.image);
+                      }}
+                    >
+                      🔍 View Full Image
                     </button>
                   </div>
                 </div>
@@ -471,13 +483,32 @@ const DigitalSolution = () => {
           </div>
 
           <div className={styles.workViewAll}>
-            <button className={styles.viewAllButton} onClick={() => navigate('/portfolio')}>
+            {/* <button className={styles.viewAllButton} onClick={() => navigate('/portfolio')}>
               View All Projects
               <span className={styles.buttonIcon}>→</span>
-            </button>
+            </button> */}
           </div>
         </div>
       </div>
+
+      {/* Image Popup Modal */}
+      {isImagePopupOpen && selectedImage && (
+        <div className={styles.imagePopupOverlay} onClick={closeImagePopup}>
+          <div className={styles.imagePopupContent} onClick={(e) => e.stopPropagation()}>
+            <button className={styles.imagePopupClose} onClick={closeImagePopup}>
+              ✕
+            </button>
+            <img 
+              src={selectedImage} 
+              alt="Full size project" 
+              className={styles.imagePopupFull}
+            />
+            <div className={styles.imagePopupCaption}>
+              <p>Click anywhere outside to close</p>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* How We Work Section */}
       <div className={styles.processSection}>
@@ -493,7 +524,7 @@ const DigitalSolution = () => {
           </div>
 
           <div className={styles.processGrid}>
-            {workSteps.map((step, index) => (
+            {workSteps.map((step) => (
               <div key={step.id} className={styles.processStep} style={{ '--step-color': step.color }}>
                 <div className={styles.stepNumber} style={{ color: step.color }}>{step.number}</div>
                 <div className={styles.stepIcon}>{step.icon}</div>
