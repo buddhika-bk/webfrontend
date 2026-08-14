@@ -34,6 +34,8 @@ import PremiumAllRestaurants from './screen/Resturant/PremiumAllRestaurants';
 import PremiumAllMenus from './screen/Resturant/PremiumAllMenus';
 import RestaurantLogin from './screen/Resturant/RestaurantLogin';
 import RestaurantDashboard from './screen/Resturant/RestaurantDashboard';
+import Portfolio from './screen/Pages/portfolio';
+import ContactProfile from './screen/Pages/ContactProfile'; // ✅ NEW IMPORT
 
 // User Management Imports
 import Login from './screen/Pages/auth/Login';
@@ -91,8 +93,9 @@ const UserDashboardLayout = ({ children }) => {
   );
 };
 
-// ─── Restaurant routes that hide the default Header & Footer ──────────────────
-const RESTAURANT_ROUTES = [
+// ─── Routes that hide the default Header & Footer ────────────────────────────
+const ROUTES_WITHOUT_LAYOUT = [
+  // Existing Restaurant Routes
   '/addrest',
   '/restaurant/menu',
   '/restaurant/menu/add',
@@ -106,11 +109,17 @@ const RESTAURANT_ROUTES = [
   '/premium/restaurants',
   '/premium/menus',
   '/restaurant/login',
-  '/restaurant/dashboard'
+  '/restaurant/dashboard',
+
+  // Portfolio
+  '/portfolio',
+
+  // ✅ NEW: Contact Profile Route
+  '/contact-profile' 
 ];
 
-const isRestaurantRoute = (pathname) => {
-  return RESTAURANT_ROUTES.some(route =>
+const isRouteWithoutLayout = (pathname) => {
+  return ROUTES_WITHOUT_LAYOUT.some(route =>
     pathname.startsWith(route) ||
     pathname.startsWith('/restaurant') ||
     pathname.startsWith('/premium')
@@ -161,17 +170,17 @@ function App() {
 
   // Show the default Header on:
   //   • regular public pages
-  //   • auth pages (login / register / forgot / reset)  ← KEY CHANGE
+  //   • auth pages (login / register / forgot / reset)
   // Hide it on:
-  //   • restaurant routes (they have their own UI)
-  //   • dashboard routes  (they use UserHeader)
+  //   • routes defined in ROUTES_WITHOUT_LAYOUT (Restaurants & Portfolio & ContactProfile)
+  //   • dashboard routes (they use UserHeader)
   const showDefaultHeader =
-    !isRestaurantRoute(currentPath) &&
+    !isRouteWithoutLayout(currentPath) &&
     !isDashboardRoute(currentPath);
 
-  // Footer is hidden on auth pages, restaurant routes, and dashboard routes
+  // Footer is hidden on auth pages, portfolio, restaurant routes, dashboard routes, and contact-profile
   const showDefaultFooter =
-    !isRestaurantRoute(currentPath) &&
+    !isRouteWithoutLayout(currentPath) &&
     !isDashboardRoute(currentPath) &&
     !isAuthRoute(currentPath);
 
@@ -191,8 +200,12 @@ function App() {
           <Route path="/service"          element={<Service />} />
           <Route path="/webservice"       element={<WebService />} />
           <Route path="/systems"          element={<Systems />} />
-          <Route path="/pos-system"        element={<POSSystem />} />
+          <Route path="/pos-system"       element={<POSSystem />} />
           <Route path="/digital-solution" element={<DigitalSolution />} />
+          <Route path="/portfolio"        element={<Portfolio />} />
+          
+          {/* ✅ NEW: Contact Profile Route */}
+          <Route path="/contact-profile"  element={<ContactProfile />} />
 
           {/* ── Demo pages ── */}
           <Route path="/demoshop"  element={<DemoShop />} />

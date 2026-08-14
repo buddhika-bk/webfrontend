@@ -1,0 +1,289 @@
+/* --- Brand Colors --- */
+:root {
+  --brand-blue: #2962ff; /* Matches the blue in WebPoint */
+  --brand-orange: #ff6d00; /* Matches the orange in WebPoint */
+  --brand-blue-light: #e8eeff;
+  
+  --bg-color: #f8f9fd; /* Ultra light blue-grey background */
+  --text-dark: #121826;
+  --text-muted: #6c7a91;
+  --card-white: #ffffff;
+}
+
+/* --- Main Container --- */
+.container {
+  width: 100%;
+  min-height: 100vh;
+  background-color: var(--bg-color);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 20px 60px 20px;
+  box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  color: var(--text-dark);
+  overflow-x: hidden;
+}
+
+/* --- Exact CSS Logo Replica --- */
+.headerLogo {
+  font-size: 32px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  margin-bottom: 35px;
+  display: flex;
+  align-items: baseline;
+  background: var(--card-white);
+  padding: 8px 20px;
+  border-radius: 50px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+}
+
+.logoBluePart { color: var(--brand-blue); }
+.logoOrangePart { color: var(--brand-orange); }
+
+/* --- Main Card --- */
+.mainCard {
+  width: 100%;
+  max-width: 400px;
+  background: var(--card-white);
+  border-radius: 28px;
+  padding: 32px 24px 24px 24px;
+  box-shadow: 0 10px 40px rgba(41, 98, 255, 0.06), 0 4px 12px rgba(0,0,0,0.02);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 24px;
+  box-sizing: border-box;
+}
+
+/* --- Profile Header --- */
+.profileSection {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.companyName {
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin: 0 0 4px 0;
+}
+
+.companySub {
+  font-size: 16px;
+  color: var(--text-muted);
+  font-weight: 400;
+  margin: 0 0 12px 0;
+}
+
+.badge {
+  display: inline-block;
+  background: var(--brand-blue-light);
+  color: var(--brand-blue);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 5px 16px;
+  border-radius: 50px;
+  letter-spacing: 0.3px;
+}
+
+/* --- Tags (Chips) --- */
+.tagsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 28px;
+  width: 100%;
+}
+
+.tag {
+  background: #f4f6fa;
+  color: var(--text-dark);
+  padding: 8px 18px;
+  border-radius: 50px;
+  font-size: 13px;
+  font-weight: 500;
+  white-space: nowrap;
+  transition: all 0.2s;
+}
+
+.tag:active {
+  background: var(--brand-blue-light);
+  color: var(--brand-blue);
+}
+
+/* --- Stats Section --- */
+.statsRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 300px;
+  padding: 18px 0;
+  margin-bottom: 16px;
+  border-top: 1px solid #f0f2f6;
+  border-bottom: 1px solid #f0f2f6;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.statNum {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text-dark);
+}
+
+.statLabel {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 4px;
+  letter-spacing: 0.5px;
+}
+
+.statDivider {
+  width: 1px;
+  height: 30px;
+  background: #eaeef4;
+}
+
+/* --- Location --- */
+.location {
+  font-size: 14px;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 28px;
+}
+.pinIcon { font-size: 16px; }
+
+/* --- Primary CTA Button --- */
+.primaryButton {
+  width: 100%;
+  background: var(--brand-blue);
+  border: none;
+  padding: 18px;
+  border-radius: 60px;
+  color: #ffffff;
+  font-size: 17px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  box-shadow: 0 8px 24px rgba(41, 98, 255, 0.25);
+  letter-spacing: 0.5px;
+}
+
+.primaryButton:active {
+  transform: scale(0.97);
+  box-shadow: 0 4px 12px rgba(41, 98, 255, 0.2);
+}
+
+/* --- Action Row (WhatsApp, Email, Call) --- */
+.actionRow {
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.actionItem {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: transform 0.2s;
+  border: none;
+  background: none;
+  padding: 0;
+}
+
+.actionItem:active {
+  transform: scale(0.92);
+}
+
+.iconCircle {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--card-white);
+  color: var(--text-dark);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+  border: 1px solid #f0f2f6;
+  transition: all 0.2s;
+}
+
+/* Specific colors for icons based on functionality */
+.whatsappIcon { color: #25D366; }
+.emailIcon { color: var(--brand-blue); }
+.callIcon { color: #ff4d4d; }
+
+.actionLabel {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-muted);
+}
+
+/* --- Bottom Links --- */
+.bottomLinks {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.socialLink {
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.socialLink:active { color: var(--brand-blue); }
+
+.divider { color: #d1d9e6; }
+
+.websiteLink {
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+  background: var(--card-white);
+  padding: 14px;
+  border-radius: 60px;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 500;
+  transition: all 0.2s;
+  box-sizing: border-box;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+  border: 1px solid #f0f2f6;
+}
+
+.websiteLink:active {
+  background: #f4f6fa;
+  color: var(--brand-blue);
+}
+
+/* --- iPhone Safe Area Fixes --- */
+@supports (padding: max(0px)) {
+  .container {
+    padding-left: max(20px, env(safe-area-inset-left));
+    padding-right: max(20px, env(safe-area-inset-right));
+    padding-bottom: max(60px, env(safe-area-inset-bottom));
+  }
+}
