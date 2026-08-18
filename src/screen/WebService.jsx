@@ -116,14 +116,14 @@ const WebService = () => {
   };
 
   return (
-    <div className={styles.webserviceContainer}>
+    <div id="hero" className={styles.webserviceContainer}>
       
 
       {/* Hero Section - Matching Home Page */}
-      <div className={styles.heroSection}>
+     <div id="hero" className={styles.heroSection}>
         <div className={styles.heroBackground}></div>
         
-        <div className={styles.heroContent}>
+        <div id="hero" className={styles.heroContent}>
           <div className={styles.heroText}>
             <div className={styles.heroBadge}>
               <span>✦ Premium Web Services</span>
@@ -135,7 +135,7 @@ const WebService = () => {
               <span>with Our Web Services</span>
             </h1>
             
-            <p className={styles.heroDescription}>
+            <p id="hero" className={styles.heroDescription}>
               We offer a comprehensive range of web services to help you establish and grow your online presence. 
               Our team of experts is dedicated to delivering high-quality solutions tailored to your specific needs.
             </p>

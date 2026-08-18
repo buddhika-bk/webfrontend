@@ -474,14 +474,37 @@ const Systems = () => {
   const currentCategory = systemCategories.find(cat => cat.id === activeSystem);
   const currentSystem = currentCategory?.systems.find(sys => sys.id === activeCategory);
 
+  // Select a category and automatically scroll to the
+  // Systems Detail Section after the new details are rendered.
   const handleCategoryClick = (categoryId) => {
     setActiveSystem(categoryId);
-    const category = systemCategories.find(cat => cat.id === categoryId);
+
+    const category = systemCategories.find(
+      cat => cat.id === categoryId
+    );
+
     if (category && category.systems.length > 0) {
       setActiveCategory(category.systems[0].id);
     }
+
+    // Wait for React to render the selected category/system,
+    // then smoothly move the user to the Systems Detail Section.
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        const detailElement =
+          document.getElementById('systems-details');
+
+        if (detailElement) {
+          detailElement.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      });
+    });
   };
 
+  // Select an individual system inside the detail section.
   const handleSystemClick = (systemId) => {
     setActiveCategory(systemId);
   };
@@ -596,7 +619,11 @@ const Systems = () => {
 
       {/* Systems Detail Section */}
       {currentCategory && currentSystem && (
-        <div className={styles.systemsDetailSection}>
+        <div
+          id="systems-details"
+          className={styles.systemsDetailSection}
+          style={{ scrollMarginTop: '80px' }}
+        >
           <div className={styles.sectionContainer}>
             <div className={styles.detailHeader}>
               <div className={styles.detailBreadcrumb}>

@@ -456,7 +456,7 @@ const About = () => {
           <div className={styles.contactVisual}>
             <div className={styles.contactMap}>
               <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15825.006627732612!2d80.00440334515252!3d7.091541294807006!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ae2fbe433c1c2db%3A0x363c2a6f4d5e7778!2sGampaha%2C%20Sri%20Lanka!5e0!3m2!1sen!2s!4v1706181234567!5m2!1sen!2s"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15825.006627732612!2d80.00440334515252!3d7.091541294807006!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ae2fbe433c1c2db%3A0x363c2a6f4d5e7778!2sMalabe%2C%20Sri%20Lanka!5e0!3m2!1sen!2s!4v1706181234567!5m2!1sen!2s"
                 width="100%"
                 height="100%"
                 style={{ border: 0, borderRadius: '16px' }}

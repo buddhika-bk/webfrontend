@@ -8,32 +8,57 @@ const Services = () => {
   const [activeService, setActiveService] = useState('website');
   const [hoveredService, setHoveredService] = useState(null);
   const [scrolled, setScrolled] = useState(false);
+
   const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
     };
+
     window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
   }, []);
 
-  // Image URLs
-  const systemDevImg = 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=1170&q=80';
-  const mobileAppImg = 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1170&q=80';
-  const ecommerceImg = 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1170&q=80';
-  const digitalMarketingImg = 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1115&q=80';
-  const posSystemImg = 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?ixlib=rb-4.0.3&auto=format&fit=crop&w=1174&q=80';
-  const lmsSystemImg = 'https://images.unsplash.com/photo-1501504905252-473c47e087f8?ixlib=rb-4.0.3&auto=format&fit=crop&w=1074&q=80';
-  const financeSystemImg = 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1011&q=80';
+  // =========================================================
+  // IMAGE URLS
+  // =========================================================
 
-  // Updated services matching Home page
+  const systemDevImg =
+    'https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=1170&q=80';
+
+  const mobileAppImg =
+    'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1170&q=80';
+
+  const ecommerceImg =
+    'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1170&q=80';
+
+  const digitalMarketingImg =
+    'https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1115&q=80';
+
+  const posSystemImg =
+    'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?ixlib=rb-4.0.3&auto=format&fit=crop&w=1174&q=80';
+
+  const lmsSystemImg =
+    'https://images.unsplash.com/photo-1501504905252-473c47e087f8?ixlib=rb-4.0.3&auto=format&fit=crop&w=1074&q=80';
+
+  const financeSystemImg =
+    'https://images.unsplash.com/photo-1554224155-6726b3ff858f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1011&q=80';
+
+  // =========================================================
+  // SERVICES
+  // =========================================================
+
   const services = [
     {
       id: 'website',
       title: 'Web Development',
       tagline: 'Stunning Digital Experiences',
-      description: 'Create beautiful, responsive, and high-performing websites that convert visitors into customers. 48-hour delivery available.',
+      description:
+        'Create beautiful, responsive, and high-performing websites that convert visitors into customers. 48-hour delivery available.',
       icon: '💻',
       gradient: styles.gradientPurple,
       features: [
@@ -42,21 +67,53 @@ const Services = () => {
         'E-commerce Integration',
         'CMS Development',
         'SEO Optimization',
-        '48-Hour Delivery'
+        '48-Hour Delivery',
       ],
       image: websiteDevImg,
       color: '#8b5cf6',
       packages: [
-        { name: 'Starter', price: '$150', features: ['5 Pages', 'Responsive Design', 'Basic SEO', 'Contact Form', '1 Month Support'] },
-        { name: 'Professional', price: '$250', features: ['10 Pages', 'E-commerce Ready', 'Advanced SEO', 'CMS Integration', '3 Months Support'] },
-        { name: 'Enterprise', price: '$350', features: ['20 Pages', 'Custom Features', 'Full SEO', 'API Integration', '6 Months Support'] }
-      ]
+        {
+          name: 'Starter',
+          price: '$150',
+          features: [
+            '5 Pages',
+            'Responsive Design',
+            'Basic SEO',
+            'Contact Form',
+            '1 Month Support',
+          ],
+        },
+        {
+          name: 'Professional',
+          price: '$250',
+          features: [
+            '10 Pages',
+            'E-commerce Ready',
+            'Advanced SEO',
+            'CMS Integration',
+            '3 Months Support',
+          ],
+        },
+        {
+          name: 'Enterprise',
+          price: '$350',
+          features: [
+            '20 Pages',
+            'Custom Features',
+            'Full SEO',
+            'API Integration',
+            '6 Months Support',
+          ],
+        },
+      ],
     },
+
     {
       id: 'pos',
       title: 'POS Systems',
       tagline: 'Complete Retail Solutions',
-      description: 'Offline and cloud-based Point of Sale systems for supermarkets, restaurants, bookshops, pharmacies, and hardware stores.',
+      description:
+        'Offline and cloud-based Point of Sale systems for supermarkets, restaurants, bookshops, pharmacies, and hardware stores.',
       icon: '🛒',
       gradient: styles.gradientBlue,
       features: [
@@ -65,21 +122,50 @@ const Services = () => {
         'Sales Tracking',
         'Customer Management',
         'Analytics & Reporting',
-        'Multi-Branch Support'
+        'Multi-Branch Support',
       ],
       image: posSystemImg,
       color: '#3b82f6',
       packages: [
-        { name: 'Starter POS', price: '$999', features: ['Single Location', 'Basic Inventory', 'Sales Tracking', 'Basic Reports'] },
-        { name: 'Professional POS', price: '$2,499', features: ['Multi-Branch', 'Advanced Inventory', 'Customer Management', 'Analytics'] },
-        { name: 'Enterprise POS', price: '$4,999+', features: ['Full Customization', 'Cloud Sync', 'API Integration', '24/7 Support'] }
-      ]
+        {
+          name: 'Starter POS',
+          price: '$999',
+          features: [
+            'Single Location',
+            'Basic Inventory',
+            'Sales Tracking',
+            'Basic Reports',
+          ],
+        },
+        {
+          name: 'Professional POS',
+          price: '$2,499',
+          features: [
+            'Multi-Branch',
+            'Advanced Inventory',
+            'Customer Management',
+            'Analytics',
+          ],
+        },
+        {
+          name: 'Enterprise POS',
+          price: '$4,999+',
+          features: [
+            'Full Customization',
+            'Cloud Sync',
+            'API Integration',
+            '24/7 Support',
+          ],
+        },
+      ],
     },
+
     {
       id: 'design',
       title: 'Concept Flyers & 3D Design',
       tagline: 'Creative Visual Solutions',
-      description: 'Professional design services including film posters, concert posters, and 3D designs for your marketing needs.',
+      description:
+        'Professional design services including film posters, concert posters, and 3D designs for your marketing needs.',
       icon: '🎨',
       gradient: styles.gradientPink,
       features: [
@@ -88,21 +174,50 @@ const Services = () => {
         '3D Design',
         'Brand Identity',
         'Creative Concepts',
-        'Print Ready Files'
+        'Print Ready Files',
       ],
       image: digitalMarketingImg,
       color: '#ec4899',
       packages: [
-        { name: 'Basic Design', price: '$99', features: ['Single Poster', 'Basic Design', '2 Revisions', 'Digital Files'] },
-        { name: 'Professional', price: '$249', features: ['Multiple Designs', '3D Elements', '5 Revisions', 'Print Ready'] },
-        { name: 'Enterprise', price: '$499+', features: ['Full Campaign', '3D Design', 'Unlimited Revisions', 'Brand Guidelines'] }
-      ]
+        {
+          name: 'Basic Design',
+          price: '$99',
+          features: [
+            'Single Poster',
+            'Basic Design',
+            '2 Revisions',
+            'Digital Files',
+          ],
+        },
+        {
+          name: 'Professional',
+          price: '$249',
+          features: [
+            'Multiple Designs',
+            '3D Elements',
+            '5 Revisions',
+            'Print Ready',
+          ],
+        },
+        {
+          name: 'Enterprise',
+          price: '$499+',
+          features: [
+            'Full Campaign',
+            '3D Design',
+            'Unlimited Revisions',
+            'Brand Guidelines',
+          ],
+        },
+      ],
     },
+
     {
       id: 'software',
       title: 'Custom Software',
       tagline: 'Tailored Business Solutions',
-      description: 'Custom software solutions to streamline your business operations and solve complex challenges.',
+      description:
+        'Custom software solutions to streamline your business operations and solve complex challenges.',
       icon: '⚙️',
       gradient: styles.gradientOrange,
       features: [
@@ -111,21 +226,50 @@ const Services = () => {
         'API Development',
         'Cloud Solutions',
         'Maintenance Support',
-        'Scalable Architecture'
+        'Scalable Architecture',
       ],
       image: systemDevImg,
       color: '#f59e0b',
       packages: [
-        { name: 'Starter', price: '$4,999', features: ['Basic Features', 'Single Module', '6 Months Support', 'Basic Reporting'] },
-        { name: 'Professional', price: '$12,999', features: ['Multiple Modules', 'Custom Features', '1 Year Support', 'Advanced Analytics'] },
-        { name: 'Enterprise', price: '$29,999+', features: ['Full Customization', 'All Modules', 'Lifetime Support', 'AI Integration'] }
-      ]
+        {
+          name: 'Starter',
+          price: '$4,999',
+          features: [
+            'Basic Features',
+            'Single Module',
+            '6 Months Support',
+            'Basic Reporting',
+          ],
+        },
+        {
+          name: 'Professional',
+          price: '$12,999',
+          features: [
+            'Multiple Modules',
+            'Custom Features',
+            '1 Year Support',
+            'Advanced Analytics',
+          ],
+        },
+        {
+          name: 'Enterprise',
+          price: '$29,999+',
+          features: [
+            'Full Customization',
+            'All Modules',
+            'Lifetime Support',
+            'AI Integration',
+          ],
+        },
+      ],
     },
+
     {
       id: 'mobile',
       title: 'Mobile Apps',
       tagline: 'Engage Your Mobile Audience',
-      description: 'Develop stunning native and cross-platform mobile apps that provide seamless user experiences.',
+      description:
+        'Develop stunning native and cross-platform mobile apps that provide seamless user experiences.',
       icon: '📱',
       gradient: styles.gradientGreen,
       features: [
@@ -134,17 +278,48 @@ const Services = () => {
         'UI/UX Design',
         'App Store Optimization',
         'Push Notifications',
-        'Backend Integration'
+        'Backend Integration',
       ],
       image: mobileAppImg,
       color: '#10b981',
       packages: [
-        { name: 'Basic App', price: '$5,999', features: ['Single Platform', 'Basic Features', '6 Months Updates', 'Simple Backend'] },
-        { name: 'Pro App', price: '$14,999', features: ['Both Platforms', 'Advanced Features', '1 Year Updates', 'Custom Backend'] },
-        { name: 'Enterprise App', price: '$34,999+', features: ['All Platforms', 'Complex Features', 'Lifetime Updates', 'Full Integration'] }
-      ]
-    }
+        {
+          name: 'Basic App',
+          price: '$5,999',
+          features: [
+            'Single Platform',
+            'Basic Features',
+            '6 Months Updates',
+            'Simple Backend',
+          ],
+        },
+        {
+          name: 'Pro App',
+          price: '$14,999',
+          features: [
+            'Both Platforms',
+            'Advanced Features',
+            '1 Year Updates',
+            'Custom Backend',
+          ],
+        },
+        {
+          name: 'Enterprise App',
+          price: '$34,999+',
+          features: [
+            'All Platforms',
+            'Complex Features',
+            'Lifetime Updates',
+            'Full Integration',
+          ],
+        },
+      ],
+    },
   ];
+
+  // =========================================================
+  // SYSTEMS
+  // =========================================================
 
   const systems = [
     {
@@ -153,334 +328,842 @@ const Services = () => {
       description: 'Complete Point of Sale solution for retail businesses',
       icon: '🛒',
       color: '#3b82f6',
-      features: ['Inventory Management', 'Sales Analytics', 'Customer Management']
+      features: [
+        'Inventory Management',
+        'Sales Analytics',
+        'Customer Management',
+      ],
     },
+
     {
       id: 'lms',
       title: 'LMS System',
-      description: 'Learning Management System for educational institutions',
+      description:
+        'Learning Management System for educational institutions',
       icon: '📚',
       color: '#8b5cf6',
-      features: ['Course Management', 'Student Tracking', 'Assessment Tools']
+      features: [
+        'Course Management',
+        'Student Tracking',
+        'Assessment Tools',
+      ],
     },
+
     {
       id: 'finance',
       title: 'Financial Tracker',
-      description: 'Comprehensive financial management and tracking system',
+      description:
+        'Comprehensive financial management and tracking system',
       icon: '💰',
       color: '#10b981',
-      features: ['Expense Tracking', 'Budget Planning', 'Investment Management']
-    }
+      features: [
+        'Expense Tracking',
+        'Budget Planning',
+        'Investment Management',
+      ],
+    },
   ];
+
+  // =========================================================
+  // PROCESS
+  // =========================================================
 
   const processSteps = [
     {
       number: '01',
       title: 'Discovery & Planning',
-      description: 'We analyze your requirements and create a detailed project plan',
-      icon: '🔍'
+      description:
+        'We analyze your requirements and create a detailed project plan',
+      icon: '🔍',
     },
+
     {
       number: '02',
       title: 'Design & Prototyping',
-      description: 'Create stunning designs and interactive prototypes',
-      icon: '🎨'
+      description:
+        'Create stunning designs and interactive prototypes',
+      icon: '🎨',
     },
+
     {
       number: '03',
       title: 'Development',
-      description: 'Build robust solutions with modern technologies',
-      icon: '💻'
+      description:
+        'Build robust solutions with modern technologies',
+      icon: '💻',
     },
+
     {
       number: '04',
       title: 'Testing & Quality',
-      description: 'Rigorous testing ensures flawless performance',
-      icon: '🧪'
+      description:
+        'Rigorous testing ensures flawless performance',
+      icon: '🧪',
     },
+
     {
       number: '05',
       title: 'Launch & Deployment',
-      description: 'Smooth deployment with zero downtime',
-      icon: '🚀'
+      description:
+        'Smooth deployment with zero downtime',
+      icon: '🚀',
     },
+
     {
       number: '06',
       title: 'Support & Maintenance',
-      description: 'Ongoing support and regular updates',
-      icon: '🛠️'
-    }
+      description:
+        'Ongoing support and regular updates',
+      icon: '🛠️',
+    },
   ];
 
-  const currentService = services.find(service => service.id === activeService);
+  // =========================================================
+  // CURRENT SERVICE
+  // =========================================================
+
+  const currentService = services.find(
+    (service) => service.id === activeService
+  );
+
+  // =========================================================
+  // SERVICE SELECT
+  // =========================================================
+  // When a service card is clicked:
+  //
+  // 1. Change active service
+  // 2. React renders the new service details
+  // 3. Automatically scroll to Service Details section
+  //
+  // =========================================================
+
+  const handleServiceSelect = (serviceId) => {
+    setActiveService(serviceId);
+
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        const detailsElement =
+          document.getElementById('service-details');
+
+        if (detailsElement) {
+          detailsElement.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start',
+          });
+        }
+      });
+    });
+  };
+
+  // =========================================================
+  // ANCHOR NAVIGATION
+  // =========================================================
 
   const handleAnchorClick = (e, targetId) => {
     e.preventDefault();
+
     const targetElement = document.querySelector(targetId);
+
     if (targetElement) {
-      targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      targetElement.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+      });
     }
   };
 
+  // =========================================================
+  // RETURN
+  // =========================================================
+
   return (
     <div className={styles.servicesContainer}>
-      
-      {/* Hero Section - Matching Home Page */}
-      <div className={styles.heroSection}>
+
+      {/* =====================================================
+          HERO SECTION
+      ====================================================== */}
+
+      <div
+        id="hero"
+        className={styles.heroSection}
+      >
         <div className={styles.heroBackground}></div>
-        
+
         <div className={styles.heroContent}>
+
           <div className={styles.heroText}>
+
             <div className={styles.heroBadge}>
               <span>✦ Our Services</span>
             </div>
-            
+
             <h1 className={styles.heroTitle}>
               <span>Transform Your</span>
-              <span className={styles.highlightText}>Digital Presence</span>
+
+              <span className={styles.highlightText}>
+                Digital Presence
+              </span>
+
               <span>with Our Services</span>
             </h1>
-            
+
             <p className={styles.heroDescription}>
-              We deliver exceptional digital solutions that drive growth, enhance engagement,
-              and transform businesses. From concept to launch, we're with you every step of the way.
+              We deliver exceptional digital solutions that drive
+              growth, enhance engagement, and transform businesses.
+              From concept to launch, we're with you every step of
+              the way.
             </p>
-            
+
+            {/* HERO STATS */}
+
             <div className={styles.heroStats}>
+
               <div className={styles.statItem}>
-                <span className={styles.statNumber}>100+</span>
-                <span className={styles.statLabel}>Projects Delivered</span>
+                <span className={styles.statNumber}>
+                  100+
+                </span>
+
+                <span className={styles.statLabel}>
+                  Projects Delivered
+                </span>
               </div>
+
               <div className={styles.statItem}>
-                <span className={styles.statNumber}>99.9%</span>
-                <span className={styles.statLabel}>Satisfaction</span>
+                <span className={styles.statNumber}>
+                  99.9%
+                </span>
+
+                <span className={styles.statLabel}>
+                  Satisfaction
+                </span>
               </div>
+
               <div className={styles.statItem}>
-                <span className={styles.statNumber}>24/7</span>
-                <span className={styles.statLabel}>Support Available</span>
+                <span className={styles.statNumber}>
+                  24/7
+                </span>
+
+                <span className={styles.statLabel}>
+                  Support Available
+                </span>
               </div>
+
             </div>
-            
+
+            {/* HERO BUTTONS */}
+
             <div className={styles.heroButtons}>
-              <button className={styles.primaryButton} onClick={() => navigate('/contact')}>
+
+              <button
+                className={styles.primaryButton}
+                onClick={() => navigate('/contact')}
+              >
                 Start Your Project
-                <span className={styles.buttonArrow}>→</span>
+
+                <span className={styles.buttonArrow}>
+                  →
+                </span>
               </button>
-              <button className={styles.secondaryButton} onClick={() => document.querySelector(`.${styles.servicesGrid}`)?.scrollIntoView({ behavior: 'smooth' })}>
-                <span className={styles.playIcon}>▶</span>
+
+              <button
+                className={styles.secondaryButton}
+                onClick={() =>
+                  document
+                    .querySelector(`.${styles.servicesGrid}`)
+                    ?.scrollIntoView({
+                      behavior: 'smooth',
+                      block: 'start',
+                    })
+                }
+              >
+                <span className={styles.playIcon}>
+                  ▶
+                </span>
+
                 Explore Services
               </button>
+
             </div>
+
           </div>
-          
+
+          {/* HERO VISUAL */}
+
           <div className={styles.heroVisual}>
+
             <div className={styles.heroCard}>
+
               <div className={styles.heroCardHeader}>
+
                 <div className={styles.cardDots}>
-                  <span></span><span></span><span></span>
+                  <span></span>
+                  <span></span>
+                  <span></span>
                 </div>
-                <span className={styles.cardTitle}>Our Services</span>
+
+                <span className={styles.cardTitle}>
+                  Our Services
+                </span>
+
               </div>
+
               <div className={styles.heroCardContent}>
+
                 <div className={styles.cardMetrics}>
-                  {services.slice(0, 4).map((service, index) => (
-                    <div key={service.id} className={styles.cardMetric}>
-                      <span className={styles.metricIcon}>{service.icon}</span>
-                      <div>
-                        <div className={styles.metricValue}>{service.title}</div>
-                        <div className={styles.metricLabel}>{service.tagline}</div>
+
+                  {services.slice(0, 4).map(
+                    (service) => (
+                      <div
+                        key={service.id}
+                        className={styles.cardMetric}
+                      >
+                        <span className={styles.metricIcon}>
+                          {service.icon}
+                        </span>
+
+                        <div>
+                          <div
+                            className={styles.metricValue}
+                          >
+                            {service.title}
+                          </div>
+
+                          <div
+                            className={styles.metricLabel}
+                          >
+                            {service.tagline}
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    )
+                  )}
+
                 </div>
+
               </div>
+
             </div>
+
           </div>
+
         </div>
       </div>
 
-      {/* Services Grid Section - Updated */}
-      <div className={styles.servicesSection} id="services">
+      {/* =====================================================
+          SERVICES GRID SECTION
+      ====================================================== */}
+
+      <div
+        className={styles.servicesSection}
+        id="services"
+      >
+
         <div className={styles.sectionContainer}>
+
           <div className={styles.sectionHeader}>
+
             <div className={styles.sectionBadge}>
               <span>✦ What We Offer</span>
             </div>
-            <h2 className={styles.sectionTitle}>Comprehensive <span className={styles.textGradient}>Digital Solutions</span></h2>
+
+            <h2 className={styles.sectionTitle}>
+              Comprehensive{' '}
+              <span className={styles.textGradient}>
+                Digital Solutions
+              </span>
+            </h2>
+
             <p className={styles.sectionSubtitle}>
-              We offer a complete suite of digital services designed to help your business thrive
+              We offer a complete suite of digital services
+              designed to help your business thrive
             </p>
+
           </div>
+
+          {/* SERVICES GRID */}
 
           <div className={styles.servicesGrid}>
+
             {services.map((service) => (
+
               <div
                 key={service.id}
-                className={`${styles.serviceCard} ${activeService === service.id ? styles.active : ''}`}
-                onMouseEnter={() => setHoveredService(service.id)}
-                onMouseLeave={() => setHoveredService(null)}
-                onClick={() => setActiveService(service.id)}
+                className={`${styles.serviceCard} ${
+                  activeService === service.id
+                    ? styles.active
+                    : ''
+                }`}
+                onMouseEnter={() =>
+                  setHoveredService(service.id)
+                }
+                onMouseLeave={() =>
+                  setHoveredService(null)
+                }
+                onClick={() =>
+                  handleServiceSelect(service.id)
+                }
                 style={{
                   '--service-color': service.color,
-                  transform: hoveredService === service.id ? 'translateY(-8px)' : 'translateY(0)'
+                  transform:
+                    hoveredService === service.id
+                      ? 'translateY(-8px)'
+                      : 'translateY(0)',
                 }}
               >
+
+                {/* SERVICE ICON */}
+
                 <div className={styles.serviceIconWrapper}>
-                  <span className={styles.serviceIcon}>{service.icon}</span>
+                  <span className={styles.serviceIcon}>
+                    {service.icon}
+                  </span>
                 </div>
-                <h3>{service.title}</h3>
-                <p className={styles.serviceTagline}>{service.tagline}</p>
-                <p className={styles.serviceDescription}>{service.description}</p>
+
+                {/* SERVICE TITLE */}
+
+                <h3>
+                  {service.title}
+                </h3>
+
+                {/* TAGLINE */}
+
+                <p className={styles.serviceTagline}>
+                  {service.tagline}
+                </p>
+
+                {/* DESCRIPTION */}
+
+                <p className={styles.serviceDescription}>
+                  {service.description}
+                </p>
+
+                {/* FEATURES */}
+
                 <ul className={styles.serviceFeaturesList}>
-                  {service.features.slice(0, 4).map((feature, idx) => (
-                    <li key={idx}>✓ {feature}</li>
-                  ))}
+
+                  {service.features
+                    .slice(0, 4)
+                    .map((feature, idx) => (
+
+                      <li key={idx}>
+                        ✓ {feature}
+                      </li>
+
+                    ))}
+
                 </ul>
-                <button 
-                  className={styles.serviceButton} 
+
+                {/* LEARN MORE */}
+
+                <button
+                  type="button"
+                  className={styles.serviceButton}
                   onClick={(e) => {
                     e.stopPropagation();
-                    setActiveService(service.id);
+
+                    handleServiceSelect(
+                      service.id
+                    );
                   }}
                 >
-                  Learn More <span>→</span>
+                  Learn More{' '}
+                  <span>→</span>
                 </button>
+
               </div>
+
             ))}
+
           </div>
+
         </div>
+
       </div>
 
-      {/* Service Details Section - Updated */}
+      {/* =====================================================
+          SERVICE DETAILS SECTION
+      ====================================================== */}
+
       {currentService && (
-        <div className={styles.serviceDetails}>
+
+        <div
+          id="service-details"
+          className={styles.serviceDetails}
+          style={{
+            scrollMarginTop: '80px',
+          }}
+        >
+
           <div className={styles.sectionContainer}>
+
             <div className={styles.detailsContainer}>
+
+              {/* DETAILS CONTENT */}
+
               <div className={styles.detailsContent}>
+
                 <div className={styles.detailsHeader}>
-                  <div className={styles.detailsIcon} style={{ background: `${currentService.color}20`, color: currentService.color }}>
+
+                  <div
+                    className={styles.detailsIcon}
+                    style={{
+                      background: `${currentService.color}20`,
+                      color: currentService.color,
+                    }}
+                  >
                     {currentService.icon}
                   </div>
+
                   <div>
-                    <h2>{currentService.title}</h2>
-                    <p className={styles.detailsTagline} style={{ color: currentService.color }}>{currentService.tagline}</p>
+
+                    <h2>
+                      {currentService.title}
+                    </h2>
+
+                    <p
+                      className={
+                        styles.detailsTagline
+                      }
+                      style={{
+                        color: currentService.color,
+                      }}
+                    >
+                      {currentService.tagline}
+                    </p>
+
                   </div>
+
                 </div>
 
-                <p className={styles.detailsDescription}>{currentService.description}</p>
+                {/* DESCRIPTION */}
+
+                <p
+                  className={
+                    styles.detailsDescription
+                  }
+                >
+                  {currentService.description}
+                </p>
+
+                {/* FEATURES */}
 
                 <div className={styles.featuresList}>
-                  {currentService.features.map((feature, index) => (
-                    <div key={index} className={styles.featureListItem}>
-                      <div className={styles.featureBullet} style={{ background: currentService.color }}></div>
-                      <span>{feature}</span>
-                    </div>
-                  ))}
+
+                  {currentService.features.map(
+                    (feature, index) => (
+
+                      <div
+                        key={index}
+                        className={
+                          styles.featureListItem
+                        }
+                      >
+
+                        <div
+                          className={
+                            styles.featureBullet
+                          }
+                          style={{
+                            background:
+                              currentService.color,
+                          }}
+                        ></div>
+
+                        <span>
+                          {feature}
+                        </span>
+
+                      </div>
+
+                    )
+                  )}
+
                 </div>
 
-                <div className={styles.pricingSection}>
-                  <h3>Flexible Pricing Plans</h3>
-                  <div className={styles.pricingCards}>
-                    {currentService.packages.map((pkg, index) => (
-                      <div key={index} className={styles.pricingCard} style={{ borderColor: `${currentService.color}30` }}>
-                        <div className={styles.pricingHeader}>
-                          <h4>{pkg.name}</h4>
-                          <div className={styles.price} style={{ color: currentService.color }}>{pkg.price}</div>
-                        </div>
-                        <ul className={styles.pricingFeatures}>
-                          {pkg.features.map((feature, idx) => (
-                            <li key={idx}>{feature}</li>
-                          ))}
-                        </ul>
-                        <button
-                          className={styles.pricingButton}
-                          onClick={() => navigate('/contact')}
-                          style={{ background: `${currentService.color}20`, borderColor: `${currentService.color}40`, color: currentService.color }}
+                {/* PRICING */}
+
+                <div
+                  className={styles.pricingSection}
+                >
+
+                  <h3>
+                    Flexible Pricing Plans
+                  </h3>
+
+                  <div
+                    className={styles.pricingCards}
+                  >
+
+                    {currentService.packages.map(
+                      (pkg, index) => (
+
+                        <div
+                          key={index}
+                          className={
+                            styles.pricingCard
+                          }
+                          style={{
+                            borderColor: `${currentService.color}30`,
+                          }}
                         >
-                          Choose Plan
-                        </button>
-                      </div>
-                    ))}
+
+                          <div
+                            className={
+                              styles.pricingHeader
+                            }
+                          >
+
+                            <h4>
+                              {pkg.name}
+                            </h4>
+
+                            <div
+                              className={
+                                styles.price
+                              }
+                              style={{
+                                color:
+                                  currentService.color,
+                              }}
+                            >
+                              {pkg.price}
+                            </div>
+
+                          </div>
+
+                          <ul
+                            className={
+                              styles.pricingFeatures
+                            }
+                          >
+
+                            {pkg.features.map(
+                              (
+                                feature,
+                                idx
+                              ) => (
+
+                                <li key={idx}>
+                                  {feature}
+                                </li>
+
+                              )
+                            )}
+
+                          </ul>
+
+                          <button
+                            type="button"
+                            className={
+                              styles.pricingButton
+                            }
+                            onClick={() =>
+                              navigate('/contact')
+                            }
+                            style={{
+                              background: `${currentService.color}20`,
+                              borderColor: `${currentService.color}40`,
+                              color:
+                                currentService.color,
+                            }}
+                          >
+                            Choose Plan
+                          </button>
+
+                        </div>
+
+                      )
+                    )}
+
                   </div>
+
                 </div>
+
               </div>
 
+              {/* DETAILS IMAGE */}
+
               <div className={styles.detailsVisual}>
+
                 <div className={styles.imageWrapper}>
+
                   <img
                     src={currentService.image}
                     alt={currentService.title}
                     className={styles.detailsImage}
                     onError={(e) => {
                       e.target.onerror = null;
-                      e.target.src = `https://via.placeholder.com/500x300/1a1b3a/8b5cf6?text=${encodeURIComponent(currentService.title)}`;
+
+                      e.target.src =
+                        `https://via.placeholder.com/500x300/1a1b3a/8b5cf6?text=${encodeURIComponent(
+                          currentService.title
+                        )}`;
                     }}
                   />
-                  <div className={styles.imageOverlay} style={{ background: `linear-gradient(45deg, ${currentService.color}20, transparent)` }}></div>
+
+                  <div
+                    className={styles.imageOverlay}
+                    style={{
+                      background: `linear-gradient(45deg, ${currentService.color}20, transparent)`,
+                    }}
+                  ></div>
+
                 </div>
+
               </div>
+
             </div>
+
           </div>
+
         </div>
+
       )}
 
-      {/* Process Section - Updated */}
+      {/* =====================================================
+          PROCESS SECTION
+      ====================================================== */}
+
       <div className={styles.processSection}>
+
         <div className={styles.sectionContainer}>
+
           <div className={styles.sectionHeader}>
+
             <div className={styles.sectionBadge}>
               <span>✦ Our Process</span>
             </div>
-            <h2 className={styles.sectionTitle}>How We <span className={styles.textGradient}>Work</span></h2>
+
+            <h2 className={styles.sectionTitle}>
+              How We{' '}
+              <span className={styles.textGradient}>
+                Work
+              </span>
+            </h2>
+
             <p className={styles.sectionSubtitle}>
-              A systematic approach to delivering exceptional results
+              A systematic approach to delivering
+              exceptional results
             </p>
+
           </div>
 
           <div className={styles.processGrid}>
-            {processSteps.map((step, index) => (
-              <div key={index} className={styles.processStep}>
-                <div className={styles.stepNumber}>{step.number}</div>
-                <div className={styles.stepIcon}>{step.icon}</div>
-                <h3>{step.title}</h3>
-                <p>{step.description}</p>
-              </div>
-            ))}
+
+            {processSteps.map(
+              (step, index) => (
+
+                <div
+                  key={index}
+                  className={styles.processStep}
+                >
+
+                  <div
+                    className={styles.stepNumber}
+                  >
+                    {step.number}
+                  </div>
+
+                  <div
+                    className={styles.stepIcon}
+                  >
+                    {step.icon}
+                  </div>
+
+                  <h3>
+                    {step.title}
+                  </h3>
+
+                  <p>
+                    {step.description}
+                  </p>
+
+                </div>
+
+              )
+            )}
+
           </div>
+
         </div>
+
       </div>
 
-      {/* CTA Section - Matching Home Page */}
+      {/* =====================================================
+          CTA SECTION
+      ====================================================== */}
+
       <div className={styles.ctaSection}>
+
         <div className={styles.ctaBackground}></div>
+
         <div className={styles.sectionContainer}>
+
           <div className={styles.ctaContent}>
+
             <div className={styles.ctaBadge}>
-              <span>✦ Let's Build Something Together</span>
+              <span>
+                ✦ Let's Build Something Together
+              </span>
             </div>
+
             <h2 className={styles.ctaTitle}>
-              Ready to Start Your <span>Project</span>?
+              Ready to Start Your{' '}
+              <span>Project</span>?
             </h2>
+
             <p className={styles.ctaDescription}>
-              Let's discuss your ideas and create something amazing together.
-              Get a free consultation and project estimate.
+              Let's discuss your ideas and create
+              something amazing together. Get a free
+              consultation and project estimate.
             </p>
+
             <div className={styles.ctaButtons}>
-              <button className={styles.ctaPrimary} onClick={() => navigate('/contact')}>
+
+              <button
+                type="button"
+                className={styles.ctaPrimary}
+                onClick={() =>
+                  navigate('/contact')
+                }
+              >
                 Get Free Consultation
               </button>
-              <button className={styles.ctaSecondary} onClick={() => navigate('/portfolio')}>
+
+              <button
+                type="button"
+                className={styles.ctaSecondary}
+                onClick={() =>
+                  navigate('/portfolio')
+                }
+              >
                 View Our Work
               </button>
+
             </div>
+
             <div className={styles.ctaGuarantee}>
-              <span>⚡ 48-Hour Delivery</span>
-              <span>🕐 24/7 Support</span>
-              <span>⭐ 100% Satisfaction</span>
+
+              <span>
+                ⚡ 48-Hour Delivery
+              </span>
+
+              <span>
+                🕐 24/7 Support
+              </span>
+
+              <span>
+                ⭐ 100% Satisfaction
+              </span>
+
             </div>
+
           </div>
+
         </div>
+
       </div>
+
     </div>
   );
 };

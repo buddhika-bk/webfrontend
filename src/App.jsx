@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import AddShop from './screen/AddShop';
 import ShopList from './screen/ShopList';
 import Home from './screen/Home/Home';
@@ -36,6 +36,7 @@ import RestaurantLogin from './screen/Resturant/RestaurantLogin';
 import RestaurantDashboard from './screen/Resturant/RestaurantDashboard';
 import Portfolio from './screen/Pages/portfolio';
 import ContactProfile from './screen/Pages/ContactProfile'; // ✅ NEW IMPORT
+import Saloon from './screen/Pages/Saloon';
 
 // User Management Imports
 import Login from './screen/Pages/auth/Login';
@@ -50,6 +51,7 @@ import AdminUsers from './screen/Pages/admin/AdminUsers';
 import AdminUserDetails from './screen/Pages/admin/AdminUserDetails';
 import { useAuth } from './context/AuthContext';
 import UserHeader from './components/Layout/UserHeader';
+
 
 // QR Profile Imports - CORRECT PATHS
 import AddProfile from './screen/Pages/makeprofile/AddProfile';
@@ -145,6 +147,29 @@ const isAuthRoute = (pathname) => {
   );
 };
 
+const ScrollToTop = () => {
+  const location = useLocation();
+
+  React.useEffect(() => {
+    const scrollToSection = () => {
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+
+      if (location.hash) {
+        const target = document.querySelector(location.hash);
+        if (target) {
+          setTimeout(() => {
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }, 50);
+        }
+      }
+    };
+
+    scrollToSection();
+  }, [location.pathname, location.hash]);
+
+  return null;
+};
+
 // ─── App ──────────────────────────────────────────────────────────────────────
 function App() {
   const [currentPath, setCurrentPath] = React.useState(window.location.pathname);
@@ -186,6 +211,7 @@ function App() {
 
   return (
     <Router>
+      <ScrollToTop />
       <div className="App">
         {showDefaultHeader && <Header />}
 
@@ -203,6 +229,7 @@ function App() {
           <Route path="/pos-system"       element={<POSSystem />} />
           <Route path="/digital-solution" element={<DigitalSolution />} />
           <Route path="/portfolio"        element={<Portfolio />} />
+          <Route path="/saloon"           element={<Saloon />} />
           
           {/* ✅ NEW: Contact Profile Route */}
           <Route path="/contact-profile"  element={<ContactProfile />} />

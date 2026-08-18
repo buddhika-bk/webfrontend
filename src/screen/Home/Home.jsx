@@ -335,35 +335,56 @@ const Home = () => {
       {/* Services Section */}
       <section className={styles.servicesSection} id="services">
         <div className={styles.sectionContainer}>
+
           <div className={styles.sectionHeader}>
             <div className={styles.sectionBadge}>
               <span>✦ Our Expertise</span>
             </div>
-            <h2 className={styles.sectionTitle}>Comprehensive Digital Solutions</h2>
+
+            <h2 className={styles.sectionTitle}>
+              Comprehensive Digital Solutions
+            </h2>
+
             <p className={styles.sectionSubtitle}>
-              From web development to custom software, we deliver excellence for Sri Lankan businesses
+              From web development to custom software, we deliver excellence
+              for Sri Lankan businesses
             </p>
           </div>
 
           <div className={styles.servicesGrid}>
+
             {services.map((service, index) => (
               <div
                 key={index}
                 className={styles.serviceCard}
                 onClick={() => navigate(service.path)}
-                style={{ cursor: 'pointer' }}
+                style={{ cursor: "pointer" }}
               >
+
                 <div className={styles.serviceIconWrapper}>
-                  <span className={styles.serviceIcon}>{service.icon}</span>
+                  <span className={styles.serviceIcon}>
+                    {service.icon}
+                  </span>
                 </div>
-                <h3 className={styles.serviceTitle}>{service.title}</h3>
-                <p className={styles.serviceDescription}>{service.description}</p>
+
+                <h3 className={styles.serviceTitle}>
+                  {service.title}
+                </h3>
+
+                <p className={styles.serviceDescription}>
+                  {service.description}
+                </p>
+
                 <ul className={styles.serviceFeatures}>
                   {service.features.map((feature, idx) => (
-                    <li key={idx}>{feature}</li>
+                    <li key={idx}>
+                      {feature}
+                    </li>
                   ))}
                 </ul>
+
                 <button
+                  type="button"
                   className={styles.serviceCta}
                   onClick={(e) => {
                     e.stopPropagation();
@@ -372,8 +393,10 @@ const Home = () => {
                 >
                   Learn More <span>→</span>
                 </button>
+
               </div>
             ))}
+
           </div>
         </div>
       </section>
