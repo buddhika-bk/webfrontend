@@ -36,7 +36,7 @@ import RestaurantLogin from './screen/Resturant/RestaurantLogin';
 import RestaurantDashboard from './screen/Resturant/RestaurantDashboard';
 import Portfolio from './screen/Pages/portfolio';
 import ContactProfile from './screen/Pages/ContactProfile';
-import Saloon from './screen/Pages/Saloon';
+import VinuSaloon from './screen/Pages/Saloon';
 
 // User Management Imports
 import Login from './screen/Pages/auth/Login';
@@ -119,7 +119,7 @@ const ROUTES_WITHOUT_LAYOUT = [
   '/contact-profile',
 
   // ✅ ADDED: Saloon Route
-  '/saloon'
+  '/vinusaloon'
 ];
 
 const isRouteWithoutLayout = (pathname) => {
@@ -231,7 +231,7 @@ function App() {
           <Route path="/pos-system"       element={<POSSystem />} />
           <Route path="/digital-solution" element={<DigitalSolution />} />
           <Route path="/portfolio"        element={<Portfolio />} />
-          <Route path="/saloon"           element={<Saloon />} />
+          <Route path="/vinusaloon"           element={<VinuSaloon />} />
           
           {/* Contact Profile Route */}
           <Route path="/contact-profile"  element={<ContactProfile />} />
