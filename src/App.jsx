@@ -35,7 +35,7 @@ import PremiumAllMenus from './screen/Resturant/PremiumAllMenus';
 import RestaurantLogin from './screen/Resturant/RestaurantLogin';
 import RestaurantDashboard from './screen/Resturant/RestaurantDashboard';
 import Portfolio from './screen/Pages/portfolio';
-import ContactProfile from './screen/Pages/ContactProfile'; // ✅ NEW IMPORT
+import ContactProfile from './screen/Pages/ContactProfile';
 import Saloon from './screen/Pages/Saloon';
 
 // User Management Imports
@@ -51,7 +51,6 @@ import AdminUsers from './screen/Pages/admin/AdminUsers';
 import AdminUserDetails from './screen/Pages/admin/AdminUserDetails';
 import { useAuth } from './context/AuthContext';
 import UserHeader from './components/Layout/UserHeader';
-
 
 // QR Profile Imports - CORRECT PATHS
 import AddProfile from './screen/Pages/makeprofile/AddProfile';
@@ -116,8 +115,11 @@ const ROUTES_WITHOUT_LAYOUT = [
   // Portfolio
   '/portfolio',
 
-  // ✅ NEW: Contact Profile Route
-  '/contact-profile' 
+  // Contact Profile Route
+  '/contact-profile',
+
+  // ✅ ADDED: Saloon Route
+  '/saloon'
 ];
 
 const isRouteWithoutLayout = (pathname) => {
@@ -197,13 +199,13 @@ function App() {
   //   • regular public pages
   //   • auth pages (login / register / forgot / reset)
   // Hide it on:
-  //   • routes defined in ROUTES_WITHOUT_LAYOUT (Restaurants & Portfolio & ContactProfile)
+  //   • routes defined in ROUTES_WITHOUT_LAYOUT (Restaurants & Portfolio & ContactProfile & Saloon)
   //   • dashboard routes (they use UserHeader)
   const showDefaultHeader =
     !isRouteWithoutLayout(currentPath) &&
     !isDashboardRoute(currentPath);
 
-  // Footer is hidden on auth pages, portfolio, restaurant routes, dashboard routes, and contact-profile
+  // Footer is hidden on auth pages, portfolio, restaurant routes, dashboard routes, contact-profile, and saloon
   const showDefaultFooter =
     !isRouteWithoutLayout(currentPath) &&
     !isDashboardRoute(currentPath) &&
@@ -231,7 +233,7 @@ function App() {
           <Route path="/portfolio"        element={<Portfolio />} />
           <Route path="/saloon"           element={<Saloon />} />
           
-          {/* ✅ NEW: Contact Profile Route */}
+          {/* Contact Profile Route */}
           <Route path="/contact-profile"  element={<ContactProfile />} />
 
           {/* ── Demo pages ── */}

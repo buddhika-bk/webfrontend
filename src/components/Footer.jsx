@@ -31,7 +31,7 @@ function Footer() {
                                 <h4>Services</h4>
                                 <ul>
                                     <li><a onClick={() => handleNavigation('/webservice')}>Website Development</a></li>
-                                    <li><a onClick={() => handleNavigation('/service')}>Mobile Applications</a></li>
+                                    <li><a onClick={() => handleNavigation('/pos-system')}>POS System</a></li>
                                     <li><a onClick={() => handleNavigation('/systems')}>Software Solutions</a></li>
                                     <li><a onClick={() => handleNavigation('/digital-solution')}>Digital Marketing</a></li>
                                 </ul>
