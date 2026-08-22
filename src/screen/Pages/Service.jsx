@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import styles from './Services.module.css';
 
 import websiteDevImg from '../../assets/webpost.jpeg';
+import { BiFontSize } from 'react-icons/bi';
 
 const Services = () => {
   const [activeService, setActiveService] = useState('website');
@@ -63,11 +64,11 @@ const Services = () => {
       gradient: styles.gradientPurple,
       features: [
         'Custom Website Design',
-        'Responsive Development',
+        'Responsive UI/UX Designs',
         'E-commerce Integration',
-        'CMS Development',
-        'SEO Optimization',
-        '48-Hour Delivery',
+        'CMS Management',
+        'SEO & Ai Optimization',
+        'FREE .lk Domains',
       ],
       image: websiteDevImg,
       color: '#8b5cf6',
@@ -100,7 +101,7 @@ const Services = () => {
           features: [
             '20 Pages',
             'Custom Features',
-            'Full SEO',
+            'Full SEO + Ai Optimization',
             'API Integration',
             '6 Months Support',
           ],
@@ -128,8 +129,8 @@ const Services = () => {
       color: '#3b82f6',
       packages: [
         {
-          name: 'Starter POS',
-          price: '$999',
+          name: 'Single-Store POS',
+          price: '$100',
           features: [
             'Single Location',
             'Basic Inventory',
@@ -138,22 +139,33 @@ const Services = () => {
           ],
         },
         {
-          name: 'Professional POS',
-          price: '$2,499',
+          name: 'Multi-Store POS',
+          price: '$200',
           features: [
-            'Multi-Branch',
-            'Advanced Inventory',
+            'Additional Two-Branch',
+            'Advanced Inventory Management',
+            'Sales Tracking & Reporting',
+            'Stock Management',
             'Customer Management',
             'Analytics',
+            '24/7 Support'
           ],
         },
         {
-          name: 'Enterprise POS',
-          price: '$4,999+',
+          name: 'Enterprise-Store POS',
+          price: '$300',
           features: [
-            'Full Customization',
+            'Full Customizations',
+            'Multi-Branch Capabilities',
             'Cloud Sync',
-            'API Integration',
+            'Advanced Enterprise Analytics',
+            'Automated Notifications',
+            'Mobile App',
+            'Ai Bot Integration',
+            'Automated Reports',
+            'Purchase Pattern Recommendations',
+            'Stock Alerts',
+            'Inbuilt Customer Loyalty Program',
             '24/7 Support',
           ],
         },
@@ -181,7 +193,7 @@ const Services = () => {
       packages: [
         {
           name: 'Basic Design',
-          price: '$99',
+          price: '$20',
           features: [
             'Single Poster',
             'Basic Design',
@@ -191,7 +203,7 @@ const Services = () => {
         },
         {
           name: 'Professional',
-          price: '$249',
+          price: '$50',
           features: [
             'Multiple Designs',
             '3D Elements',
@@ -201,7 +213,7 @@ const Services = () => {
         },
         {
           name: 'Enterprise',
-          price: '$499+',
+          price: '$150',
           features: [
             'Full Campaign',
             '3D Design',
@@ -233,7 +245,7 @@ const Services = () => {
       packages: [
         {
           name: 'Starter',
-          price: '$4,999',
+          price: '$450',
           features: [
             'Basic Features',
             'Single Module',
@@ -243,7 +255,7 @@ const Services = () => {
         },
         {
           name: 'Professional',
-          price: '$12,999',
+          price: '$600',
           features: [
             'Multiple Modules',
             'Custom Features',
@@ -253,7 +265,7 @@ const Services = () => {
         },
         {
           name: 'Enterprise',
-          price: '$29,999+',
+          price: '$750',
           features: [
             'Full Customization',
             'All Modules',
@@ -285,7 +297,7 @@ const Services = () => {
       packages: [
         {
           name: 'Basic App',
-          price: '$5,999',
+          price: '$600',
           features: [
             'Single Platform',
             'Basic Features',
@@ -295,7 +307,7 @@ const Services = () => {
         },
         {
           name: 'Pro App',
-          price: '$14,999',
+          price: '$900',
           features: [
             'Both Platforms',
             'Advanced Features',
@@ -305,7 +317,7 @@ const Services = () => {
         },
         {
           name: 'Enterprise App',
-          price: '$34,999+',
+          price: '$1,500',
           features: [
             'All Platforms',
             'Complex Features',
@@ -920,6 +932,7 @@ const Services = () => {
                             <div
                               className={
                                 styles.price
+                                
                               }
                               style={{
                                 color:
@@ -928,7 +941,7 @@ const Services = () => {
                             >
                               {pkg.price}
                             </div>
-
+                              <p style={{ color: '#838282' ,fontSize: '0.805rem' }}>Upwards</p>
                           </div>
 
                           <ul
