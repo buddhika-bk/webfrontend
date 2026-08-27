@@ -14,14 +14,57 @@ import saloonImg from '../assets/demosaloon.png';
 const WebService = () => {
   const [activeService, setActiveService] = useState(0);
   const [scrolled, setScrolled] = useState(false);
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const [isVisible, setIsVisible] = useState({});
   const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
+      
+      // Calculate scroll progress
+      const totalScroll = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = (window.scrollY / totalScroll) * 100;
+      setScrollProgress(progress);
     };
+    
+    const handleMouseMove = (e) => {
+      const { clientX, clientY } = e;
+      const { innerWidth, innerHeight } = window;
+      const x = (clientX / innerWidth - 0.5) * 2;
+      const y = (clientY / innerHeight - 0.5) * 2;
+      setMousePos({ x, y });
+    };
+
+    // Intersection Observer for scroll reveal animations
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsVisible((prev) => ({
+              ...prev,
+              [entry.target.dataset.section]: true
+            }));
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    // Observe all sections
+    document.querySelectorAll('[data-section]').forEach((el) => {
+      observer.observe(el);
+    });
+
     window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener('mousemove', handleMouseMove);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('mousemove', handleMouseMove);
+      observer.disconnect();
+    };
   }, []);
 
   const services = [
@@ -107,6 +150,30 @@ const WebService = () => {
     }
   ];
 
+  // Handle card tilt effect
+  const handleCardTilt = (e, index) => {
+    const card = document.querySelector(`[data-web-card="${index}"]`);
+    if (!card) return;
+
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    
+    const rotateX = ((y - centerY) / centerY) * -10;
+    const rotateY = ((x - centerX) / centerX) * 10;
+    
+    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+  };
+
+  const resetCardTilt = (index) => {
+    const card = document.querySelector(`[data-web-card="${index}"]`);
+    if (!card) return;
+    card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)';
+  };
+
   const handleAnchorClick = (e, targetId) => {
     e.preventDefault();
     const targetElement = document.querySelector(targetId);
@@ -118,14 +185,50 @@ const WebService = () => {
   return (
     <div id="hero" className={styles.webserviceContainer}>
       
+      {/* ===== 3D ANIMATED BACKGROUND ===== */}
+      <div className={styles.threeDBackground}>
+        <div className={styles.gridLines}></div>
+        <div className={styles.floatingOrb} style={{ 
+          left: `${50 + mousePos.x * 20}%`, 
+          top: `${50 + mousePos.y * 20}%` 
+        }}></div>
+        <div className={styles.floatingOrb2} style={{ 
+          left: `${30 + mousePos.x * -10}%`, 
+          top: `${30 + mousePos.y * -10}%` 
+        }}></div>
+        <div className={styles.floatingOrb3} style={{ 
+          left: `${70 + mousePos.x * -15}%`, 
+          top: `${40 + mousePos.y * 15}%` 
+        }}></div>
+        <div className={styles.particles}>
+          {[...Array(20)].map((_, i) => (
+            <div key={i} className={styles.particle} style={{
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+              animationDelay: `${Math.random() * 5}s`,
+              animationDuration: `${3 + Math.random() * 5}s`
+            }}></div>
+          ))}
+        </div>
+      </div>
 
-      {/* Hero Section - Matching Home Page */}
-     <div id="hero" className={styles.heroSection}>
-        <div className={styles.heroBackground}></div>
+      {/* ===== SCROLL PROGRESS BAR ===== */}
+      <div className={styles.scrollProgressBar} style={{ width: `${scrollProgress}%` }}></div>
+
+      {/* ===== HERO SECTION ===== */}
+      <div id="hero" className={styles.heroSection} data-section="hero">
+        <div className={styles.heroBackground3D} style={{
+          transform: `translate(${mousePos.x * 30}px, ${mousePos.y * 30}px)`
+        }}>
+          <div className={styles.heroSphere}></div>
+        </div>
         
-        <div id="hero" className={styles.heroContent}>
+        <div id="hero" className={styles.heroContent} style={{
+          transform: `translate(${mousePos.x * -15}px, ${mousePos.y * -15}px)`
+        }}>
           <div className={styles.heroText}>
             <div className={styles.heroBadge}>
+              <span className={styles.pulseDot}></span>
               <span>✦ Premium Web Services</span>
             </div>
             
@@ -168,7 +271,9 @@ const WebService = () => {
           </div>
           
           <div className={styles.heroVisual}>
-            <div className={styles.heroCard}>
+            <div className={styles.heroCard3D} style={{
+              transform: `perspective(1000px) rotateY(${mousePos.x * 10}deg) rotateX(${mousePos.y * -10}deg)`
+            }}>
               <div className={styles.heroCardHeader}>
                 <div className={styles.cardDots}>
                   <span></span><span></span><span></span>
@@ -193,10 +298,10 @@ const WebService = () => {
         </div>
       </div>
 
-      {/* Services Section - Matching Home Page */}
-      <div className={styles.servicesSection}>
+      {/* ===== SERVICES SECTION ===== */}
+      <div className={styles.servicesSection} data-section="services">
         <div className={styles.sectionContainer}>
-          <div className={styles.sectionHeader}>
+          <div className={`${styles.sectionHeader} ${isVisible.services ? styles.visible : ''}`}>
             <div className={styles.sectionBadge}>
               <span>✦ Our Services</span>
             </div>
@@ -210,9 +315,15 @@ const WebService = () => {
             {services.map((service, index) => (
               <div 
                 key={index}
-                className={`${styles.serviceCard} ${activeService === index ? styles.active : ''}`}
+                className={`${styles.serviceCard} ${activeService === index ? styles.active : ''} ${isVisible.services ? styles.visible : ''}`}
+                data-web-card={`service-${index}`}
+                onMouseMove={(e) => handleCardTilt(e, `service-${index}`)}
+                onMouseLeave={() => resetCardTilt(`service-${index}`)}
                 onMouseEnter={() => setActiveService(index)}
-                style={{ '--service-color': service.color }}
+                style={{ 
+                  '--service-color': service.color,
+                  transitionDelay: `${index * 0.1}s`
+                }}
               >
                 <div className={styles.serviceIconWrapper}>
                   <span className={styles.serviceIcon}>{service.icon}</span>
@@ -233,10 +344,10 @@ const WebService = () => {
         </div>
       </div>
 
-      {/* Demo Showcase Section - Matching Home Page Style */}
-      <div className={styles.demoSection}>
+      {/* ===== DEMO SHOWCASE SECTION ===== */}
+      <div className={styles.demoSection} data-section="demos">
         <div className={styles.sectionContainer}>
-          <div className={styles.sectionHeader}>
+          <div className={`${styles.sectionHeader} ${isVisible.demos ? styles.visible : ''}`}>
             <div className={styles.sectionBadge}>
               <span>✦ Explore Our Demos</span>
             </div>
@@ -250,9 +361,15 @@ const WebService = () => {
             {demoButtons.map((button, index) => (
               <div 
                 key={index}
-                className={styles.demoCard}
+                className={`${styles.demoCard} ${isVisible.demos ? styles.visible : ''}`}
+                data-web-card={`demo-${index}`}
+                onMouseMove={(e) => handleCardTilt(e, `demo-${index}`)}
+                onMouseLeave={() => resetCardTilt(`demo-${index}`)}
                 onClick={() => navigate(button.path)}
-                style={{ '--demo-color': button.color }}
+                style={{ 
+                  '--demo-color': button.color,
+                  transitionDelay: `${index * 0.1}s`
+                }}
               >
                 <div className={styles.demoImageContainer}>
                   <img 
@@ -280,11 +397,15 @@ const WebService = () => {
         </div>
       </div>
 
-      {/* CTA Section - Matching Home Page */}
-      <div className={styles.ctaSection}>
-        <div className={styles.ctaBackground}></div>
+      {/* ===== CTA SECTION ===== */}
+      <div className={styles.ctaSection} data-section="cta">
+        <div className={styles.ctaBackground3D} style={{
+          transform: `translate(${mousePos.x * 20}px, ${mousePos.y * 20}px)`
+        }}></div>
         <div className={styles.sectionContainer}>
-          <div className={styles.ctaContent}>
+          <div className={`${styles.ctaContent} ${isVisible.cta ? styles.visible : ''}`} style={{
+            transform: `translate(${mousePos.x * -10}px, ${mousePos.y * -10}px)`
+          }}>
             <div className={styles.ctaBadge}>
               <span>✦ Ready to Start</span>
             </div>

@@ -358,8 +358,8 @@ const VinusStudio = () => {
           <p>Book your appointment today and enhance your natural beauty with professional care.</p>
           <div className={styles.socialLinks}>
             <a href="https://wa.me/94754545448" target="_blank" rel="noopener noreferrer">WhatsApp</a>
-            <a href="#instagram">Instagram</a>
-            <a href="#facebook">Facebook</a>
+            <a href="https://www.instagram.com/bandaravino?utm_source=qr&igsi=MTYybDY0dnBtYnN4bw==">Instagram</a>
+            <a href="https://www.facebook.com/share/1BmA4eM4PL/">Facebook</a>
           </div>
           <p className={styles.footerNote}>© Vinu&apos;s Studio – Ladies Only | Relax · Refresh · Rejuvenate</p>
         </div>

@@ -1,19 +1,64 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './About.module.css';
-import logoImage from '../../assets/logo.png';
 import storyImage from '../../assets/story.jpeg';
 
 const About = () => {
   const navigate = useNavigate();
   const [scrolled, setScrolled] = useState(false);
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const [isVisible, setIsVisible] = useState({});
+
+  // Refs for scroll animations
+  const sectionRefs = {};
 
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
+      
+      // Calculate scroll progress
+      const totalScroll = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = (window.scrollY / totalScroll) * 100;
+      setScrollProgress(progress);
     };
+    
+    const handleMouseMove = (e) => {
+      const { clientX, clientY } = e;
+      const { innerWidth, innerHeight } = window;
+      const x = (clientX / innerWidth - 0.5) * 2;
+      const y = (clientY / innerHeight - 0.5) * 2;
+      setMousePos({ x, y });
+    };
+
+    // Intersection Observer for scroll reveal animations
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsVisible((prev) => ({
+              ...prev,
+              [entry.target.dataset.section]: true
+            }));
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    // Observe all sections
+    document.querySelectorAll('[data-section]').forEach((el) => {
+      observer.observe(el);
+    });
+
     window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener('mousemove', handleMouseMove);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('mousemove', handleMouseMove);
+      observer.disconnect();
+    };
   }, []);
 
   // Team members data
@@ -109,44 +154,77 @@ const About = () => {
     }
   };
 
+  // Handle card tilt effect
+  const handleCardTilt = (e, index) => {
+    const card = document.querySelector(`[data-card="${index}"]`);
+    if (!card) return;
+
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    
+    const rotateX = ((y - centerY) / centerY) * -10;
+    const rotateY = ((x - centerX) / centerX) * 10;
+    
+    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+  };
+
+  const resetCardTilt = (index) => {
+    const card = document.querySelector(`[data-card="${index}"]`);
+    if (!card) return;
+    card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)';
+  };
+
   return (
     <div className={styles.aboutContainer}>
-      {/* Navigation Bar - Matching Home Page */}
-      {/* <nav className={`${styles.navbar} ${scrolled ? styles.scrolled : ''}`}>
-        <div className={styles.navContainer}>
-          <div className={styles.navLogo}>
-            <span className={styles.logoIcon}>◆</span>
-            <span className={styles.logoText}>WebPoint</span>
-          </div>
-          
-          <div className={styles.navLinks}>
-            <a href="/#home">Home</a>
-            <a href="/#services">Services</a>
-            <a href="/#pos-system">POS Solutions</a>
-            <a href="/#pricing">Pricing</a>
-            <a href="/about" className={styles.active}>About</a>
-          </div>
-          
-          <div className={styles.navActions}>
-            <button className={styles.navCta} onClick={() => navigate('/login')}>
-              Get Started
-            </button>
-            <button className={styles.mobileToggle}>
-              <span></span>
-              <span></span>
-              <span></span>
-            </button>
-          </div>
+      
+      {/* ===== 3D ANIMATED BACKGROUND ===== */}
+      <div className={styles.threeDBackground}>
+        <div className={styles.gridLines}></div>
+        <div className={styles.floatingOrb} style={{ 
+          left: `${50 + mousePos.x * 20}%`, 
+          top: `${50 + mousePos.y * 20}%` 
+        }}></div>
+        <div className={styles.floatingOrb2} style={{ 
+          left: `${30 + mousePos.x * -10}%`, 
+          top: `${30 + mousePos.y * -10}%` 
+        }}></div>
+        <div className={styles.floatingOrb3} style={{ 
+          left: `${70 + mousePos.x * -15}%`, 
+          top: `${40 + mousePos.y * 15}%` 
+        }}></div>
+        <div className={styles.particles}>
+          {[...Array(20)].map((_, i) => (
+            <div key={i} className={styles.particle} style={{
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+              animationDelay: `${Math.random() * 5}s`,
+              animationDuration: `${3 + Math.random() * 5}s`
+            }}></div>
+          ))}
         </div>
-      </nav> */}
+      </div>
 
-      {/* Hero Section - Matching Home Page Style */}
-      <div className={styles.heroSection} id="about-hero">
-        <div className={styles.heroBackground}></div>
+      {/* ===== SCROLL PROGRESS BAR ===== */}
+      <div className={styles.scrollProgressBar} style={{ width: `${scrollProgress}%` }}></div>
+
+      {/* ===== HERO SECTION ===== */}
+      <div className={styles.heroSection} id="about-hero" data-section="hero">
+        <div className={styles.heroBackground3D} style={{
+          transform: `translate(${mousePos.x * 30}px, ${mousePos.y * 30}px)`
+        }}>
+          <div className={styles.heroSphere}></div>
+        </div>
         
-        <div className={styles.heroContent}>
+        <div className={styles.heroContent} style={{
+          transform: `translate(${mousePos.x * -15}px, ${mousePos.y * -15}px)`
+        }}>
           <div className={styles.heroText}>
             <div className={styles.heroBadge}>
+              <span className={styles.pulseDot}></span>
               <span>✦ Since 2020</span>
             </div>
             
@@ -194,7 +272,9 @@ const About = () => {
           </div>
           
           <div className={styles.heroVisual}>
-            <div className={styles.heroCard}>
+            <div className={styles.heroCard3D} style={{
+              transform: `perspective(1000px) rotateY(${mousePos.x * 10}deg) rotateX(${mousePos.y * -10}deg)`
+            }}>
               <div className={styles.heroCardHeader}>
                 <div className={styles.cardDots}>
                   <span></span><span></span><span></span>
@@ -238,8 +318,8 @@ const About = () => {
         </div>
       </div>
 
-      {/* Our Story Section - Updated */}
-      <div className={styles.storySection} id="story">
+      {/* ===== OUR STORY SECTION ===== */}
+      <div className={styles.storySection} id="story" data-section="story">
         <div className={styles.sectionContainer}>
           <div className={styles.sectionHeader}>
             <div className={styles.sectionBadge}>
@@ -252,7 +332,7 @@ const About = () => {
           </div>
 
           <div className={styles.storyContent}>
-            <div className={styles.storyText}>
+            <div className={`${styles.storyText} ${isVisible.story ? styles.visible : ''}`}>
               <h3>Building Digital Excellence Since 2020</h3>
               <p>
                 WebPoint was founded in 2020 with a vision to revolutionize the digital landscape
@@ -275,7 +355,7 @@ const About = () => {
                 </div>
               </div>
             </div>
-            <div className={styles.storyImage}>
+            <div className={`${styles.storyImage} ${isVisible.story ? styles.visible : ''}`}>
               <div className={styles.imageContainer}>
                 <img
                   src={storyImage}
@@ -293,8 +373,8 @@ const About = () => {
         </div>
       </div>
 
-      {/* Timeline Section - Updated */}
-      <div className={styles.timelineSection}>
+      {/* ===== TIMELINE SECTION ===== */}
+      <div className={styles.timelineSection} data-section="timeline">
         <div className={styles.sectionContainer}>
           <div className={styles.sectionHeader}>
             <div className={styles.sectionBadge}>
@@ -305,7 +385,7 @@ const About = () => {
 
           <div className={styles.timeline}>
             {timeline.map((item, index) => (
-              <div key={index} className={styles.timelineItem}>
+              <div key={index} className={`${styles.timelineItem} ${isVisible.timeline ? styles.visible : ''}`} style={{ transitionDelay: `${index * 0.1}s` }}>
                 <div className={styles.timelineYear}>{item.year}</div>
                 <div className={styles.timelineContent}>
                   <h3>{item.title}</h3>
@@ -321,8 +401,8 @@ const About = () => {
         </div>
       </div>
 
-      {/* Services Section - Updated to match Home Page */}
-      <div className={styles.servicesSection} id="services">
+      {/* ===== SERVICES SECTION ===== */}
+      <div className={styles.servicesSection} id="services" data-section="services">
         <div className={styles.sectionContainer}>
           <div className={styles.sectionHeader}>
             <div className={styles.sectionBadge}>
@@ -335,8 +415,19 @@ const About = () => {
           </div>
 
           <div className={styles.servicesGrid}>
-            {services.map((service) => (
-              <div key={service.id} className={styles.serviceCard}>
+            {services.map((service, index) => (
+              <div 
+                key={service.id} 
+                className={`${styles.serviceCard} ${isVisible.services ? styles.visible : ''}`}
+                data-card={index}
+                onMouseMove={(e) => handleCardTilt(e, index)}
+                onMouseLeave={() => resetCardTilt(index)}
+                style={{ 
+                  transitionDelay: `${index * 0.1}s`,
+                  '--service-color': service.color 
+                }}
+              >
+                <div className={styles.serviceCardGlow} style={{ background: service.color }}></div>
                 <div className={styles.serviceIconWrapper}>
                   <span className={styles.serviceIcon}>{service.icon}</span>
                 </div>
@@ -351,8 +442,8 @@ const About = () => {
         </div>
       </div>
 
-      {/* Team Section - Updated */}
-      <div className={styles.teamSection}>
+      {/* ===== TEAM SECTION ===== */}
+      <div className={styles.teamSection} data-section="team">
         <div className={styles.sectionContainer}>
           <div className={styles.sectionHeader}>
             <div className={styles.sectionBadge}>
@@ -365,8 +456,12 @@ const About = () => {
           </div>
 
           <div className={styles.teamGrid}>
-            {teamMembers.map((member) => (
-              <div key={member.id} className={styles.teamCard}>
+            {teamMembers.map((member, index) => (
+              <div 
+                key={member.id} 
+                className={`${styles.teamCard} ${isVisible.team ? styles.visible : ''}`}
+                style={{ transitionDelay: `${index * 0.1}s` }}
+              >
                 <div className={styles.memberImage}>
                   <img
                     src={member.image}
@@ -397,11 +492,15 @@ const About = () => {
         </div>
       </div>
 
-      {/* Contact Section - Updated to match Home Page CTA */}
-      <div className={styles.contactSection}>
-        <div className={styles.contactBackground}></div>
+      {/* ===== CONTACT SECTION ===== */}
+      <div className={styles.contactSection} data-section="contact">
+        <div className={styles.ctaBackground3D} style={{
+          transform: `translate(${mousePos.x * 20}px, ${mousePos.y * 20}px)`
+        }}></div>
         <div className={styles.sectionContainer}>
-          <div className={styles.contactContent}>
+          <div className={`${styles.contactContent} ${isVisible.contact ? styles.visible : ''}`} style={{
+            transform: `translate(${mousePos.x * -10}px, ${mousePos.y * -10}px)`
+          }}>
             <div className={styles.contactBadge}>
               <span>✦ Get In Touch</span>
             </div>
@@ -453,7 +552,7 @@ const About = () => {
             </div>
           </div>
 
-          <div className={styles.contactVisual}>
+          <div className={`${styles.contactVisual} ${isVisible.contact ? styles.visible : ''}`}>
             <div className={styles.contactMap}>
               <iframe
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15825.006627732612!2d80.00440334515252!3d7.091541294807006!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ae2fbe433c1c2db%3A0x363c2a6f4d5e7778!2sMalabe%2C%20Sri%20Lanka!5e0!3m2!1sen!2s!4v1706181234567!5m2!1sen!2s"

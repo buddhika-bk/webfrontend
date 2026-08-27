@@ -14,14 +14,57 @@ const DigitalSolution = () => {
   const [scrolled, setScrolled] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
   const [isImagePopupOpen, setIsImagePopupOpen] = useState(false);
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const [isVisible, setIsVisible] = useState({});
   const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
+      
+      // Calculate scroll progress
+      const totalScroll = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = (window.scrollY / totalScroll) * 100;
+      setScrollProgress(progress);
     };
+    
+    const handleMouseMove = (e) => {
+      const { clientX, clientY } = e;
+      const { innerWidth, innerHeight } = window;
+      const x = (clientX / innerWidth - 0.5) * 2;
+      const y = (clientY / innerHeight - 0.5) * 2;
+      setMousePos({ x, y });
+    };
+
+    // Intersection Observer for scroll reveal animations
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsVisible((prev) => ({
+              ...prev,
+              [entry.target.dataset.section]: true
+            }));
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    // Observe all sections
+    document.querySelectorAll('[data-section]').forEach((el) => {
+      observer.observe(el);
+    });
+
     window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener('mousemove', handleMouseMove);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('mousemove', handleMouseMove);
+      observer.disconnect();
+    };
   }, []);
 
   // Google Images URLs for fallback
@@ -181,41 +224,8 @@ const DigitalSolution = () => {
       color: '#06b6d4',
       tags: ['Visual Design', 'Branding', 'Social Commerce'],
       link: '#',
-      fullImage: ikkaProjectImg}
-    // },
-    // {
-    //   id: 4,
-    //   title: 'Social Media Growth Strategy',
-    //   category: 'Digital Marketing',
-    //   description: 'Data-driven social media growth strategy that increased engagement by 300% across multiple platforms through content optimization.',
-    //   image: solutionImage2,
-    //   color: '#8b5cf6',
-    //   tags: ['Social Media', 'Data Analytics', 'Content Strategy'],
-    //   link: '#',
-    //   fullImage: solutionImage2
-    // },
-    // {
-    //   id: 5,
-    //   title: 'Influencer Marketing Campaign',
-    //   category: 'Digital Marketing',
-    //   description: 'Strategic influencer marketing campaign connecting brands with relevant creators to drive authentic engagement and conversion.',
-    //   image: solutionImage1,
-    //   color: '#f59e0b',
-    //   tags: ['Influencer Marketing', 'Brand Strategy', 'Content Creation'],
-    //   link: '#',
-    //   fullImage: solutionImage1
-    // },
-    // {
-    //   id: 6,
-    //   title: 'Digital Brand Awareness Campaign',
-    //   category: 'Digital Marketing',
-    //   description: 'Comprehensive brand awareness campaign utilizing multi-channel digital marketing to establish brand presence and recognition.',
-    //   image: heroImage,
-    //   color: '#10b981',
-    //   tags: ['Brand Awareness', 'Multi-Channel', 'Digital Strategy'],
-    //   link: '#',
-    //   fullImage: heroImage
-    // }
+      fullImage: ikkaProjectImg
+    }
   ];
 
   const categories = ['all', 'Digital Marketing'];
@@ -244,16 +254,77 @@ const DigitalSolution = () => {
     document.body.style.overflow = 'auto';
   };
 
+  // Handle card tilt effect
+  const handleCardTilt = (e, index) => {
+    const card = document.querySelector(`[data-card="${index}"]`);
+    if (!card) return;
+
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    
+    const rotateX = ((y - centerY) / centerY) * -10;
+    const rotateY = ((x - centerX) / centerX) * 10;
+    
+    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+  };
+
+  const resetCardTilt = (index) => {
+    const card = document.querySelector(`[data-card="${index}"]`);
+    if (!card) return;
+    card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)';
+  };
+
   return (
     <div className={styles.digitalSolutionContainer}>
       
-      {/* Hero Section - Matching Home Page */}
-      <div className={styles.heroSection}>
-        <div className={styles.heroBackground}></div>
+      {/* ===== 3D ANIMATED BACKGROUND ===== */}
+      <div className={styles.threeDBackground}>
+        <div className={styles.gridLines}></div>
+        <div className={styles.floatingOrb} style={{ 
+          left: `${50 + mousePos.x * 20}%`, 
+          top: `${50 + mousePos.y * 20}%` 
+        }}></div>
+        <div className={styles.floatingOrb2} style={{ 
+          left: `${30 + mousePos.x * -10}%`, 
+          top: `${30 + mousePos.y * -10}%` 
+        }}></div>
+        <div className={styles.floatingOrb3} style={{ 
+          left: `${70 + mousePos.x * -15}%`, 
+          top: `${40 + mousePos.y * 15}%` 
+        }}></div>
+        <div className={styles.particles}>
+          {[...Array(20)].map((_, i) => (
+            <div key={i} className={styles.particle} style={{
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+              animationDelay: `${Math.random() * 5}s`,
+              animationDuration: `${3 + Math.random() * 5}s`
+            }}></div>
+          ))}
+        </div>
+      </div>
+
+      {/* ===== SCROLL PROGRESS BAR ===== */}
+      <div className={styles.scrollProgressBar} style={{ width: `${scrollProgress}%` }}></div>
+
+      {/* ===== HERO SECTION ===== */}
+      <div className={styles.heroSection} data-section="hero">
+        <div className={styles.heroBackground3D} style={{
+          transform: `translate(${mousePos.x * 30}px, ${mousePos.y * 30}px)`
+        }}>
+          <div className={styles.heroSphere}></div>
+        </div>
         
-        <div className={styles.heroContent}>
+        <div className={styles.heroContent} style={{
+          transform: `translate(${mousePos.x * -15}px, ${mousePos.y * -15}px)`
+        }}>
           <div className={styles.heroText}>
             <div className={styles.heroBadge}>
+              <span className={styles.pulseDot}></span>
               <span>✦ Digital Solutions</span>
             </div>
             
@@ -304,7 +375,9 @@ const DigitalSolution = () => {
           </div>
           
           <div className={styles.heroVisual}>
-            <div className={styles.heroCard}>
+            <div className={styles.heroCard3D} style={{
+              transform: `perspective(1000px) rotateY(${mousePos.x * 10}deg) rotateX(${mousePos.y * -10}deg)`
+            }}>
               <div className={styles.heroCardHeader}>
                 <div className={styles.cardDots}>
                   <span></span><span></span><span></span>
@@ -348,77 +421,10 @@ const DigitalSolution = () => {
         </div>
       </div>
 
-      {/* Pricing Plans Section */}
-      {/* <div className={styles.pricingSection} id="pricing">
+      {/* ===== OUR WORK SECTION ===== */}
+      <div className={styles.workSection} data-section="work">
         <div className={styles.sectionContainer}>
-          <div className={styles.sectionHeader}>
-            <div className={styles.sectionBadge}>
-              <span>✦ Pricing Plans</span>
-            </div>
-            <h2 className={styles.sectionTitle}>Flexible <span className={styles.textGradient}>Pricing</span></h2>
-            <p className={styles.sectionSubtitle}>
-              Choose the perfect plan that fits your business needs and budget
-            </p>
-          </div>
-
-          <div className={styles.pricingGrid}>
-            {pricingPlans.map((plan) => (
-              <div 
-                key={plan.id}
-                className={`${styles.pricingCard} ${plan.popular ? styles.popularCard : ''}`}
-                onMouseEnter={() => setHoveredPlan(plan.id)}
-                onMouseLeave={() => setHoveredPlan(null)}
-                style={{
-                  '--plan-color': plan.color,
-                  transform: hoveredPlan === plan.id ? 'translateY(-8px)' : 'translateY(0)'
-                }}
-              >
-                {plan.popular && (
-                  <div className={styles.popularBadge}>⭐ Most Popular</div>
-                )}
-                
-                <div className={styles.pricingIconWrapper}>
-                  <span className={styles.pricingIcon}>{plan.icon}</span>
-                </div>
-                
-                <h3 className={styles.pricingName}>{plan.name}</h3>
-                <p className={styles.pricingDescription}>{plan.description}</p>
-                
-                <div className={styles.pricingPrice}>
-                  <span className={styles.priceValue}>{plan.price}</span>
-                  <span className={styles.pricePeriod}>{plan.period}</span>
-                </div>
-                
-                <ul className={styles.pricingFeatures}>
-                  {plan.features.map((feature, index) => (
-                    <li key={index}>
-                      <span className={styles.featureCheck}>✓</span>
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
-                
-                <button 
-                  className={`${styles.pricingButton} ${plan.popular ? styles.popularButton : ''}`}
-                  onClick={() => navigate('/contact')}
-                >
-                  {plan.buttonText}
-                  <span className={styles.buttonArrow}>→</span>
-                </button>
-              </div>
-            ))}
-          </div>
-
-          <div className={styles.pricingNote}>
-            <p>✨ All plans include 30-day money-back guarantee. Custom enterprise solutions available.</p>
-          </div>
-        </div>
-      </div> */}
-
-      {/* Our Work Section - UPDATED with Digital Marketing Only */}
-      <div className={styles.workSection}>
-        <div className={styles.sectionContainer}>
-          <div className={styles.sectionHeader}>
+          <div className={`${styles.sectionHeader} ${isVisible.work ? styles.visible : ''}`}>
             <div className={styles.sectionBadge}>
               <span>✦ Our Portfolio</span>
             </div>
@@ -441,8 +447,18 @@ const DigitalSolution = () => {
           </div>
 
           <div className={styles.workGrid}>
-            {filteredWork.map((work) => (
-              <div key={work.id} className={styles.workCard} style={{ '--card-color': work.color }}>
+            {filteredWork.map((work, index) => (
+              <div 
+                key={work.id} 
+                className={`${styles.workCard} ${isVisible.work ? styles.visible : ''}`}
+                data-card={index}
+                onMouseMove={(e) => handleCardTilt(e, index)}
+                onMouseLeave={() => resetCardTilt(index)}
+                style={{ 
+                  '--card-color': work.color,
+                  transitionDelay: `${index * 0.1}s`
+                }}
+              >
                 <div className={styles.workImageWrapper}>
                   <img 
                     src={work.image} 
@@ -481,17 +497,10 @@ const DigitalSolution = () => {
               </div>
             ))}
           </div>
-
-          <div className={styles.workViewAll}>
-            {/* <button className={styles.viewAllButton} onClick={() => navigate('/portfolio')}>
-              View All Projects
-              <span className={styles.buttonIcon}>→</span>
-            </button> */}
-          </div>
         </div>
       </div>
 
-      {/* Image Popup Modal */}
+      {/* ===== IMAGE POPUP MODAL ===== */}
       {isImagePopupOpen && selectedImage && (
         <div className={styles.imagePopupOverlay} onClick={closeImagePopup}>
           <div className={styles.imagePopupContent} onClick={(e) => e.stopPropagation()}>
@@ -510,10 +519,10 @@ const DigitalSolution = () => {
         </div>
       )}
 
-      {/* How We Work Section */}
-      <div className={styles.processSection}>
+      {/* ===== PROCESS SECTION ===== */}
+      <div className={styles.processSection} data-section="process">
         <div className={styles.sectionContainer}>
-          <div className={styles.sectionHeader}>
+          <div className={`${styles.sectionHeader} ${isVisible.process ? styles.visible : ''}`}>
             <div className={styles.sectionBadge}>
               <span>✦ Our Process</span>
             </div>
@@ -524,8 +533,15 @@ const DigitalSolution = () => {
           </div>
 
           <div className={styles.processGrid}>
-            {workSteps.map((step) => (
-              <div key={step.id} className={styles.processStep} style={{ '--step-color': step.color }}>
+            {workSteps.map((step, index) => (
+              <div 
+                key={step.id} 
+                className={`${styles.processStep} ${isVisible.process ? styles.visible : ''}`}
+                style={{ 
+                  '--step-color': step.color,
+                  transitionDelay: `${index * 0.1}s`
+                }}
+              >
                 <div className={styles.stepNumber} style={{ color: step.color }}>{step.number}</div>
                 <div className={styles.stepIcon}>{step.icon}</div>
                 <h3>{step.title}</h3>
@@ -534,7 +550,7 @@ const DigitalSolution = () => {
             ))}
           </div>
 
-          <div className={styles.processStats}>
+          <div className={`${styles.processStats} ${isVisible.process ? styles.visible : ''}`}>
             <div className={styles.processStat}>
               <span className={styles.processStatValue}>2x</span>
               <span className={styles.processStatLabel}>Faster Delivery</span>
@@ -551,11 +567,15 @@ const DigitalSolution = () => {
         </div>
       </div>
 
-      {/* CTA Section - Matching Home Page */}
-      <div className={styles.ctaSection}>
-        <div className={styles.ctaBackground}></div>
+      {/* ===== CTA SECTION ===== */}
+      <div className={styles.ctaSection} data-section="cta">
+        <div className={styles.ctaBackground3D} style={{
+          transform: `translate(${mousePos.x * 20}px, ${mousePos.y * 20}px)`
+        }}></div>
         <div className={styles.sectionContainer}>
-          <div className={styles.ctaContent}>
+          <div className={`${styles.ctaContent} ${isVisible.cta ? styles.visible : ''}`} style={{
+            transform: `translate(${mousePos.x * -10}px, ${mousePos.y * -10}px)`
+          }}>
             <div className={styles.ctaBadge}>
               <span>✦ Ready to Transform</span>
             </div>

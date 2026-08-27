@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './HomeStyle.module.css';
-import POSDemoPDF from "../../assets/POSDemo.pdf";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -9,16 +8,68 @@ const Home = () => {
   const [scrolled, setScrolled] = useState(false);
   const [usdRate, setUsdRate] = useState(336);
   const [isRateLive, setIsRateLive] = useState(true);
-
-  // --- NEW STATE FOR SOCIAL SHARE BAR ---
   const [isShareBarOpen, setIsShareBarOpen] = useState(true);
 
-  // Simulate live USD rate update (in production, fetch from API)
+  // Mouse position state for 3D effects
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const [isHovering, setIsHovering] = useState(false);
+
+  // Refs for 3D tilt effect
+  const heroRef = useRef(null);
+  const cardsRef = useRef([]);
+
+  // Scroll progress state
+  const [scrollProgress, setScrollProgress] = useState(0);
+
+  // 3D Card Tilt Effect
+  const handleMouseMove = (e) => {
+    const { clientX, clientY } = e;
+    const { innerWidth, innerHeight } = window;
+    
+    // Calculate normalized mouse position (-1 to 1)
+    const x = (clientX / innerWidth - 0.5) * 2;
+    const y = (clientY / innerHeight - 0.5) * 2;
+    
+    setMousePos({ x, y });
+  };
+
+  // Handle card tilt on mouse move
+  const handleCardTilt = (e, index) => {
+    const card = cardsRef.current[index];
+    if (!card) return;
+
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    
+    const rotateX = ((y - centerY) / centerY) * -10;
+    const rotateY = ((x - centerX) / centerX) * 10;
+    
+    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+  };
+
+  const resetCardTilt = (index) => {
+    const card = cardsRef.current[index];
+    if (!card) return;
+    card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)';
+  };
+
+  // Simulate live USD rate update
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
+      
+      // Calculate scroll progress
+      const totalScroll = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = (window.scrollY / totalScroll) * 100;
+      setScrollProgress(progress);
     };
+    
     window.addEventListener('scroll', handleScroll);
+    window.addEventListener('mousemove', handleMouseMove);
 
     // Simulate live rate updates every second
     const rateInterval = setInterval(() => {
@@ -28,6 +79,7 @@ const Home = () => {
 
     return () => {
       window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('mousemove', handleMouseMove);
       clearInterval(rateInterval);
     };
   }, []);
@@ -63,58 +115,42 @@ const Home = () => {
       description: "Professional website design and development tailored for your business needs. 48-hour delivery available.",
       icon: "💻",
       features: ["Responsive Design", "SEO Optimized", "Custom UI/UX", "CMS Integration", "48-Hour Delivery"],
-      path: "/webservice"
+      path: "/webservice",
+      gradient: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
     },
     {
       title: "POS Systems",
       description: "Complete Point of Sale solutions for supermarkets, restaurants, bookshops, pharmacies, and hardware stores.",
       icon: "🛒",
       features: ["Offline & Cloud Based", "Inventory Management", "Sales Tracking", "Customer Management", "Analytics & Reporting"],
-      path: "/pos-system"
+      path: "/pos-system",
+      gradient: "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)"
     },
     {
       title: "Concept Flyers & 3D Design",
       description: "Creative design services including film posters, concert posters, and 3D designs for your marketing needs.",
       icon: "🎨",
       features: ["Film Posters", "Concert Posters", "3D Design", "Brand Identity", "Creative Concepts"],
-      path: "/digital-solution"
+      path: "/digital-solution",
+      gradient: "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)"
     },
     {
       title: "Custom Software Development",
       description: "Tailored software solutions to streamline your business operations and solve complex challenges.",
       icon: "⚙️",
       features: ["Custom Solutions", "System Integration", "API Development", "Cloud Solutions", "Maintenance Support"],
-      path: "/systems"
+      path: "/systems",
+      gradient: "linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)"
     }
   ];
 
   // POS categories
   const posCategories = [
-    {
-      name: "Supermarkets",
-      icon: "🏪",
-      description: "Complete POS with inventory, barcode scanning, and multi-branch management"
-    },
-    {
-      name: "Restaurants",
-      icon: "🍽️",
-      description: "Table management, order tracking, kitchen display, and billing"
-    },
-    {
-      name: "Bookshops",
-      icon: "📚",
-      description: "ISBN scanning, stock management, and customer loyalty programs"
-    },
-    {
-      name: "Pharmacies",
-      icon: "💊",
-      description: "Expiry tracking, prescription management, and compliance"
-    },
-    {
-      name: "Hardware Stores",
-      icon: "🔧",
-      description: "Heavy inventory, supplier management, and bulk pricing"
-    }
+    { name: "Supermarkets", icon: "🏪", description: "Complete POS with inventory, barcode scanning, and multi-branch management" },
+    { name: "Restaurants", icon: "🍽️", description: "Table management, order tracking, kitchen display, and billing" },
+    { name: "Bookshops", icon: "📚", description: "ISBN scanning, stock management, and customer loyalty programs" },
+    { name: "Pharmacies", icon: "💊", description: "Expiry tracking, prescription management, and compliance" },
+    { name: "Hardware Stores", icon: "🔧", description: "Heavy inventory, supplier management, and bulk pricing" }
   ];
 
   // POS types
@@ -162,96 +198,58 @@ const Home = () => {
   ];
 
   const whyChooseUsFeatures = [
-    {
-      title: "24/7 Service",
-      description: "Round-the-clock support to ensure your business never stops. We're always here when you need us.",
-      icon: "🕐"
-    },
-    {
-      title: "48-Hour Delivery",
-      description: "Fast turnaround on website development. Get your professional website up and running in just 48 hours.",
-      icon: "⚡"
-    },
-    {
-      title: "Expertise & Experience",
-      description: "Years of experience delivering high-quality digital solutions that exceed client expectations.",
-      icon: "🎯"
-    },
-    {
-      title: "Creative Design",
-      description: "Talented designers craft visually stunning designs that capture attention and leave a lasting impression.",
-      icon: "🎨"
-    },
-    {
-      title: "Customer Satisfaction",
-      description: "We prioritize your satisfaction with every project. Your success is our success.",
-      icon: "⭐"
-    },
-    {
-      title: "Affordable Pricing",
-      description: "Competitive pricing without compromising on quality. Great value for your investment.",
-      icon: "💲"
-    }
+    { title: "24/7 Service", description: "Round-the-clock support to ensure your business never stops. We're always here when you need us.", icon: "🕐" },
+    { title: "48-Hour Delivery", description: "Fast turnaround on website development. Get your professional website up and running in just 48 hours.", icon: "⚡" },
+    { title: "Expertise & Experience", description: "Years of experience delivering high-quality digital solutions that exceed client expectations.", icon: "🎯" },
+    { title: "Creative Design", description: "Talented designers craft visually stunning designs that capture attention and leave a lasting impression.", icon: "🎨" },
+    { title: "Customer Satisfaction", description: "We prioritize your satisfaction with every project. Your success is our success.", icon: "⭐" },
+    { title: "Affordable Pricing", description: "Competitive pricing without compromising on quality. Great value for your investment.", icon: "💲" }
   ];
 
   return (
-    <div className={styles.homeContainer}>
+    <div className={styles.homeContainer} onMouseMove={handleMouseMove}>
+      {/* 3D Animated Background */}
+      <div className={styles.threeDBackground}>
+        <div className={styles.gridLines}></div>
+        <div className={styles.floatingOrb} style={{ left: `${50 + mousePos.x * 20}%`, top: `${50 + mousePos.y * 20}%` }}></div>
+        <div className={styles.floatingOrb2} style={{ left: `${30 + mousePos.x * -10}%`, top: `${30 + mousePos.y * -10}%` }}></div>
+        <div className={styles.floatingOrb3} style={{ left: `${70 + mousePos.x * -15}%`, top: `${40 + mousePos.y * 15}%` }}></div>
+        <div className={styles.particles}>
+          {[...Array(20)].map((_, i) => (
+            <div key={i} className={styles.particle} style={{
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+              animationDelay: `${Math.random() * 5}s`,
+              animationDuration: `${3 + Math.random() * 5}s`
+            }}></div>
+          ))}
+        </div>
+      </div>
 
-      {/* --- NEW SOCIAL SHARE BAR --- */}
-      {/* <div className={styles.socialWrapper}>
-        {isShareBarOpen ? (
-          <div className={styles.socialShareBar}>
-            <button 
-              className={styles.socialCloseBtn} 
-              onClick={() => setIsShareBarOpen(false)}
-              aria-label="Close social share"
-            >
-              ✕
-            </button>
-            <div className={styles.socialIconsContainer}>
-              <a href="https://facebook.com/webpointLanka" target="_blank" rel="noopener noreferrer" className={`${styles.socialIcon} ${styles.fb}`} title="Share on Facebook">
-                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-              </a>
-              <a href="https://www.instagram.com/webpoint_lanka_pvt_ltd?igsh=MW1mNmR1Y3hma2c3eQ==" target="_blank" rel="noopener noreferrer" className={`${styles.socialIcon} ${styles.ig}`} title="Share on Instagram">
-                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
-              </a>
-              <a href="https://www.linkedin.com/company/webpoint-sl/" target="_blank" rel="noopener noreferrer" className={`${styles.socialIcon} ${styles.li}`} title="Share on LinkedIn">
-                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5c0 1.381-1.11 2.5-2.48 2.5s-2.48-1.119-2.48-2.5c0-1.38 1.11-2.5 2.48-2.5s2.48 1.12 2.48 2.5zm.02 4.5h-5v16h5v-16zm7.982 0h-4.968v16h4.969v-8.399c0-4.67 6.029-5.052 6.029 0v8.399h4.988v-10.131c0-7.88-8.922-7.593-11.018-3.714v-2.155z"/></svg>
-              </a>
-              <a href="https://www.tiktok.com/@webpoint_lanka" target="_blank" rel="noopener noreferrer" className={`${styles.socialIcon} ${styles.tt}`} title="Share on TikTok">
-                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93v6.16c0 2.57-1.68 5.16-4.47 5.61-2.93.48-5.84-1.44-6.45-4.26-.74-3.45 1.84-6.78 5.25-7.09.72-.06 1.44-.06 2.16-.06v3.99c-.43-.03-.86-.05-1.29-.02-1.44.09-2.73 1.24-2.79 2.69-.07 1.57 1.19 2.95 2.75 3.07 1.58.12 3.02-1.07 3.26-2.65.04-.23.04-.47.04-.71v-12.5h4.01c-.01-.94-.02-1.88-.01-2.82z"/></svg>
-              </a>
-              <a href="https://wa.me/+94706646255" target="_blank" rel="noopener noreferrer" className={`${styles.socialIcon} ${styles.wa}`} title="Share on WhatsApp">
-                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-              </a>
-            </div>
-          </div>
-        ) : (
-          <button 
-            className={styles.socialOpenBtn} 
-            onClick={() => setIsShareBarOpen(true)}
-            aria-label="Open social share"
-          >
-            Share
-          </button>
-        )}
-      </div> */}
-      {/* --- END NEW SOCIAL SHARE BAR --- */}
+      {/* Scroll Progress Bar */}
+      <div className={styles.scrollProgressBar} style={{ width: `${scrollProgress}%` }}></div>
 
-      {/* Hero Section - Updated with larger card */}
-      <section className={styles.heroSection} id="home">
-        <div className={styles.heroBackground}></div>
+      {/* Hero Section - 3D Parallax */}
+      <section className={styles.heroSection} id="home" ref={heroRef}>
+        <div className={styles.heroBackground3D} style={{
+          transform: `translate(${mousePos.x * 30}px, ${mousePos.y * 30}px)`
+        }}>
+          <div className={styles.heroSphere}></div>
+        </div>
 
-        <div className={styles.heroContent}>
+        <div className={styles.heroContent} style={{
+          transform: `translate(${mousePos.x * -15}px, ${mousePos.y * -15}px)`
+        }}>
           <div className={styles.heroText}>
             <div className={styles.heroBadge}>
+              <span className={styles.pulseDot}></span>
               <span>🚀 Trusted by 100+ Sri Lankan Businesses</span>
             </div>
 
             <h1 className={styles.heroTitle}>
-              <span>Transform Your</span>
+              <span className={styles.titleLine1}>Transform Your</span>
               <span className={styles.highlightText}>Digital Presence</span>
-              <span>in Sri Lanka</span>
+              <span className={styles.titleLine3}>in Sri Lanka</span>
             </h1>
 
             <p className={styles.heroDescription}>
@@ -286,9 +284,11 @@ const Home = () => {
             </div>
           </div>
 
-          {/* Hero Visual - Enlarged Card */}
-          <div className={styles.heroVisual}>
-            <div className={styles.heroCard}>
+          {/* Hero Visual - 3D Rotating Card */}
+          <div className={styles.heroVisual3D}>
+            <div className={styles.heroCard3D} style={{
+              transform: `perspective(1000px) rotateY(${mousePos.x * 10}deg) rotateX(${mousePos.y * -10}deg)`
+            }}>
               <div className={styles.heroCardHeader}>
                 <div className={styles.cardDots}>
                   <span></span><span></span><span></span>
@@ -332,57 +332,39 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Services Section */}
+      {/* Services Section - 3D Tilt Cards */}
       <section className={styles.servicesSection} id="services">
         <div className={styles.sectionContainer}>
-
           <div className={styles.sectionHeader}>
             <div className={styles.sectionBadge}>
               <span>✦ Our Expertise</span>
             </div>
-
-            <h2 className={styles.sectionTitle}>
-              Comprehensive Digital Solutions
-            </h2>
-
-            <p className={styles.sectionSubtitle}>
-              From web development to custom software, we deliver excellence
-              for Sri Lankan businesses
-            </p>
+            <h2 className={styles.sectionTitle}>Comprehensive Digital Solutions</h2>
+            <p className={styles.sectionSubtitle}>From web development to custom software, we deliver excellence for Sri Lankan businesses</p>
           </div>
 
           <div className={styles.servicesGrid}>
-
             {services.map((service, index) => (
               <div
                 key={index}
                 className={styles.serviceCard}
                 onClick={() => navigate(service.path)}
                 style={{ cursor: "pointer" }}
+                ref={(el) => (cardsRef.current[index] = el)}
+                onMouseMove={(e) => handleCardTilt(e, index)}
+                onMouseLeave={() => resetCardTilt(index)}
               >
-
-                <div className={styles.serviceIconWrapper}>
-                  <span className={styles.serviceIcon}>
-                    {service.icon}
-                  </span>
+                <div className={styles.serviceCardGlow} style={{ background: service.gradient }}></div>
+                <div className={styles.serviceIconWrapper} style={{ background: service.gradient }}>
+                  <span className={styles.serviceIcon}>{service.icon}</span>
                 </div>
-
-                <h3 className={styles.serviceTitle}>
-                  {service.title}
-                </h3>
-
-                <p className={styles.serviceDescription}>
-                  {service.description}
-                </p>
-
+                <h3 className={styles.serviceTitle}>{service.title}</h3>
+                <p className={styles.serviceDescription}>{service.description}</p>
                 <ul className={styles.serviceFeatures}>
                   {service.features.map((feature, idx) => (
-                    <li key={idx}>
-                      {feature}
-                    </li>
+                    <li key={idx}>{feature}</li>
                   ))}
                 </ul>
-
                 <button
                   type="button"
                   className={styles.serviceCta}
@@ -393,10 +375,8 @@ const Home = () => {
                 >
                   Learn More <span>→</span>
                 </button>
-
               </div>
             ))}
-
           </div>
         </div>
       </section>
@@ -417,7 +397,9 @@ const Home = () => {
           {/* POS Types */}
           <div className={styles.posTypes}>
             {posTypes.map((type, index) => (
-              <div key={index} className={styles.posTypeCard}>
+              <div key={index} className={styles.posTypeCard} style={{
+                transform: `perspective(1000px) rotateY(${mousePos.x * 5}deg)`
+              }}>
                 <div className={styles.posTypeIcon}>{type.icon}</div>
                 <h3>{type.title}</h3>
                 <p>{type.description}</p>
@@ -460,9 +442,7 @@ const Home = () => {
               <span>✦ Simple, Transparent Pricing</span>
             </div>
             <h2 className={styles.sectionTitle}>Choose Your Perfect Plan</h2>
-            <p className={styles.sectionSubtitle}>
-              Priced in USD - Billed in LKR at daily bank rate
-            </p>
+            <p className={styles.sectionSubtitle}>Priced in USD - Billed in LKR at daily bank rate</p>
           </div>
 
           {/* Live Rate Display */}
@@ -528,9 +508,7 @@ const Home = () => {
               <span>✦ Why Choose Us</span>
             </div>
             <h2 className={styles.sectionTitle}>Your Trusted Digital Partner</h2>
-            <p className={styles.sectionSubtitle}>
-              We deliver excellence with speed, quality, and unwavering support
-            </p>
+            <p className={styles.sectionSubtitle}>We deliver excellence with speed, quality, and unwavering support</p>
           </div>
 
           <div className={styles.whyChooseGrid}>
@@ -547,9 +525,13 @@ const Home = () => {
 
       {/* CTA Section */}
       <section className={styles.ctaSection}>
-        <div className={styles.ctaBackground}></div>
+        <div className={styles.ctaBackground3D} style={{
+          transform: `translate(${mousePos.x * 20}px, ${mousePos.y * 20}px)`
+        }}></div>
         <div className={styles.sectionContainer}>
-          <div className={styles.ctaContent}>
+          <div className={styles.ctaContent} style={{
+            transform: `translate(${mousePos.x * -10}px, ${mousePos.y * -10}px)`
+          }}>
             <div className={styles.ctaBadge}>
               <span>✦ Let's Build Something Together</span>
             </div>

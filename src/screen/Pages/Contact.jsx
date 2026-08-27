@@ -5,6 +5,9 @@ import styles from './Contact.module.css';
 const Contact = () => {
   const navigate = useNavigate();
   const [scrolled, setScrolled] = useState(false);
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const [isVisible, setIsVisible] = useState({});
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -18,9 +21,49 @@ const Contact = () => {
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
+      
+      // Calculate scroll progress
+      const totalScroll = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = (window.scrollY / totalScroll) * 100;
+      setScrollProgress(progress);
     };
+    
+    const handleMouseMove = (e) => {
+      const { clientX, clientY } = e;
+      const { innerWidth, innerHeight } = window;
+      const x = (clientX / innerWidth - 0.5) * 2;
+      const y = (clientY / innerHeight - 0.5) * 2;
+      setMousePos({ x, y });
+    };
+
+    // Intersection Observer for scroll reveal animations
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsVisible((prev) => ({
+              ...prev,
+              [entry.target.dataset.section]: true
+            }));
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    // Observe all sections
+    document.querySelectorAll('[data-section]').forEach((el) => {
+      observer.observe(el);
+    });
+
     window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener('mousemove', handleMouseMove);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('mousemove', handleMouseMove);
+      observer.disconnect();
+    };
   }, []);
 
   const handleChange = (e) => {
@@ -64,6 +107,30 @@ const Contact = () => {
     { name: 'Mobile Apps', icon: '📱' }
   ];
 
+  // Handle card tilt effect
+  const handleCardTilt = (e, index) => {
+    const card = document.querySelector(`[data-contact-card="${index}"]`);
+    if (!card) return;
+
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    
+    const rotateX = ((y - centerY) / centerY) * -10;
+    const rotateY = ((x - centerX) / centerX) * 10;
+    
+    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+  };
+
+  const resetCardTilt = (index) => {
+    const card = document.querySelector(`[data-contact-card="${index}"]`);
+    if (!card) return;
+    card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)';
+  };
+
   const handleAnchorClick = (e, targetId) => {
     e.preventDefault();
     const targetElement = document.querySelector(targetId);
@@ -74,42 +141,51 @@ const Contact = () => {
 
   return (
     <div className={styles.contactContainer}>
-      {/* Navigation Bar - Matching Home Page */}
-      {/* <nav className={`${styles.navbar} ${scrolled ? styles.scrolled : ''}`}>
-        <div className={styles.navContainer}>
-          <div className={styles.navLogo}>
-            <span className={styles.logoIcon}>◆</span>
-            <span className={styles.logoText}>WebPoint</span>
-          </div>
-          
-          <div className={styles.navLinks}>
-            <a href="/#home">Home</a>
-            <a href="/#services">Services</a>
-            <a href="/#pos-system">POS Solutions</a>
-            <a href="/#pricing">Pricing</a>
-            <a href="/about">About</a>
-          </div>
-          
-          <div className={styles.navActions}>
-            <button className={styles.navCta} onClick={() => navigate('/login')}>
-              Get Started
-            </button>
-            <button className={styles.mobileToggle}>
-              <span></span>
-              <span></span>
-              <span></span>
-            </button>
-          </div>
+      
+      {/* ===== 3D ANIMATED BACKGROUND ===== */}
+      <div className={styles.threeDBackground}>
+        <div className={styles.gridLines}></div>
+        <div className={styles.floatingOrb} style={{ 
+          left: `${50 + mousePos.x * 20}%`, 
+          top: `${50 + mousePos.y * 20}%` 
+        }}></div>
+        <div className={styles.floatingOrb2} style={{ 
+          left: `${30 + mousePos.x * -10}%`, 
+          top: `${30 + mousePos.y * -10}%` 
+        }}></div>
+        <div className={styles.floatingOrb3} style={{ 
+          left: `${70 + mousePos.x * -15}%`, 
+          top: `${40 + mousePos.y * 15}%` 
+        }}></div>
+        <div className={styles.particles}>
+          {[...Array(20)].map((_, i) => (
+            <div key={i} className={styles.particle} style={{
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+              animationDelay: `${Math.random() * 5}s`,
+              animationDuration: `${3 + Math.random() * 5}s`
+            }}></div>
+          ))}
         </div>
-      </nav> */}
+      </div>
 
-      {/* Hero Section - Matching Home Page */}
-      <div className={styles.heroSection}>
-        <div className={styles.heroBackground}></div>
+      {/* ===== SCROLL PROGRESS BAR ===== */}
+      <div className={styles.scrollProgressBar} style={{ width: `${scrollProgress}%` }}></div>
+
+      {/* ===== HERO SECTION ===== */}
+      <div className={styles.heroSection} id="contact-hero" data-section="hero">
+        <div className={styles.heroBackground3D} style={{
+          transform: `translate(${mousePos.x * 30}px, ${mousePos.y * 30}px)`
+        }}>
+          <div className={styles.heroSphere}></div>
+        </div>
         
-        <div className={styles.heroContent}>
+        <div className={styles.heroContent} style={{
+          transform: `translate(${mousePos.x * -15}px, ${mousePos.y * -15}px)`
+        }}>
           <div className={styles.heroText}>
             <div className={styles.heroBadge}>
+              <span className={styles.pulseDot}></span>
               <span>✦ Get In Touch</span>
             </div>
             
@@ -152,7 +228,9 @@ const Contact = () => {
           </div>
           
           <div className={styles.heroVisual}>
-            <div className={styles.heroCard}>
+            <div className={styles.heroCard3D} style={{
+              transform: `perspective(1000px) rotateY(${mousePos.x * 10}deg) rotateX(${mousePos.y * -10}deg)`
+            }}>
               <div className={styles.heroCardHeader}>
                 <div className={styles.cardDots}>
                   <span></span><span></span><span></span>
@@ -177,12 +255,12 @@ const Contact = () => {
         </div>
       </div>
 
-      {/* Main Content */}
-      <div className={styles.mainContent}>
+      {/* ===== MAIN CONTENT ===== */}
+      <div className={styles.mainContent} data-section="main">
         <div className={styles.sectionContainer}>
           <div className={styles.contentWrapper}>
             {/* Contact Form Section */}
-            <div className={styles.formSection}>
+            <div className={`${styles.formSection} ${isVisible.main ? styles.visible : ''}`}>
               <div className={styles.sectionHeader}>
                 <div className={styles.sectionBadge}>
                   <span>✦ Send Message</span>
@@ -302,7 +380,7 @@ const Contact = () => {
             </div>
 
             {/* Info Section */}
-            <div className={styles.infoSection}>
+            <div className={`${styles.infoSection} ${isVisible.main ? styles.visible : ''}`}>
               <div className={styles.infoCard}>
                 <div className={styles.infoHeader}>
                   <div className={styles.infoBadge}>
@@ -383,17 +461,17 @@ const Contact = () => {
         </div>
       </div>
 
-      {/* Map Section - Updated */}
-      <div className={styles.mapSection}>
+      {/* ===== MAP SECTION ===== */}
+      <div className={styles.mapSection} data-section="map">
         <div className={styles.sectionContainer}>
-          <div className={styles.sectionHeader}>
+          <div className={`${styles.sectionHeader} ${isVisible.map ? styles.visible : ''}`}>
             <div className={styles.sectionBadge}>
               <span>✦ Find Us</span>
             </div>
             <h2 className={styles.sectionTitle}>Our <span className={styles.textGradient}>Location</span></h2>
           </div>
           
-          <div className={styles.mapContainer}>
+          <div className={`${styles.mapContainer} ${isVisible.map ? styles.visible : ''}`}>
             <div className={styles.mapWrapper}>
               <iframe
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15825.006627732612!2d80.00440334515252!3d7.091541294807006!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ae2fbe433c1c2db%3A0x363c2a6f4d5e7778!2sMalabe%2C%20Sri%20Lanka!5e0!3m2!1sen!2s!4v1706181234567!5m2!1sen!2s"
@@ -410,11 +488,15 @@ const Contact = () => {
         </div>
       </div>
 
-      {/* CTA Section - Matching Home Page */}
-      <div className={styles.ctaSection}>
-        <div className={styles.ctaBackground}></div>
+      {/* ===== CTA SECTION ===== */}
+      <div className={styles.ctaSection} data-section="cta">
+        <div className={styles.ctaBackground3D} style={{
+          transform: `translate(${mousePos.x * 20}px, ${mousePos.y * 20}px)`
+        }}></div>
         <div className={styles.sectionContainer}>
-          <div className={styles.ctaContent}>
+          <div className={`${styles.ctaContent} ${isVisible.cta ? styles.visible : ''}`} style={{
+            transform: `translate(${mousePos.x * -10}px, ${mousePos.y * -10}px)`
+          }}>
             <div className={styles.ctaBadge}>
               <span>✦ Start Your Journey</span>
             </div>

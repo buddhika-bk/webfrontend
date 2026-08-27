@@ -11,14 +11,57 @@ import posCloudImg from '../../assets/dashboadclude.jpeg';
 const POSSystem = () => {
   const [activeTab, setActiveTab] = useState('offline');
   const [scrolled, setScrolled] = useState(false);
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const [isVisible, setIsVisible] = useState({});
   const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
+      
+      // Calculate scroll progress
+      const totalScroll = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = (window.scrollY / totalScroll) * 100;
+      setScrollProgress(progress);
     };
+    
+    const handleMouseMove = (e) => {
+      const { clientX, clientY } = e;
+      const { innerWidth, innerHeight } = window;
+      const x = (clientX / innerWidth - 0.5) * 2;
+      const y = (clientY / innerHeight - 0.5) * 2;
+      setMousePos({ x, y });
+    };
+
+    // Intersection Observer for scroll reveal animations
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsVisible((prev) => ({
+              ...prev,
+              [entry.target.dataset.section]: true
+            }));
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    // Observe all sections
+    document.querySelectorAll('[data-section]').forEach((el) => {
+      observer.observe(el);
+    });
+
     window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener('mousemove', handleMouseMove);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('mousemove', handleMouseMove);
+      observer.disconnect();
+    };
   }, []);
 
   // POS Features
@@ -162,16 +205,77 @@ const POSSystem = () => {
     }
   ];
 
+  // Handle card tilt effect
+  const handleCardTilt = (e, index) => {
+    const card = document.querySelector(`[data-card="${index}"]`);
+    if (!card) return;
+
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    
+    const rotateX = ((y - centerY) / centerY) * -10;
+    const rotateY = ((x - centerX) / centerX) * 10;
+    
+    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+  };
+
+  const resetCardTilt = (index) => {
+    const card = document.querySelector(`[data-card="${index}"]`);
+    if (!card) return;
+    card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)';
+  };
+
   return (
     <div className={styles.posContainer}>
+      
+      {/* ===== 3D ANIMATED BACKGROUND ===== */}
+      <div className={styles.threeDBackground}>
+        <div className={styles.gridLines}></div>
+        <div className={styles.floatingOrb} style={{ 
+          left: `${50 + mousePos.x * 20}%`, 
+          top: `${50 + mousePos.y * 20}%` 
+        }}></div>
+        <div className={styles.floatingOrb2} style={{ 
+          left: `${30 + mousePos.x * -10}%`, 
+          top: `${30 + mousePos.y * -10}%` 
+        }}></div>
+        <div className={styles.floatingOrb3} style={{ 
+          left: `${70 + mousePos.x * -15}%`, 
+          top: `${40 + mousePos.y * 15}%` 
+        }}></div>
+        <div className={styles.particles}>
+          {[...Array(20)].map((_, i) => (
+            <div key={i} className={styles.particle} style={{
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+              animationDelay: `${Math.random() * 5}s`,
+              animationDuration: `${3 + Math.random() * 5}s`
+            }}></div>
+          ))}
+        </div>
+      </div>
 
-      {/* Hero Section */}
-      <div className={styles.heroSection}>
-        <div className={styles.heroBackground}></div>
+      {/* ===== SCROLL PROGRESS BAR ===== */}
+      <div className={styles.scrollProgressBar} style={{ width: `${scrollProgress}%` }}></div>
+
+      {/* ===== HERO SECTION ===== */}
+      <div className={styles.heroSection} data-section="hero">
+        <div className={styles.heroBackground3D} style={{
+          transform: `translate(${mousePos.x * 30}px, ${mousePos.y * 30}px)`
+        }}>
+          <div className={styles.heroSphere}></div>
+        </div>
         
-        <div className={styles.heroContent}>
+        <div className={styles.heroContent} style={{
+          transform: `translate(${mousePos.x * -15}px, ${mousePos.y * -15}px)`
+        }}>
           <div className={styles.heroText}>
             <div className={styles.heroBadge}>
+              <span className={styles.pulseDot}></span>
               <span>✦ Complete POS System</span>
             </div>
             
@@ -215,7 +319,9 @@ const POSSystem = () => {
           </div>
           
           <div className={styles.heroVisual}>
-            <div className={styles.heroCard}>
+            <div className={styles.heroCard3D} style={{
+              transform: `perspective(1000px) rotateY(${mousePos.x * 10}deg) rotateX(${mousePos.y * -10}deg)`
+            }}>
               <div className={styles.heroCardHeader}>
                 <div className={styles.cardDots}>
                   <span></span><span></span><span></span>
@@ -259,10 +365,10 @@ const POSSystem = () => {
         </div>
       </div>
 
-      {/* POS Types Section - Offline vs Cloud */}
-      <div className={styles.posTypesSection} id="pos-types">
+      {/* ===== POS TYPES SECTION ===== */}
+      <div className={styles.posTypesSection} id="pos-types" data-section="posTypes">
         <div className={styles.sectionContainer}>
-          <div className={styles.sectionHeader}>
+          <div className={`${styles.sectionHeader} ${isVisible.posTypes ? styles.visible : ''}`}>
             <div className={styles.sectionBadge}>
               <span>✦ POS Types</span>
             </div>
@@ -274,7 +380,12 @@ const POSSystem = () => {
 
           <div className={styles.posTypesGrid}>
             {/* Offline POS */}
-            <div className={`${styles.posTypeCard} ${activeTab === 'offline' ? styles.active : ''}`}>
+            <div 
+              className={`${styles.posTypeCard} ${activeTab === 'offline' ? styles.active : ''} ${isVisible.posTypes ? styles.visible : ''}`}
+              data-card="offline"
+              onMouseMove={(e) => handleCardTilt(e, 'offline')}
+              onMouseLeave={() => resetCardTilt('offline')}
+            >
               <div className={styles.posTypeHeader}>
                 <div className={styles.posTypeIcon}>📶</div>
                 <h3>Offline POS System</h3>
@@ -298,7 +409,12 @@ const POSSystem = () => {
             </div>
 
             {/* Cloud POS */}
-            <div className={`${styles.posTypeCard} ${activeTab === 'cloud' ? styles.active : ''} ${styles.cloudCard}`}>
+            <div 
+              className={`${styles.posTypeCard} ${activeTab === 'cloud' ? styles.active : ''} ${styles.cloudCard} ${isVisible.posTypes ? styles.visible : ''}`}
+              data-card="cloud"
+              onMouseMove={(e) => handleCardTilt(e, 'cloud')}
+              onMouseLeave={() => resetCardTilt('cloud')}
+            >
               <div className={styles.posTypeHeader}>
                 <div className={styles.posTypeIcon}>☁️</div>
                 <h3>Cloud POS System</h3>
@@ -323,8 +439,8 @@ const POSSystem = () => {
           </div>
 
           {/* Additional Features for Cloud POS */}
-          <div className={styles.cloudFeaturesSection}>
-            <h3>Cloud POS Premium Features</h3>
+          <div className={`${styles.cloudFeaturesSection} ${isVisible.posTypes ? styles.visible : ''}`}>
+            <h3 style={{ color: '#e9ebf0' }}>Cloud POS Premium Features</h3>
             <div className={styles.cloudFeaturesGrid}>
               <div className={styles.cloudFeature}>
                 <span className={styles.cloudFeatureIcon}>📱</span>
@@ -352,10 +468,10 @@ const POSSystem = () => {
         </div>
       </div>
 
-      {/* Features Section */}
-      <div className={styles.featuresSection}>
+      {/* ===== FEATURES SECTION ===== */}
+      <div className={styles.featuresSection} data-section="features">
         <div className={styles.sectionContainer}>
-          <div className={styles.sectionHeader}>
+          <div className={`${styles.sectionHeader} ${isVisible.features ? styles.visible : ''}`}>
             <div className={styles.sectionBadge}>
               <span>✦ Key Features</span>
             </div>
@@ -367,7 +483,14 @@ const POSSystem = () => {
 
           <div className={styles.featuresGrid}>
             {posFeatures.map((feature, index) => (
-              <div key={index} className={styles.featureCard}>
+              <div 
+                key={index} 
+                className={`${styles.featureCard} ${isVisible.features ? styles.visible : ''}`}
+                data-card={`feature-${index}`}
+                onMouseMove={(e) => handleCardTilt(e, `feature-${index}`)}
+                onMouseLeave={() => resetCardTilt(`feature-${index}`)}
+                style={{ transitionDelay: `${index * 0.1}s` }}
+              >
                 <div className={styles.featureIconWrapper}>
                   <span className={styles.featureIcon}>{feature.icon}</span>
                 </div>
@@ -379,10 +502,10 @@ const POSSystem = () => {
         </div>
       </div>
 
-      {/* Benefits Section */}
-      <div className={styles.benefitsSection}>
+      {/* ===== BENEFITS SECTION ===== */}
+      <div className={styles.benefitsSection} data-section="benefits">
         <div className={styles.sectionContainer}>
-          <div className={styles.sectionHeader}>
+          <div className={`${styles.sectionHeader} ${isVisible.benefits ? styles.visible : ''}`}>
             <div className={styles.sectionBadge}>
               <span>✦ Benefits</span>
             </div>
@@ -394,7 +517,14 @@ const POSSystem = () => {
 
           <div className={styles.benefitsGrid}>
             {posBenefits.map((benefit, index) => (
-              <div key={index} className={styles.benefitCard}>
+              <div 
+                key={index} 
+                className={`${styles.benefitCard} ${isVisible.benefits ? styles.visible : ''}`}
+                data-card={`benefit-${index}`}
+                onMouseMove={(e) => handleCardTilt(e, `benefit-${index}`)}
+                onMouseLeave={() => resetCardTilt(`benefit-${index}`)}
+                style={{ transitionDelay: `${index * 0.1}s` }}
+              >
                 <div className={styles.benefitIcon}>{benefit.icon}</div>
                 <h3>{benefit.title}</h3>
                 <p>{benefit.description}</p>
@@ -404,10 +534,10 @@ const POSSystem = () => {
         </div>
       </div>
 
-      {/* Hardware Components Section */}
-      <div className={styles.hardwareSection}>
+      {/* ===== HARDWARE SECTION ===== */}
+      <div className={styles.hardwareSection} data-section="hardware">
         <div className={styles.sectionContainer}>
-          <div className={styles.sectionHeader}>
+          <div className={`${styles.sectionHeader} ${isVisible.hardware ? styles.visible : ''}`}>
             <div className={styles.sectionBadge}>
               <span>✦ Hardware</span>
             </div>
@@ -419,7 +549,14 @@ const POSSystem = () => {
 
           <div className={styles.hardwareGrid}>
             {hardwareComponents.map((hardware, index) => (
-              <div key={index} className={styles.hardwareCard}>
+              <div 
+                key={index} 
+                className={`${styles.hardwareCard} ${isVisible.hardware ? styles.visible : ''}`}
+                data-card={`hardware-${index}`}
+                onMouseMove={(e) => handleCardTilt(e, `hardware-${index}`)}
+                onMouseLeave={() => resetCardTilt(`hardware-${index}`)}
+                style={{ transitionDelay: `${index * 0.05}s` }}
+              >
                 <div className={styles.hardwareIcon}>{hardware.icon}</div>
                 <h4>{hardware.title}</h4>
                 <p>{hardware.description}</p>
@@ -427,16 +564,16 @@ const POSSystem = () => {
             ))}
           </div>
 
-          <div className={styles.hardwareNote}>
+          <div className={`${styles.hardwareNote} ${isVisible.hardware ? styles.visible : ''}`}>
             <p>🔧 All hardware comes with installation support and 1-year warranty</p>
           </div>
         </div>
       </div>
 
-      {/* Industries We Serve */}
-      <div className={styles.industriesSection}>
+      {/* ===== INDUSTRIES SECTION ===== */}
+      <div className={styles.industriesSection} data-section="industries">
         <div className={styles.sectionContainer}>
-          <div className={styles.sectionHeader}>
+          <div className={`${styles.sectionHeader} ${isVisible.industries ? styles.visible : ''}`}>
             <div className={styles.sectionBadge}>
               <span>✦ Industries</span>
             </div>
@@ -448,7 +585,14 @@ const POSSystem = () => {
 
           <div className={styles.industriesGrid}>
             {industrySolutions.map((industry, index) => (
-              <div key={index} className={styles.industryCard}>
+              <div 
+                key={index} 
+                className={`${styles.industryCard} ${isVisible.industries ? styles.visible : ''}`}
+                data-card={`industry-${index}`}
+                onMouseMove={(e) => handleCardTilt(e, `industry-${index}`)}
+                onMouseLeave={() => resetCardTilt(`industry-${index}`)}
+                style={{ transitionDelay: `${index * 0.1}s` }}
+              >
                 <div className={styles.industryIcon}>{industry.icon}</div>
                 <h3>{industry.title}</h3>
                 <p>{industry.description}</p>
@@ -458,11 +602,15 @@ const POSSystem = () => {
         </div>
       </div>
 
-      {/* CTA Section */}
-      <div className={styles.ctaSection}>
-        <div className={styles.ctaBackground}></div>
+      {/* ===== CTA SECTION ===== */}
+      <div className={styles.ctaSection} data-section="cta">
+        <div className={styles.ctaBackground3D} style={{
+          transform: `translate(${mousePos.x * 20}px, ${mousePos.y * 20}px)`
+        }}></div>
         <div className={styles.sectionContainer}>
-          <div className={styles.ctaContent}>
+          <div className={`${styles.ctaContent} ${isVisible.cta ? styles.visible : ''}`} style={{
+            transform: `translate(${mousePos.x * -10}px, ${mousePos.y * -10}px)`
+          }}>
             <div className={styles.ctaBadge}>
               <span>✦ Get Your POS System</span>
             </div>

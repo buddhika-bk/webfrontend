@@ -14,14 +14,57 @@ const Systems = () => {
   const [activeSystem, setActiveSystem] = useState('business');
   const [activeCategory, setActiveCategory] = useState('crm');
   const [scrolled, setScrolled] = useState(false);
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const [isVisible, setIsVisible] = useState({});
   const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
+      
+      // Calculate scroll progress
+      const totalScroll = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = (window.scrollY / totalScroll) * 100;
+      setScrollProgress(progress);
     };
+    
+    const handleMouseMove = (e) => {
+      const { clientX, clientY } = e;
+      const { innerWidth, innerHeight } = window;
+      const x = (clientX / innerWidth - 0.5) * 2;
+      const y = (clientY / innerHeight - 0.5) * 2;
+      setMousePos({ x, y });
+    };
+
+    // Intersection Observer for scroll reveal animations
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsVisible((prev) => ({
+              ...prev,
+              [entry.target.dataset.section]: true
+            }));
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    // Observe all sections
+    document.querySelectorAll('[data-section]').forEach((el) => {
+      observer.observe(el);
+    });
+
     window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener('mousemove', handleMouseMove);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('mousemove', handleMouseMove);
+      observer.disconnect();
+    };
   }, []);
 
   // System Categories
@@ -509,17 +552,77 @@ const Systems = () => {
     setActiveCategory(systemId);
   };
 
+  // Handle card tilt effect
+  const handleCardTilt = (e, index) => {
+    const card = document.querySelector(`[data-system-card="${index}"]`);
+    if (!card) return;
+
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    
+    const rotateX = ((y - centerY) / centerY) * -10;
+    const rotateY = ((x - centerX) / centerX) * 10;
+    
+    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+  };
+
+  const resetCardTilt = (index) => {
+    const card = document.querySelector(`[data-system-card="${index}"]`);
+    if (!card) return;
+    card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)';
+  };
+
   return (
     <div className={styles.systemsContainer}>
       
+      {/* ===== 3D ANIMATED BACKGROUND ===== */}
+      <div className={styles.threeDBackground}>
+        <div className={styles.gridLines}></div>
+        <div className={styles.floatingOrb} style={{ 
+          left: `${50 + mousePos.x * 20}%`, 
+          top: `${50 + mousePos.y * 20}%` 
+        }}></div>
+        <div className={styles.floatingOrb2} style={{ 
+          left: `${30 + mousePos.x * -10}%`, 
+          top: `${30 + mousePos.y * -10}%` 
+        }}></div>
+        <div className={styles.floatingOrb3} style={{ 
+          left: `${70 + mousePos.x * -15}%`, 
+          top: `${40 + mousePos.y * 15}%` 
+        }}></div>
+        <div className={styles.particles}>
+          {[...Array(20)].map((_, i) => (
+            <div key={i} className={styles.particle} style={{
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+              animationDelay: `${Math.random() * 5}s`,
+              animationDuration: `${3 + Math.random() * 5}s`
+            }}></div>
+          ))}
+        </div>
+      </div>
 
-      {/* Hero Section - Matching Home Page */}
-      <div className={styles.heroSection}>
-        <div className={styles.heroBackground}></div>
+      {/* ===== SCROLL PROGRESS BAR ===== */}
+      <div className={styles.scrollProgressBar} style={{ width: `${scrollProgress}%` }}></div>
+
+      {/* ===== HERO SECTION ===== */}
+      <div className={styles.heroSection} data-section="hero">
+        <div className={styles.heroBackground3D} style={{
+          transform: `translate(${mousePos.x * 30}px, ${mousePos.y * 30}px)`
+        }}>
+          <div className={styles.heroSphere}></div>
+        </div>
         
-        <div className={styles.heroContent}>
+        <div className={styles.heroContent} style={{
+          transform: `translate(${mousePos.x * -15}px, ${mousePos.y * -15}px)`
+        }}>
           <div className={styles.heroText}>
             <div className={styles.heroBadge}>
+              <span className={styles.pulseDot}></span>
               <span>✦ Enterprise Systems</span>
             </div>
             
@@ -562,7 +665,9 @@ const Systems = () => {
           </div>
           
           <div className={styles.heroVisual}>
-            <div className={styles.heroCard}>
+            <div className={styles.heroCard3D} style={{
+              transform: `perspective(1000px) rotateY(${mousePos.x * 10}deg) rotateX(${mousePos.y * -10}deg)`
+            }}>
               <div className={styles.heroCardHeader}>
                 <div className={styles.cardDots}>
                   <span></span><span></span><span></span>
@@ -587,10 +692,10 @@ const Systems = () => {
         </div>
       </div>
 
-      {/* Categories Section */}
-      <div className={styles.categoriesSection}>
+      {/* ===== CATEGORIES SECTION ===== */}
+      <div className={styles.categoriesSection} data-section="categories">
         <div className={styles.sectionContainer}>
-          <div className={styles.sectionHeader}>
+          <div className={`${styles.sectionHeader} ${isVisible.categories ? styles.visible : ''}`}>
             <div className={styles.sectionBadge}>
               <span>✦ System Categories</span>
             </div>
@@ -601,12 +706,18 @@ const Systems = () => {
           </div>
 
           <div className={styles.categoriesGrid}>
-            {systemCategories.map((category) => (
+            {systemCategories.map((category, index) => (
               <div
                 key={category.id}
-                className={`${styles.categoryCard} ${activeSystem === category.id ? styles.active : ''}`}
+                className={`${styles.categoryCard} ${activeSystem === category.id ? styles.active : ''} ${isVisible.categories ? styles.visible : ''}`}
+                data-system-card={`category-${index}`}
+                onMouseMove={(e) => handleCardTilt(e, `category-${index}`)}
+                onMouseLeave={() => resetCardTilt(`category-${index}`)}
                 onClick={() => handleCategoryClick(category.id)}
-                style={{ '--category-color': category.color }}
+                style={{ 
+                  '--category-color': category.color,
+                  transitionDelay: `${index * 0.05}s`
+                }}
               >
                 <div className={styles.categoryIcon}>{category.icon}</div>
                 <h3>{category.title}</h3>
@@ -617,15 +728,16 @@ const Systems = () => {
         </div>
       </div>
 
-      {/* Systems Detail Section */}
+      {/* ===== SYSTEMS DETAIL SECTION ===== */}
       {currentCategory && currentSystem && (
         <div
           id="systems-details"
           className={styles.systemsDetailSection}
+          data-section="details"
           style={{ scrollMarginTop: '80px' }}
         >
           <div className={styles.sectionContainer}>
-            <div className={styles.detailHeader}>
+            <div className={`${styles.detailHeader} ${isVisible.details ? styles.visible : ''}`}>
               <div className={styles.detailBreadcrumb}>
                 <span className={styles.breadcrumbItem}>{currentCategory.title}</span>
                 <span className={styles.breadcrumbSeparator}>/</span>
@@ -634,13 +746,19 @@ const Systems = () => {
             </div>
 
             <div className={styles.detailContent}>
-              <div className={styles.systemList}>
-                {currentCategory.systems.map((sys) => (
+              <div className={`${styles.systemList} ${isVisible.details ? styles.visible : ''}`}>
+                {currentCategory.systems.map((sys, index) => (
                   <div
                     key={sys.id}
-                    className={`${styles.systemListItem} ${activeCategory === sys.id ? styles.active : ''}`}
+                    className={`${styles.systemListItem} ${activeCategory === sys.id ? styles.active : ''} ${isVisible.details ? styles.visible : ''}`}
+                    data-system-card={`system-${index}`}
+                    onMouseMove={(e) => handleCardTilt(e, `system-${index}`)}
+                    onMouseLeave={() => resetCardTilt(`system-${index}`)}
                     onClick={() => handleSystemClick(sys.id)}
-                    style={{ '--system-color': currentCategory.color }}
+                    style={{ 
+                      '--system-color': currentCategory.color,
+                      transitionDelay: `${index * 0.05}s`
+                    }}
                   >
                     <span className={styles.systemListIcon}>{sys.icon}</span>
                     <span className={styles.systemListName}>{sys.title}</span>
@@ -648,7 +766,7 @@ const Systems = () => {
                 ))}
               </div>
 
-              <div className={styles.systemDetailPanel}>
+              <div className={`${styles.systemDetailPanel} ${isVisible.details ? styles.visible : ''}`}>
                 <div className={styles.systemDetailHeader}>
                   <div className={styles.systemDetailIcon} style={{ background: `${currentCategory.color}20`, color: currentCategory.color }}>
                     {currentSystem.icon}
@@ -661,14 +779,14 @@ const Systems = () => {
 
                 <div className={styles.systemDetailFeatures}>
                   {currentSystem.features.map((feature, index) => (
-                    <div key={index} className={styles.systemDetailFeature}>
+                    <div key={index} className={`${styles.systemDetailFeature} ${isVisible.details ? styles.visible : ''}`} style={{ transitionDelay: `${index * 0.05}s` }}>
                       <span className={styles.featureCheck}>✓</span>
                       <span>{feature}</span>
                     </div>
                   ))}
                 </div>
 
-                <div className={styles.systemDetailActions}>
+                <div className={`${styles.systemDetailActions} ${isVisible.details ? styles.visible : ''}`}>
                   <button className={styles.systemDetailBtn} onClick={() => navigate('/contact')}>
                     Request a Demo
                   </button>
@@ -679,11 +797,15 @@ const Systems = () => {
         </div>
       )}
 
-      {/* CTA Section - Matching Home Page */}
-      <div className={styles.ctaSection}>
-        <div className={styles.ctaBackground}></div>
+      {/* ===== CTA SECTION ===== */}
+      <div className={styles.ctaSection} data-section="cta">
+        <div className={styles.ctaBackground3D} style={{
+          transform: `translate(${mousePos.x * 20}px, ${mousePos.y * 20}px)`
+        }}></div>
         <div className={styles.sectionContainer}>
-          <div className={styles.ctaContent}>
+          <div className={`${styles.ctaContent} ${isVisible.cta ? styles.visible : ''}`} style={{
+            transform: `translate(${mousePos.x * -10}px, ${mousePos.y * -10}px)`
+          }}>
             <div className={styles.ctaBadge}>
               <span>✦ Let's Build Something Together</span>
             </div>
