@@ -1,4 +1,4 @@
-/* Footer.module.css - Updated for 3D Animated Design */
+/* Footer.module.css - Updated for 3D Animated Design with Original Social Icons */
 
 .mainFooter {
   background: linear-gradient(135deg, #0a0a1a 0%, #1a1a3a 50%, #0a0a1a 100%);
@@ -108,32 +108,97 @@
   line-height: 1.8;
 }
 
+/* ===== SOCIAL ICONS - Original Brand Colors ===== */
 .socialIcons {
   display: flex;
-  gap: 1rem;
+  gap: 12px;
+  flex-wrap: wrap;
 }
 
-.socialIcons a {
+.socialIcon {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   width: 44px;
   height: 44px;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: 12px;
-  transition: all 0.3s ease;
   text-decoration: none;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  border: 1px solid transparent;
 }
 
-.socialIcons a:hover {
-  background: linear-gradient(135deg, #2563eb, #4f46e5);
+.socialIcon svg {
+  width: 22px;
+  height: 22px;
+}
+
+/* Facebook - Original Blue #1877F2 */
+.socialIcon.fb {
+  background: #1877F2;
+  color: #fff;
+}
+
+.socialIcon.fb:hover {
+  background: #0e62d1;
   transform: translateY(-3px) scale(1.1);
-  box-shadow: 0 8px 20px rgba(37, 99, 235, 0.3);
+  box-shadow: 0 8px 20px rgba(24, 119, 242, 0.4);
 }
 
-.socialIcon {
-  font-size: 1.2rem;
+/* Instagram - Gradient */
+.socialIcon.ig {
+  background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+  color: #fff;
+}
+
+.socialIcon.ig:hover {
+  filter: brightness(1.1);
+  transform: translateY(-3px) scale(1.1);
+  box-shadow: 0 8px 20px rgba(220, 39, 67, 0.4);
+}
+
+/* LinkedIn - Original Blue #0A66C2 */
+.socialIcon.li {
+  background: #0A66C2;
+  color: #fff;
+}
+
+.socialIcon.li:hover {
+  background: #074a8c;
+  transform: translateY(-3px) scale(1.1);
+  box-shadow: 0 8px 20px rgba(10, 102, 194, 0.4);
+}
+
+/* TikTok - Black with Cyan/Red accents */
+.socialIcon.tt {
+  background: #010101;
+  color: #fff;
+  position: relative;
+}
+
+.socialIcon.tt:hover {
+  background: #2c2c2c;
+  transform: translateY(-3px) scale(1.1);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+}
+
+.socialIcon.tt svg {
+  fill: #fff;
+}
+
+.socialIcon.tt:hover svg {
+  fill: #25F4EE; /* TikTok Cyan on hover */
+}
+
+/* WhatsApp - Original Green #25D366 */
+.socialIcon.wa {
+  background: #25D366;
+  color: #fff;
+}
+
+.socialIcon.wa:hover {
+  background: #1ebd57;
+  transform: translateY(-3px) scale(1.1);
+  box-shadow: 0 8px 20px rgba(37, 211, 102, 0.4);
 }
 
 .footerLinks {
@@ -230,12 +295,25 @@
 }
 
 /* ===== RESPONSIVE ===== */
-@media (max-width: 768px) {
+
+/* Tablet */
+@media (max-width: 1024px) {
   .footerMain {
     grid-template-columns: 1fr;
     gap: 2rem;
   }
+  
+  .footerBrand {
+    text-align: center;
+  }
+  
+  .socialIcons {
+    justify-content: center;
+  }
+}
 
+/* Mobile */
+@media (max-width: 768px) {
   .footerLinks {
     grid-template-columns: 1fr;
     gap: 1.5rem;
@@ -277,6 +355,7 @@
   }
 }
 
+/* Small Mobile */
 @media (max-width: 480px) {
   .mainFooter {
     padding: 40px 0 15px;
@@ -299,12 +378,13 @@
     font-size: 0.9rem;
   }
 
-  .socialIcons a {
+  .socialIcon {
     width: 38px;
     height: 38px;
   }
 
-  .socialIcon {
-    font-size: 1rem;
+  .socialIcon svg {
+    width: 18px;
+    height: 18px;
   }
 }
