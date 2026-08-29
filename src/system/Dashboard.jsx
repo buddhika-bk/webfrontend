@@ -493,7 +493,7 @@ const Dashboard = () => {
                 {/* ---- HEADER ---- */}
                 <header className={styles.header}>
                     <div className={styles.headerLeft}>
-                        <h1 style={{ color: '#e9ebf0' }} className={styles.welcome}>Welcome back, Ruchira! 👋</h1>
+                        <h1 style={{ color: '#e9ebf0' }} className={styles.welcome}>Welcome back, Your Name! 👋</h1>
                         <p className={styles.welcomeSub}>Here's what's happening across your portfolio.</p>
                     </div>
                     <div className={styles.headerRight}>

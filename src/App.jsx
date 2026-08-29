@@ -19,6 +19,7 @@ import Demobag from './screen/Demo/DemoBag';
 import DemoCard from './screen/Demo/DemoCard';
 import DemoSaloon from './screen/Demo/DemoSaloon';
 import DemoPhone from './screen/Demo/DemoPhone';
+import DemoPerfume from './screen/Demo/PerfumeShop';
 
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -159,7 +160,10 @@ const ROUTES_WITHOUT_LAYOUT = [
   '/contact-profile',
 
   // Saloon
-  '/vinusaloon'
+  '/vinusaloon',
+
+  // Demo Perfume Shop
+  '/demoperfume'
 ];
 
 
@@ -492,6 +496,11 @@ function App() {
           <Route
             path="/demophone"
             element={<DemoPhone />}
+          />
+
+          <Route
+            path="/demoperfume"
+            element={<DemoPerfume />}
           />
 
 
