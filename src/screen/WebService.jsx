@@ -147,6 +147,12 @@ const WebService = () => {
       label: 'Phone Item View Page',
       image: phoneImg,
       color: '#ec4899'
+    },
+    { 
+      path: '/demoperfume', 
+      label: 'Perfume Shop 3D Scroll Demo',
+      image: 'https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=400&h=220&fit=crop',
+      color: '#d4af37'
     }
   ];
 

@@ -74,7 +74,7 @@ const About = () => {
     {
       id: 2,
       name: 'Ruchira Ransika',
-      role: 'Marketing Director',
+      role: 'General Manager',
       image: '../../assets/person.jpeg',
       description: 'Expert marketing and digital branding',
       social: { linkedin: '#', twitter: '#' }
